@@ -1,0 +1,188 @@
+{
+  "hero": {
+    "greeting": "Hi, I'm",
+    "name": "Tim",
+    "title": "Software Developer",
+    "location": "Based in Germany",
+    "tagline": "Passionate about building great software",
+    "github": "GitHub",
+    "contact": "Contact Me"
+  },
+  "about": {
+    "title": "About Me",
+    "learning": {
+      "title": "Currently Learning",
+      "description": "Expanding my skills in {rust} and {nextjs}, exploring modern web development and systems programming.",
+      "rust": "Rust",
+      "nextjs": "Next.js"
+    },
+    "expertise": {
+      "title": "Expertise",
+      "description": "Specialized in {java} development with years of experience building robust applications and contributing to open-source projects.",
+      "java": "Java"
+    }
+  },
+  "skills": {
+    "title": "Skills & Technologies",
+    "expertise": "Expertise",
+    "learning": "Currently Learning",
+    "tools": "Tools & Platforms"
+  },
+  "experience": {
+    "title": "Experience",
+    "items": [
+      {
+        "company": "Example Company",
+        "logo": "/placeholder.svg?height=64&width=64",
+        "title": "Senior Software Developer",
+        "dateRange": "Jan 2020 - Present",
+        "description": "Led development of multiple high-impact projects using Java and modern web technologies. Collaborated with cross-functional teams to deliver scalable solutions. Mentored junior developers and contributed to architectural decisions."
+      },
+      {
+        "company": "Tech Startup",
+        "logo": "/placeholder.svg?height=64&width=64",
+        "title": "Full Stack Developer",
+        "dateRange": "Jun 2018 - Dec 2019",
+        "description": "Built and maintained full-stack applications using React and Node.js. Implemented CI/CD pipelines and improved deployment processes. Worked closely with product team to define technical requirements and deliver features on time."
+      }
+    ]
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "subtitle": "A selection of my open-source contributions and personal projects",
+    "stats": {
+      "repositories": "Repositories",
+      "stars": "Total Stars",
+      "forks": "Total Forks"
+    },
+    "contributions": "GitHub Contributions",
+    "viewAll": "View All Projects on GitHub",
+    "featured": [
+      {
+        "name": "Discord Bot",
+        "description": "A feature-rich Discord bot with moderation, music, and utility commands. Built with Java and JDA.",
+        "url": "https://github.com/Timmi6790/DiscordBot",
+        "demo": null,
+        "stars": 15,
+        "forks": 5,
+        "topics": ["java", "discord", "bot", "jda"]
+      },
+      {
+        "name": "Stats Plugin",
+        "description": "Minecraft plugin for tracking and displaying player statistics with a comprehensive API.",
+        "url": "https://github.com/Timmi6790/StatsPlugin",
+        "demo": null,
+        "stars": 8,
+        "forks": 3,
+        "topics": ["java", "minecraft", "plugin", "spigot"]
+      },
+      {
+        "name": "External Modules",
+        "description": "Modular system for extending applications with dynamic plugin loading and dependency management.",
+        "url": "https://github.com/Timmi6790/ExternalModules",
+        "demo": null,
+        "stars": 12,
+        "forks": 4,
+        "topics": ["java", "modules", "plugins", "architecture"]
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Testimonials",
+    "subtitle": "What colleagues and clients say about working with me",
+    "items": [
+      {
+        "name": "Sarah Johnson",
+        "role": "Senior Product Manager",
+        "company": "Tech Corp",
+        "image": "/placeholder.svg?height=64&width=64",
+        "quote": "Tim is an exceptional developer who consistently delivers high-quality code. His attention to detail and problem-solving skills make him a valuable asset to any team."
+      },
+      {
+        "name": "Michael Chen",
+        "role": "Lead Developer",
+        "company": "StartupXYZ",
+        "image": "/placeholder.svg?height=64&width=64",
+        "quote": "Working with Tim has been a pleasure. He brings innovative solutions to complex problems and is always willing to help team members grow their skills."
+      },
+      {
+        "name": "Emma Williams",
+        "role": "CTO",
+        "company": "Digital Solutions",
+        "image": "/placeholder.svg?height=64&width=64",
+        "quote": "Tim's expertise in Java and modern web technologies helped us scale our platform efficiently. His code is clean, well-documented, and maintainable."
+      }
+    ]
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Technical articles, tutorials, and insights about software development",
+    "backHome": "Back to Home",
+    "backToBlog": "Back to Blog",
+    "readMore": "Read More",
+    "noPosts": "No blog posts available yet. Check back soon!"
+  },
+  "commandPalette": {
+    "placeholder": "Type a command or search...",
+    "noResults": "No results found.",
+    "navigation": "Navigation",
+    "sections": "Sections",
+    "actions": "Actions",
+    "home": "Home",
+    "blog": "Blog",
+    "imprint": "Imprint",
+    "github": "Open GitHub Profile",
+    "email": "Send Email"
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "infoTitle": "Contact Information",
+    "formTitle": "Send Me a Message",
+    "email": "Email",
+    "github": "GitHub",
+    "location": "Location",
+    "locationValue": "Germany",
+    "sendEmail": "Send me an email",
+    "downloadResume": "Download Resume",
+    "imprint": "Impressum"
+  },
+  "contactForm": {
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "your.email@example.com",
+    "subject": "Subject",
+    "subjectPlaceholder": "What is this about?",
+    "message": "Message",
+    "messagePlaceholder": "Your message...",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent successfully! I'll get back to you soon.",
+    "error": "Failed to send message. Please try again or email me directly."
+  },
+  "imprint": {
+    "title": "Impressum",
+    "backHome": "Back to Home",
+    "infoTitle": "Information according to § 5 TMG",
+    "contactTitle": "Contact",
+    "responsibleTitle": "Responsible for content according to § 55 Abs. 2 RStV",
+    "liabilityContentTitle": "Liability for content",
+    "liabilityContent": "As a service provider, we are responsible for our own content on these pages in accordance with general legislation pursuant to Section 7 (1) of the German Telemedia Act (TMG). However, according to Sections 8 to 10 TMG, we are not obligated as a service provider to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity.",
+    "liabilityLinksTitle": "Liability for links",
+    "liabilityLinks": "Our website contains links to external third-party websites over whose content we have no influence. Therefore, we cannot accept any liability for this third-party content. The respective provider or operator of the pages is always responsible for the content of the linked pages.",
+    "copyrightTitle": "Copyright",
+    "copyright": "The content and works created by the site operators on these pages are subject to German copyright law. The reproduction, editing, distribution and any kind of use outside the limits of copyright require the written consent of the respective author or creator."
+  },
+  "cookies": {
+    "title": "Cookie Consent",
+    "description": "We use cookies to enhance your browsing experience and analyze our traffic. By clicking 'Accept All', you consent to our use of cookies.",
+    "acceptAll": "Accept All",
+    "rejectAll": "Reject All",
+    "customize": "Customize",
+    "essential": "Essential Cookies",
+    "essentialDesc": "Required for the website to function properly. These cannot be disabled.",
+    "analytics": "Analytics Cookies",
+    "analyticsDesc": "Help us understand how visitors interact with our website by collecting and reporting information anonymously.",
+    "save": "Save Preferences"
+  }
+}
