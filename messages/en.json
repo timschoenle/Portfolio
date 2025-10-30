@@ -114,14 +114,6 @@
       }
     ]
   },
-  "blog": {
-    "title": "Blog",
-    "subtitle": "Technical articles, tutorials, and insights about software development",
-    "backHome": "Back to Home",
-    "backToBlog": "Back to Blog",
-    "readMore": "Read More",
-    "noPosts": "No blog posts available yet. Check back soon!"
-  },
   "commandPalette": {
     "placeholder": "Type a command or search...",
     "noResults": "No results found.",
@@ -129,7 +121,6 @@
     "sections": "Sections",
     "actions": "Actions",
     "home": "Home",
-    "blog": "Blog",
     "imprint": "Imprint",
     "github": "Open GitHub Profile",
     "email": "Send Email"

@@ -114,14 +114,6 @@
       }
     ]
   },
-  "blog": {
-    "title": "Blog",
-    "subtitle": "Technische Artikel, Tutorials und Einblicke in die Softwareentwicklung",
-    "backHome": "Zurück zur Startseite",
-    "backToBlog": "Zurück zum Blog",
-    "readMore": "Weiterlesen",
-    "noPosts": "Noch keine Blog-Beiträge verfügbar. Schauen Sie bald wieder vorbei!"
-  },
   "commandPalette": {
     "placeholder": "Befehl eingeben oder suchen...",
     "noResults": "Keine Ergebnisse gefunden.",
@@ -129,7 +121,6 @@
     "sections": "Bereiche",
     "actions": "Aktionen",
     "home": "Startseite",
-    "blog": "Blog",
     "imprint": "Impressum",
     "github": "GitHub-Profil öffnen",
     "email": "E-Mail senden"

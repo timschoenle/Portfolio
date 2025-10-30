@@ -56,10 +56,6 @@ export function CommandPalette({ locale, dict }: CommandPaletteProps) {
             <Home className="mr-2 h-4 w-4" />
             <span>{dict.commandPalette?.home || "Home"}</span>
           </CommandItem>
-          <CommandItem onSelect={() => runCommand(() => router.push(`/${locale}/blog`))}>
-            <BookOpen className="mr-2 h-4 w-4" />
-            <span>{dict.commandPalette?.blog || "Blog"}</span>
-          </CommandItem>
           <CommandItem onSelect={() => runCommand(() => router.push(`/${locale}/imprint`))}>
             <FileText className="mr-2 h-4 w-4" />
             <span>{dict.commandPalette?.imprint || "Imprint"}</span>
