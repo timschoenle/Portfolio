@@ -16,8 +16,8 @@ import { siteConfig } from '@/lib/config'
 import { type Metadata } from 'next'
 
 export async function generateMetadata({
-                                         params,
-                                       }: {
+  params,
+}: {
   params: Promise<{ locale: Locale }>
 }): Promise<Metadata> {
   const { locale } = await params
@@ -31,7 +31,7 @@ export async function generateMetadata({
       languages: {
         'en-US': `${siteConfig.url}/en`,
         'de-DE': `${siteConfig.url}/de`,
-      }
+      },
     },
     openGraph: {
       type: 'website',
@@ -59,7 +59,13 @@ export async function generateMetadata({
           addressCountry: 'DE',
         },
         email: siteConfig.email,
-        knowsAbout: ['Java', 'Rust', 'Next.js', 'Software Development', 'Open Source'],
+        knowsAbout: [
+          'Java',
+          'Rust',
+          'Next.js',
+          'Software Development',
+          'Open Source',
+        ],
       }),
     },
   }

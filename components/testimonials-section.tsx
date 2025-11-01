@@ -3,7 +3,10 @@
 import { Card } from '@/components/ui/card'
 import { Quote } from 'lucide-react'
 import Image from 'next/image'
-import { type TestimonialItem, type TestimonialsDictionary } from '@/lib/dictionary'
+import {
+  type TestimonialItem,
+  type TestimonialsDictionary,
+} from '@/lib/dictionary'
 
 export function TestimonialsSection({
   dict,

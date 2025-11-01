@@ -32,7 +32,10 @@ export function proxy(request: NextRequest) {
 function getLocale(request: NextRequest): string | null {
   // Get locale from cookie if exists
   const localeCookie = request.cookies.get('NEXT_LOCALE')?.value
-  if (localeCookie && locales.includes(localeCookie as typeof locales[number])) {
+  if (
+    localeCookie &&
+    locales.includes(localeCookie as (typeof locales)[number])
+  ) {
     return localeCookie
   }
 
@@ -43,7 +46,10 @@ function getLocale(request: NextRequest): string | null {
     const firstPart = parts[0]?.split('-')
     const preferredLocale = firstPart?.[0]?.toLowerCase()
 
-    if (preferredLocale && locales.includes(preferredLocale as typeof locales[number])) {
+    if (
+      preferredLocale &&
+      locales.includes(preferredLocale as (typeof locales)[number])
+    ) {
       return preferredLocale
     }
   }
