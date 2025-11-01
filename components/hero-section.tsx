@@ -10,7 +10,11 @@ export function HeroSection({ dict }: { dict: HeroDictionary }) {
       <div className="max-w-4xl text-center">
         <h1 className="text-foreground animate-in fade-in slide-in-from-bottom-4 mb-6 text-5xl font-bold tracking-tight text-balance duration-1000 md:text-7xl">
           {dict.greeting}{' '}
-          <span className="from-primary to-primary/60 bg-gradient-to-r bg-clip-text text-transparent">
+          <span
+            className="gradient-text-protected from-primary to-primary/60 bg-gradient-to-r bg-clip-text text-transparent"
+            data-darkreader-inline-bgcolor=""
+            data-darkreader-inline-color=""
+          >
             {dict.name}
           </span>
         </h1>
