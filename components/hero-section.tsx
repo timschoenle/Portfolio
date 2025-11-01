@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Mail, Github, ArrowDown } from 'lucide-react'
-import { HeroDictionary } from '@/lib/dictionary'
+import { type HeroDictionary } from '@/lib/dictionary'
 
 export function HeroSection({ dict }: { dict: HeroDictionary }) {
   return (

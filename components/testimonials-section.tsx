@@ -3,7 +3,7 @@
 import { Card } from '@/components/ui/card'
 import { Quote } from 'lucide-react'
 import Image from 'next/image'
-import { TestimonialsDictionary } from '@/lib/dictionary'
+import { type TestimonialItem, type TestimonialsDictionary } from '@/lib/dictionary'
 
 export function TestimonialsSection({
   dict,
@@ -23,7 +23,7 @@ export function TestimonialsSection({
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {dict.items.map((testimonial: any, index: number) => (
+          {dict.items.map((testimonial: TestimonialItem, index: number) => (
             <Card
               key={index}
               className="group hover:border-primary/50 relative overflow-hidden border-2 p-8 transition-all duration-300 hover:shadow-2xl"
@@ -54,7 +54,7 @@ export function TestimonialsSection({
                 </div>
 
                 <blockquote className="text-muted-foreground leading-relaxed italic">
-                  "{testimonial.quote}"
+                  &ldquo;{testimonial.quote}&rdquo;
                 </blockquote>
               </div>
             </Card>

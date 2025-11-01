@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { SkillsDictionary } from '@/lib/dictionary'
+import { type SkillsDictionary } from '@/lib/dictionary'
 
 const skills = {
   expertise: ['Java', 'Spring Boot', 'Maven', 'Gradle'],

@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Mail, Github, MapPin, Download, FileText } from 'lucide-react'
 import Link from 'next/link'
 import type { Locale } from '@/lib/i18n-config'
-import { ContactDictionary } from '@/lib/dictionary'
+import { type ContactDictionary } from '@/lib/dictionary'
 
 export function ContactSection({
   dict,

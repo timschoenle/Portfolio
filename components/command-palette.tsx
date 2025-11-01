@@ -16,12 +16,11 @@ import {
   Code,
   Briefcase,
   MessageSquare,
-  BookOpen,
   Github,
   Mail,
   FileText,
 } from 'lucide-react'
-import { CommandPaletteDictionary, Dictionary } from '@/lib/dictionary'
+import { type Dictionary } from '@/lib/dictionary'
 
 interface CommandPaletteProps {
   locale: string
@@ -60,57 +59,57 @@ export function CommandPalette({ locale, dict }: CommandPaletteProps) {
     <CommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput
         placeholder={
-          dict.commandPalette?.placeholder || 'Type a command or search...'
+          dict.commandPalette.placeholder || 'Type a command or search...'
         }
       />
       <CommandList>
         <CommandEmpty>
-          {dict.commandPalette?.noResults || 'No results found.'}
+          {dict.commandPalette.noResults || 'No results found.'}
         </CommandEmpty>
 
-        <CommandGroup heading={dict.commandPalette?.navigation || 'Navigation'}>
+        <CommandGroup heading={dict.commandPalette.navigation || 'Navigation'}>
           <CommandItem
             onSelect={() => runCommand(() => router.push(`/${locale}`))}
           >
             <Home className="mr-2 h-4 w-4" />
-            <span>{dict.commandPalette?.home || 'Home'}</span>
+            <span>{dict.commandPalette.home || 'Home'}</span>
           </CommandItem>
           <CommandItem
             onSelect={() => runCommand(() => router.push(`/${locale}/imprint`))}
           >
             <FileText className="mr-2 h-4 w-4" />
-            <span>{dict.commandPalette?.imprint || 'Imprint'}</span>
+            <span>{dict.commandPalette.imprint || 'Imprint'}</span>
           </CommandItem>
         </CommandGroup>
 
-        <CommandGroup heading={dict.commandPalette?.sections || 'Sections'}>
+        <CommandGroup heading={dict.commandPalette.sections || 'Sections'}>
           <CommandItem
             onSelect={() => runCommand(() => scrollToSection('about'))}
           >
             <User className="mr-2 h-4 w-4" />
-            <span>{dict.about?.title || 'About'}</span>
+            <span>{dict.about.title || 'About'}</span>
           </CommandItem>
           <CommandItem
             onSelect={() => runCommand(() => scrollToSection('skills'))}
           >
             <Code className="mr-2 h-4 w-4" />
-            <span>{dict.skills?.title || 'Skills'}</span>
+            <span>{dict.skills.title || 'Skills'}</span>
           </CommandItem>
           <CommandItem
             onSelect={() => runCommand(() => scrollToSection('projects'))}
           >
             <Briefcase className="mr-2 h-4 w-4" />
-            <span>{dict.projects?.title || 'Projects'}</span>
+            <span>{dict.projects.title || 'Projects'}</span>
           </CommandItem>
           <CommandItem
             onSelect={() => runCommand(() => scrollToSection('contact'))}
           >
             <MessageSquare className="mr-2 h-4 w-4" />
-            <span>{dict.contact?.title || 'Contact'}</span>
+            <span>{dict.contact.title || 'Contact'}</span>
           </CommandItem>
         </CommandGroup>
 
-        <CommandGroup heading={dict.commandPalette?.actions || 'Actions'}>
+        <CommandGroup heading={dict.commandPalette.actions || 'Actions'}>
           <CommandItem
             onSelect={() =>
               runCommand(() =>
@@ -119,7 +118,7 @@ export function CommandPalette({ locale, dict }: CommandPaletteProps) {
             }
           >
             <Github className="mr-2 h-4 w-4" />
-            <span>{dict.commandPalette?.github || 'Open GitHub Profile'}</span>
+            <span>{dict.commandPalette.github || 'Open GitHub Profile'}</span>
           </CommandItem>
           <CommandItem
             onSelect={() =>
@@ -129,7 +128,7 @@ export function CommandPalette({ locale, dict }: CommandPaletteProps) {
             }
           >
             <Mail className="mr-2 h-4 w-4" />
-            <span>{dict.commandPalette?.email || 'Send Email'}</span>
+            <span>{dict.commandPalette.email || 'Send Email'}</span>
           </CommandItem>
         </CommandGroup>
       </CommandList>

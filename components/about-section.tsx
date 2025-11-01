@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { BookOpen, Code2 } from 'lucide-react'
-import { AboutDictionary } from '@/lib/dictionary'
+import type { AboutDictionary } from '@/lib/dictionary'
 
 export function AboutSection({ about }: { about: AboutDictionary }) {
   return (

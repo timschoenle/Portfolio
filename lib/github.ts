@@ -19,7 +19,7 @@ export interface GitHubProject {
 
 const getFeaturedProjectsUncached = async (
   username: string,
-  featuredRepos: string[]
+  featuredRepos: readonly string[]
 ): Promise<GitHubProject[]> => {
   try {
     const projects = await Promise.allSettled(
@@ -31,13 +31,13 @@ const getFeaturedProjectsUncached = async (
 
         return {
           name: data.name,
-          description: data.description || '',
+          description: data.description ?? '',
           html_url: data.html_url,
-          homepage: data.homepage || undefined,
+          homepage: data.homepage ?? undefined,
           stargazers_count: data.stargazers_count,
           forks_count: data.forks_count,
-          language: data.language || 'Unknown',
-          topics: data.topics || [],
+          language: data.language ?? 'Unknown',
+          topics: data.topics ?? [],
         }
       })
     )

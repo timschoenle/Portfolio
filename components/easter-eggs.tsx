@@ -1,11 +1,12 @@
+/* eslint-disable no-console */
 'use client'
 
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 export function EasterEggs() {
-  const [konamiCode, setKonamiCode] = useState<string[]>([])
-  const [clickCount, setClickCount] = useState(0)
+  const [_konamiCode, setKonamiCode] = useState<string[]>([])
+  const [_clickCount, setClickCount] = useState(0)
 
   useEffect(() => {
     const konamiSequence = [

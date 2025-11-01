@@ -5,19 +5,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ExternalLink, Github, Star, GitFork } from 'lucide-react'
 import Image from 'next/image'
-import { GitHubProject } from '@/lib/github'
-import { ProjectsDictionary } from '@/lib/dictionary'
-
-interface Project {
-  name: string
-  description: string
-  html_url: string
-  homepage?: string
-  stargazers_count: number
-  forks_count: number
-  language: string
-  topics: string[]
-}
+import { type GitHubProject } from '@/lib/github'
+import { type ProjectsDictionary } from '@/lib/dictionary'
 
 interface ProjectsSectionProps {
   dict: ProjectsDictionary

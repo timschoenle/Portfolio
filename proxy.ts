@@ -1,5 +1,4 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { locales } from '@/lib/i18n-config'
 
 export function proxy(request: NextRequest) {
@@ -13,7 +12,7 @@ export function proxy(request: NextRequest) {
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
     // Get the preferred locale from the Accept-Language header
-    const locale = getLocale(request) || 'en'
+    const locale = getLocale(request) ?? 'en'
 
     // Redirect to URL with locale
     return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url))
@@ -33,19 +32,18 @@ export function proxy(request: NextRequest) {
 function getLocale(request: NextRequest): string | null {
   // Get locale from cookie if exists
   const localeCookie = request.cookies.get('NEXT_LOCALE')?.value
-  if (localeCookie && locales.includes(localeCookie as any)) {
+  if (localeCookie && locales.includes(localeCookie as typeof locales[number])) {
     return localeCookie
   }
 
   // Get locale from Accept-Language header
   const acceptLanguage = request.headers.get('accept-language')
   if (acceptLanguage) {
-    const preferredLocale = acceptLanguage
-      .split(',')[0]
-      .split('-')[0]
-      .toLowerCase()
+    const parts = acceptLanguage.split(',')
+    const firstPart = parts[0]?.split('-')
+    const preferredLocale = firstPart?.[0]?.toLowerCase()
 
-    if (locales.includes(preferredLocale as any)) {
+    if (preferredLocale && locales.includes(preferredLocale as typeof locales[number])) {
       return preferredLocale
     }
   }
@@ -62,6 +60,6 @@ export const config = {
      * - _next/image (image optimization)
      * - favicon.ico, sitemap.xml, robots.txt (static files)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\..*$).*)',
+    '/((?!api/|_next/|favicon.ico|sitemap.xml|robots.txt|.*\\..*).*)',
   ],
 }

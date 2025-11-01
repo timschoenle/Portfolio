@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Briefcase, Calendar } from 'lucide-react'
 import Image from 'next/image'
-import { ExperienceDictionary } from '@/lib/dictionary'
+import { type ExperienceDictionary } from '@/lib/dictionary'
 
 interface Experience {
   company: string

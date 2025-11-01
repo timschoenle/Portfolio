@@ -13,6 +13,57 @@ import {
   getUserStats,
 } from '@/lib/github'
 import { siteConfig } from '@/lib/config'
+import { type Metadata } from 'next'
+
+export async function generateMetadata({
+                                         params,
+                                       }: {
+  params: Promise<{ locale: Locale }>
+}): Promise<Metadata> {
+  const { locale } = await params
+
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: siteConfig.name,
+    description: siteConfig.description,
+    alternates: {
+      canonical: siteConfig.url,
+      languages: {
+        'en-US': `${siteConfig.url}/en`,
+        'de-DE': `${siteConfig.url}/de`,
+      }
+    },
+    openGraph: {
+      type: 'website',
+      locale,
+      url: siteConfig.url,
+      siteName: siteConfig.name,
+      images: [`${siteConfig.url}/og-image.jpg`],
+    },
+    other: {
+      'application-ld+json': JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: siteConfig.name,
+        alternateName: siteConfig.username,
+        url: siteConfig.url,
+        image: `${siteConfig.url}/og-image.jpg`,
+        sameAs: [siteConfig.github],
+        jobTitle: siteConfig.title,
+        worksFor: {
+          '@type': 'Organization',
+          name: 'Independent',
+        },
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'DE',
+        },
+        email: siteConfig.email,
+        knowsAbout: ['Java', 'Rust', 'Next.js', 'Software Development', 'Open Source'],
+      }),
+    },
+  }
+}
 
 export default async function Home({
   params,
@@ -29,40 +80,8 @@ export default async function Home({
     fetchContributionGraph(siteConfig.githubUsername),
   ])
 
-  // Structured data for SEO
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: siteConfig.name,
-    alternateName: siteConfig.username,
-    url: siteConfig.url,
-    image: `${siteConfig.url}/og-image.jpg`,
-    sameAs: [siteConfig.github],
-    jobTitle: siteConfig.title,
-    worksFor: {
-      '@type': 'Organization',
-      name: 'Independent',
-    },
-    address: {
-      '@type': 'PostalAddress',
-      addressCountry: 'DE',
-    },
-    email: siteConfig.email,
-    knowsAbout: [
-      'Java',
-      'Rust',
-      'Next.js',
-      'Software Development',
-      'Open Source',
-    ],
-  }
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       <main className="bg-background h-screen snap-y snap-mandatory overflow-y-scroll">
         <HeroSection dict={dict.hero} />
         <div className="snap-start">

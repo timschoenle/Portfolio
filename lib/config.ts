@@ -7,6 +7,7 @@
 export const siteConfig = {
   // Personal Information
   name: 'Tim',
+  description: 'Tim - Software Developer Portfolio',
   username: 'Timmi6790',
   title: 'Software Developer',
 
@@ -50,7 +51,7 @@ export const siteConfig = {
     // Plausible domain
     plausibleDomain: undefined,
     // Vercel Analytics (automatically enabled on Vercel)
-    vercelAnalytics: true,
+    vercelAnalytics: false,
   },
 
   // Features Toggle
