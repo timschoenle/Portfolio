@@ -48,16 +48,6 @@ export interface ExperienceDictionary {
 }
 
 // Projects Section
-export interface ProjectItem {
-  name: string
-  description: string
-  url: string
-  demo: string | null
-  stars: number
-  forks: number
-  topics: string[]
-}
-
 export interface GithubContribution {
   title: string
   totalAmount: string
@@ -73,7 +63,6 @@ export interface ProjectsDictionary {
   }
   contributions: GithubContribution
   viewAll: string
-  featured: ProjectItem[]
 }
 
 // Testimonials Section

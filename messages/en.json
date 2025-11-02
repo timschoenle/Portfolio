@@ -59,36 +59,7 @@
       "title": "GitHub Contributions",
       "totalAmount": "{count} contributions in the last year"
     },
-    "viewAll": "View All Projects on GitHub",
-    "featured": [
-      {
-        "name": "Discord Bot",
-        "description": "A feature-rich Discord bot with moderation, music, and utility commands. Built with Java and JDA.",
-        "url": "https://github.com/Timmi6790/DiscordBot",
-        "demo": null,
-        "stars": 15,
-        "forks": 5,
-        "topics": ["java", "discord", "bot", "jda"]
-      },
-      {
-        "name": "Stats Plugin",
-        "description": "Minecraft plugin for tracking and displaying player statistics with a comprehensive API.",
-        "url": "https://github.com/Timmi6790/StatsPlugin",
-        "demo": null,
-        "stars": 8,
-        "forks": 3,
-        "topics": ["java", "minecraft", "plugin", "spigot"]
-      },
-      {
-        "name": "External Modules",
-        "description": "Modular system for extending applications with dynamic plugin loading and dependency management.",
-        "url": "https://github.com/Timmi6790/ExternalModules",
-        "demo": null,
-        "stars": 12,
-        "forks": 4,
-        "topics": ["java", "modules", "plugins", "architecture"]
-      }
-    ]
+    "viewAll": "View All Projects on GitHub"
   },
   "testimonials": {
     "title": "Testimonials",

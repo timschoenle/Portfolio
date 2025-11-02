@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { locales } from '@/lib/i18n-config'
+import { defaultLocale, locales } from '@/lib/i18n-config'
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
@@ -12,7 +12,7 @@ export function proxy(request: NextRequest) {
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
     // Get the preferred locale from the Accept-Language header
-    const locale = getLocale(request) ?? 'en'
+    const locale = getLocale(request) ?? defaultLocale
 
     // Redirect to URL with locale
     return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url))
