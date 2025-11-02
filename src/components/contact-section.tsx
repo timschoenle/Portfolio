@@ -1,18 +1,16 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Mail, Github, MapPin, Download, FileText } from 'lucide-react'
-import Link from 'next/link'
-import type { Locale } from '@/lib/i18n-config'
-import { type ContactDictionary } from '@/lib/dictionary'
+"use client"
 
-export function ContactSection({
-  dict,
-  locale,
-}: {
-  dict: ContactDictionary
-  locale: Locale
-}) {
-  const resumePath = locale === 'de' ? '/resume-de.pdf' : '/resume-en.pdf'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Mail, Github, MapPin, Download, FileText } from "lucide-react"
+import Link from "next/link"
+import { useTranslations, useLocale } from "next-intl"
+
+export function ContactSection() {
+  const t = useTranslations("contact")
+  const locale = useLocale()
+
+  const resumePath = locale === "de" ? "/resume-de.pdf" : "/resume-en.pdf"
 
   return (
     <section id="contact" className="bg-muted/30 relative px-4 py-20">
@@ -20,25 +18,21 @@ export function ContactSection({
 
       <div className="mx-auto w-full max-w-4xl">
         <div className="mb-12 text-center">
-          <h2 className="text-foreground mb-3 text-4xl font-bold">
-            {dict.title}
-          </h2>
+          <h2 className="text-foreground mb-3 text-4xl font-bold">{t("title")}</h2>
           <div className="from-primary to-primary/60 mx-auto h-1 w-20 rounded-full bg-gradient-to-r" />
         </div>
 
         <div className="mx-auto max-w-2xl space-y-6">
           <Card className="border-2 shadow-xl">
             <CardContent className="p-8">
-              <h3 className="mb-6 text-2xl font-bold">{dict.infoTitle}</h3>
+              <h3 className="mb-6 text-2xl font-bold">{t("infoTitle")}</h3>
               <div className="space-y-6">
                 <div className="group hover:bg-muted/50 flex items-center gap-4 rounded-lg p-3 transition-all">
                   <div className="from-primary/10 to-primary/5 rounded-lg bg-gradient-to-br p-3 transition-transform duration-300 group-hover:scale-110">
                     <Mail className="text-primary h-6 w-6" />
                   </div>
                   <div>
-                    <p className="text-muted-foreground text-sm">
-                      {dict.email}
-                    </p>
+                    <p className="text-muted-foreground text-sm">{t("email")}</p>
                     <a
                       href="mailto:contact@timmi6790.de"
                       className="text-foreground hover:text-primary text-lg font-medium transition-colors"
@@ -53,9 +47,7 @@ export function ContactSection({
                     <Github className="text-primary h-6 w-6" />
                   </div>
                   <div>
-                    <p className="text-muted-foreground text-sm">
-                      {dict.github}
-                    </p>
+                    <p className="text-muted-foreground text-sm">{t("github")}</p>
                     <a
                       href="https://github.com/Timmi6790"
                       target="_blank"
@@ -72,12 +64,8 @@ export function ContactSection({
                     <MapPin className="text-primary h-6 w-6" />
                   </div>
                   <div>
-                    <p className="text-muted-foreground text-sm">
-                      {dict.location}
-                    </p>
-                    <p className="text-foreground text-lg font-medium">
-                      {dict.locationValue}
-                    </p>
+                    <p className="text-muted-foreground text-sm">{t("location")}</p>
+                    <p className="text-foreground text-lg font-medium">{t("locationValue")}</p>
                   </div>
                 </div>
               </div>
@@ -92,12 +80,8 @@ export function ContactSection({
                     <FileText className="text-primary h-6 w-6" />
                   </div>
                   <div>
-                    <h3 className="text-foreground text-xl font-bold">
-                      {dict.downloadResume}
-                    </h3>
-                    <p className="text-muted-foreground text-sm">
-                      PDF • {locale === 'de' ? 'Deutsch' : 'English'}
-                    </p>
+                    <h3 className="text-foreground text-xl font-bold">{t("downloadResume")}</h3>
+                    <p className="text-muted-foreground text-sm">PDF • {locale === "de" ? "Deutsch" : "English"}</p>
                   </div>
                 </div>
               </div>
@@ -108,7 +92,7 @@ export function ContactSection({
               >
                 <a href={resumePath} download>
                   <Download className="mr-2 h-5 w-5 transition-transform group-hover:translate-y-0.5 group-hover:scale-110" />
-                  {dict.downloadResume}
+                  {t("downloadResume")}
                 </a>
               </Button>
             </div>
@@ -120,7 +104,7 @@ export function ContactSection({
             href={`/${locale}/imprint`}
             className="text-muted-foreground hover:text-primary text-sm transition-colors hover:underline"
           >
-            {dict.imprint}
+            {t("imprint")}
           </Link>
         </div>
       </div>

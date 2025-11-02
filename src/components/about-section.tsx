@@ -1,15 +1,17 @@
-import { Card, CardContent } from '@/components/ui/card'
-import { BookOpen, Code2 } from 'lucide-react'
-import type { AboutDictionary } from '@/lib/dictionary'
+"use client"
 
-export function AboutSection({ about }: { about: AboutDictionary }) {
+import { Card, CardContent } from "@/components/ui/card"
+import { BookOpen, Code2 } from "lucide-react"
+import { useTranslations } from "next-intl"
+
+export function AboutSection() {
+  const t = useTranslations("about")
+
   return (
     <section id="about" className="px-4 py-20">
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-12 text-center">
-          <h2 className="text-foreground mb-3 text-4xl font-bold">
-            {about.title}
-          </h2>
+          <h2 className="text-foreground mb-3 text-4xl font-bold">{t("title")}</h2>
           <div className="from-primary to-primary/60 mx-auto h-1 w-20 rounded-full bg-gradient-to-r" />
         </div>
 
@@ -20,24 +22,12 @@ export function AboutSection({ about }: { about: AboutDictionary }) {
                 <BookOpen className="text-primary h-6 w-6" />
               </div>
               <div>
-                <h3 className="text-foreground mb-2 text-xl font-semibold">
-                  {about.learning.title}
-                </h3>
+                <h3 className="text-foreground mb-2 text-xl font-semibold">{t("learning.title")}</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  {about.learning.description
-                    .replace('{rust}', about.learning.rust)
-                    .replace('{nextjs}', about.learning.nextjs)
-                    .split(about.learning.rust)
-                    .map((part: string, i: number) => (
-                      <span key={i}>
-                        {part}
-                        {i === 0 && (
-                          <span className="text-foreground font-medium">
-                            {about.learning.rust}
-                          </span>
-                        )}
-                      </span>
-                    ))}
+                  {t.rich("learning.description", {
+                    rust: () => <span className="text-foreground font-medium">{t("learning.rust")}</span>,
+                    nextjs: () => <span className="text-foreground font-medium">{t("learning.nextjs")}</span>,
+                  })}
                 </p>
               </div>
             </CardContent>
@@ -49,22 +39,11 @@ export function AboutSection({ about }: { about: AboutDictionary }) {
                 <Code2 className="text-primary h-6 w-6" />
               </div>
               <div>
-                <h3 className="text-foreground mb-2 text-xl font-semibold">
-                  {about.expertise.title}
-                </h3>
+                <h3 className="text-foreground mb-2 text-xl font-semibold">{t("expertise.title")}</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  {about.expertise.description
-                    .split('{java}')
-                    .map((part: string, i: number) => (
-                      <span key={i}>
-                        {part}
-                        {i === 0 && (
-                          <span className="text-foreground font-medium">
-                            {about.expertise.java}
-                          </span>
-                        )}
-                      </span>
-                    ))}
+                  {t.rich("expertise.description", {
+                    java: () => <span className="text-foreground font-medium">{t("expertise.java")}</span>,
+                  })}
                 </p>
               </div>
             </CardContent>

@@ -1,23 +1,25 @@
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { type SkillsDictionary } from '@/lib/dictionary'
+"use client"
+
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useTranslations } from "next-intl"
 
 const skills = {
-  expertise: ['Java', 'Spring Boot', 'Maven', 'Gradle'],
-  learning: ['Rust', 'Next.js', 'React', 'TypeScript'],
-  tools: ['Git', 'GitHub', 'Docker', 'Linux'],
+  expertise: ["Java", "Spring Boot", "Maven", "Gradle"],
+  learning: ["Rust", "Next.js", "React", "TypeScript"],
+  tools: ["Git", "GitHub", "Docker", "Linux"],
 }
 
-export function SkillsSection({ dict }: { dict: SkillsDictionary }) {
+export function SkillsSection() {
+  const t = useTranslations("skills")
+
   return (
     <section id="skills" className="bg-muted/30 relative px-4 py-20">
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]" />
 
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-12 text-center">
-          <h2 className="text-foreground mb-3 text-4xl font-bold">
-            {dict.title}
-          </h2>
+          <h2 className="text-foreground mb-3 text-4xl font-bold">{t("title")}</h2>
           <div className="from-primary to-primary/60 mx-auto h-1 w-20 rounded-full bg-gradient-to-r" />
         </div>
 
@@ -26,7 +28,7 @@ export function SkillsSection({ dict }: { dict: SkillsDictionary }) {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <div className="bg-primary h-2 w-2 rounded-full" />
-                {dict.expertise}
+                {t("expertise")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -49,7 +51,7 @@ export function SkillsSection({ dict }: { dict: SkillsDictionary }) {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <div className="bg-primary h-2 w-2 rounded-full" />
-                {dict.learning}
+                {t("learning")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -72,7 +74,7 @@ export function SkillsSection({ dict }: { dict: SkillsDictionary }) {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <div className="bg-primary h-2 w-2 rounded-full" />
-                {dict.tools}
+                {t("tools")}
               </CardTitle>
             </CardHeader>
             <CardContent>

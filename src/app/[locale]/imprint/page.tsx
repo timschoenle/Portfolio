@@ -1,25 +1,24 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
-import { getDictionary } from '@/lib/get-dictionary'
-import type { Locale } from '@/lib/i18n-config'
-import type { Metadata } from 'next'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
+import { getTranslations } from "next-intl/server"
+import type { Metadata } from "next"
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: Locale }>
+  params: { locale: string }
 }): Promise<Metadata> {
-  const { locale } = await params
-  const dict = await getDictionary(locale)
+  const { locale } = params
+  const t = await getTranslations("imprint")
 
   return {
-    title: dict.imprint.title,
+    title: t("title"),
     description:
-      locale === 'de'
-        ? 'Impressum und rechtliche Informationen für Tim - Software Developer Portfolio'
-        : 'Imprint and legal information for Tim - Software Developer Portfolio',
+      locale === "de"
+        ? "Impressum und rechtliche Informationen für Tim - Software Developer Portfolio"
+        : "Imprint and legal information for Tim - Software Developer Portfolio",
     robots: {
       index: true,
       follow: true,
@@ -30,10 +29,11 @@ export async function generateMetadata({
 export default async function ImprintPage({
   params,
 }: {
-  params: Promise<{ locale: Locale }>
+  params: { locale: string }
 }) {
-  const { locale } = await params
-  const dict = await getDictionary(locale)
+  const { locale } = params
+  const t = await getTranslations("imprint")
+  const tContact = await getTranslations("contact")
 
   return (
     <main className="bg-background min-h-screen px-4 py-12">
@@ -41,19 +41,17 @@ export default async function ImprintPage({
         <Link href={`/${locale}`}>
           <Button variant="ghost" className="mb-8">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {dict.imprint.backHome}
+            {t("backHome")}
           </Button>
         </Link>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-3xl">{dict.imprint.title}</CardTitle>
+            <CardTitle className="text-3xl">{t("title")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
-              <h2 className="mb-2 text-xl font-semibold">
-                {dict.imprint.infoTitle}
-              </h2>
+              <h2 className="mb-2 text-xl font-semibold">{t("infoTitle")}</h2>
               <p className="text-muted-foreground">
                 Tim
                 <br />
@@ -62,24 +60,17 @@ export default async function ImprintPage({
             </div>
 
             <div>
-              <h2 className="mb-2 text-xl font-semibold">
-                {dict.imprint.contactTitle}
-              </h2>
+              <h2 className="mb-2 text-xl font-semibold">{t("contactTitle")}</h2>
               <p className="text-muted-foreground">
-                {dict.contact.email}:{' '}
-                <a
-                  href="mailto:contact@timmi6790.de"
-                  className="text-primary hover:underline"
-                >
+                {tContact("email")}:{" "}
+                <a href="mailto:contact@timmi6790.de" className="text-primary hover:underline">
                   contact@timmi6790.de
                 </a>
               </p>
             </div>
 
             <div>
-              <h2 className="mb-2 text-xl font-semibold">
-                {dict.imprint.responsibleTitle}
-              </h2>
+              <h2 className="mb-2 text-xl font-semibold">{t("responsibleTitle")}</h2>
               <p className="text-muted-foreground">
                 Tim
                 <br />
@@ -88,30 +79,18 @@ export default async function ImprintPage({
             </div>
 
             <div>
-              <h2 className="mb-2 text-xl font-semibold">
-                {dict.imprint.liabilityContentTitle}
-              </h2>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {dict.imprint.liabilityContent}
-              </p>
+              <h2 className="mb-2 text-xl font-semibold">{t("liabilityContentTitle")}</h2>
+              <p className="text-muted-foreground text-sm leading-relaxed">{t("liabilityContent")}</p>
             </div>
 
             <div>
-              <h2 className="mb-2 text-xl font-semibold">
-                {dict.imprint.liabilityLinksTitle}
-              </h2>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {dict.imprint.liabilityLinks}
-              </p>
+              <h2 className="mb-2 text-xl font-semibold">{t("liabilityLinksTitle")}</h2>
+              <p className="text-muted-foreground text-sm leading-relaxed">{t("liabilityLinks")}</p>
             </div>
 
             <div>
-              <h2 className="mb-2 text-xl font-semibold">
-                {dict.imprint.copyrightTitle}
-              </h2>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {dict.imprint.copyright}
-              </p>
+              <h2 className="mb-2 text-xl font-semibold">{t("copyrightTitle")}</h2>
+              <p className="text-muted-foreground text-sm leading-relaxed">{t("copyright")}</p>
             </div>
           </CardContent>
         </Card>

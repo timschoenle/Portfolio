@@ -1,26 +1,17 @@
-import { HeroSection } from '@/components/hero-section'
-import { AboutSection } from '@/components/about-section'
-import { SkillsSection } from '@/components/skills-section'
-import { ProjectsSection } from '@/components/projects-section'
-import { ExperienceSection } from '@/components/experience-section'
-import { TestimonialsSection } from '@/components/testimonials-section'
-import { ContactSection } from '@/components/contact-section'
-import { getDictionary } from '@/lib/get-dictionary'
-import type { Locale } from '@/lib/i18n-config'
-import {
-  getContributionData,
-  getFeaturedProjects,
-  getUserStats,
-} from '@/lib/github'
-import { siteConfig } from '@/lib/config'
-import { type Metadata } from 'next'
+import { HeroSection } from "@/components/hero-section"
+import { AboutSection } from "@/components/about-section"
+import { SkillsSection } from "@/components/skills-section"
+import { ProjectsSection } from "@/components/projects-section"
+import { ExperienceSection } from "@/components/experience-section"
+import { TestimonialsSection } from "@/components/testimonials-section"
+import { ContactSection } from "@/components/contact-section"
+import { getContributionData, getFeaturedProjects, getUserStats } from "@/lib/github"
+import { siteConfig } from "@/lib/config"
+import type { Metadata } from "next"
+import { getTranslations } from "next-intl/server"
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>
-}): Promise<Metadata> {
-  const { locale } = await params
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations()
 
   return {
     metadataBase: new URL(siteConfig.url),
@@ -29,21 +20,20 @@ export async function generateMetadata({
     alternates: {
       canonical: siteConfig.url,
       languages: {
-        'en-US': `${siteConfig.url}/en`,
-        'de-DE': `${siteConfig.url}/de`,
+        "en-US": `${siteConfig.url}/en`,
+        "de-DE": `${siteConfig.url}/de`,
       },
     },
     openGraph: {
-      type: 'website',
-      locale,
+      type: "website",
       url: siteConfig.url,
       siteName: siteConfig.name,
       images: [`${siteConfig.url}/og-image.jpg`],
     },
     other: {
-      'application-ld+json': JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Person',
+      "application-ld+json": JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
         name: siteConfig.name,
         alternateName: siteConfig.username,
         url: siteConfig.url,
@@ -51,34 +41,21 @@ export async function generateMetadata({
         sameAs: [siteConfig.github],
         jobTitle: siteConfig.title,
         worksFor: {
-          '@type': 'Organization',
-          name: 'Independent',
+          "@type": "Organization",
+          name: "Independent",
         },
         address: {
-          '@type': 'PostalAddress',
-          addressCountry: 'DE',
+          "@type": "PostalAddress",
+          addressCountry: "DE",
         },
         email: siteConfig.email,
-        knowsAbout: [
-          'Java',
-          'Rust',
-          'Next.js',
-          'Software Development',
-          'Open Source',
-        ],
+        knowsAbout: ["Java", "Rust", "Next.js", "Software Development", "Open Source"],
       }),
     },
   }
 }
 
-export default async function Home({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>
-}) {
-  const { locale } = await params
-  const dict = await getDictionary(locale)
-
+export default async function Home() {
   // Fetch GitHub data in parallel for better performance
   const [projects, stats, contributionData] = await Promise.all([
     getFeaturedProjects(siteConfig.githubUsername, siteConfig.featuredRepos),
@@ -89,21 +66,19 @@ export default async function Home({
   return (
     <>
       <main className="bg-background h-screen snap-y snap-mandatory overflow-y-scroll">
-        <HeroSection dict={dict.hero} />
+        <HeroSection />
         <div className="snap-start">
-          <AboutSection about={dict.about} />
-          <SkillsSection dict={dict.skills} />
+          <AboutSection />
+          <SkillsSection />
           <ProjectsSection
-            locale={locale}
             githubUsername={siteConfig.githubUsername}
-            dict={dict.projects}
             projects={projects}
             stats={stats}
             contributionData={contributionData}
           />
-          <ExperienceSection dict={dict.experience} />
-          <TestimonialsSection dict={dict.testimonials} />
-          <ContactSection dict={dict.contact} locale={locale} />
+          <ExperienceSection />
+          <TestimonialsSection />
+          <ContactSection />
         </div>
       </main>
     </>
