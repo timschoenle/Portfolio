@@ -1,11 +1,11 @@
-'use client'
+'use server'
 
 import { Card, CardContent } from '@/components/ui/card'
 import { BookOpen, Code2 } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
-export function AboutSection() {
-  const t = useTranslations('about')
+export async function AboutSection({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'about' })
 
   return (
     <section id="about" className="px-4 py-20">

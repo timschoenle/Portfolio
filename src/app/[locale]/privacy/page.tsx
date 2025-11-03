@@ -1,13 +1,16 @@
+'use server'
+
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
-import { LegalPageLayout } from '@/components/legal-page-layout'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import LegalPageLayout from '@/components/legal-page-layout'
 
-export async function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'de' }]
-}
-
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('privacy')
+export async function generateMetadata({
+  params,
+}: Readonly<{
+  params: Promise<{ locale: string }>
+}>): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'privacy' })
 
   return {
     title: t('title'),
@@ -19,8 +22,17 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function PrivacyPolicyPage() {
-  const t = await getTranslations('privacy')
+export default async function PrivacyPolicyPage({
+  params,
+}: Readonly<{
+  params: Promise<{ locale: string }>
+}>) {
+  const { locale } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
+  const t = await getTranslations({ locale, namespace: 'privacy' })
 
   const controller = {
     title: t('controller.title'),
@@ -50,7 +62,7 @@ export default async function PrivacyPolicyPage() {
   ]
 
   return (
-    <LegalPageLayout title={t('title')}>
+    <LegalPageLayout title={t('title')} locale={locale}>
       <div>
         <h2 className="mb-2 text-xl font-semibold">{controller.title}</h2>
         <p className="text-muted-foreground">

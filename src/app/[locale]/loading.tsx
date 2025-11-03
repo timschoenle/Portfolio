@@ -1,4 +1,6 @@
-export default function Loading() {
+'use server'
+
+export default async function Loading() {
   return (
     <div className="bg-background flex min-h-screen items-center justify-center">
       <div className="space-y-4 text-center">

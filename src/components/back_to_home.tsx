@@ -1,10 +1,16 @@
+'use server'
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 
-export default async function BackToHome() {
-  const t = await getTranslations('imprint')
+interface BackToHomeProps {
+  locale: string
+}
+
+export async function BackToHome({ locale }: BackToHomeProps) {
+  const t = await getTranslations({ locale, namespace: 'imprint' })
 
   return (
     <Link href={`/`}>

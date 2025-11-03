@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import { Card } from '@/components/ui/card'
-import { useTranslations, useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 
 interface ContributionDay {
   date: string
@@ -11,12 +11,12 @@ interface ContributionDay {
 }
 
 interface ContributionGraphProps {
+  locale: string
   data: ContributionDay[]
 }
 
-export function ContributionGraph({ data }: ContributionGraphProps) {
+export function ContributionGraph({ locale, data }: ContributionGraphProps) {
   const t = useTranslations('projects.contributions')
-  const locale = useLocale()
 
   const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })

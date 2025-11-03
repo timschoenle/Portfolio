@@ -53,7 +53,6 @@
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.6.0",
     "eslint-plugin-react": "latest",
-    "fs": "0.0.1-security",
     "gray-matter": "4.0.3",
     "input-otp": "1.4.2",
     "lucide-react": "^0.552.0",

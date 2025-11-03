@@ -9,11 +9,12 @@ import { CookieBanner } from '@/components/cookie-banner'
 import { CommandPalette } from '@/components/command-palette'
 import { EasterEggs } from '@/components/easter-eggs'
 import { LanguageSwitcher } from '@/components/language-switcher'
-import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
+import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { routing } from '@/i18n/routing'
 import { siteConfig } from '@/lib/config'
 import { LegalFooter } from '@/components/legal-footer'
+import { notFound } from 'next/navigation'
+import { setRequestLocale } from 'next-intl/server'
 
 const geist = Geist({
   subsets: ['latin'],
@@ -118,15 +119,21 @@ export default async function RootLayout({
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }>) {
+  // Ensure that the incoming `locale` is valid
   const { locale } = await params
-  const messages = await getMessages()
+  if (!hasLocale(routing.locales, locale)) {
+    notFound()
+  }
+
+  // Enable static rendering
+  setRequestLocale(locale)
 
   return (
     <html lang={locale} className="dark">
       <body
         className={`${geist.variable} ${geistMono.variable} ${sourceSerif.variable} font-sans antialiased`}
       >
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider locale={locale}>
           <ThemeProvider defaultTheme="dark">
             <ThemeToggle />
             <LanguageSwitcher />
@@ -134,7 +141,7 @@ export default async function RootLayout({
             <EasterEggs />
             {children}
             <CookieBanner />
-            <LegalFooter />
+            <LegalFooter locale={locale} />
             <Toaster position="bottom-right" />
           </ThemeProvider>
         </NextIntlClientProvider>

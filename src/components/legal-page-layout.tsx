@@ -1,17 +1,24 @@
+'use server'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import BackToHome from '@/components/back_to_home'
 import type { ReactNode } from 'react'
+import { BackToHome } from '@/components/back_to_home'
 
 interface LegalPageLayoutProps {
+  locale: string
   title: string
   children: ReactNode
 }
 
-export function LegalPageLayout({ title, children }: LegalPageLayoutProps) {
+export default async function LegalPageLayout({
+  locale,
+  title,
+  children,
+}: LegalPageLayoutProps) {
   return (
     <main className="bg-background min-h-screen px-4 py-12">
       <div className="mx-auto max-w-3xl">
-        <BackToHome />
+        <BackToHome locale={locale} />
 
         <Card>
           <CardHeader>

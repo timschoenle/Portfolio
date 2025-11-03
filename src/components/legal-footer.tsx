@@ -1,8 +1,10 @@
-import Link from 'next/link'
-import { useTranslations } from 'next-intl'
+'use server'
 
-export function LegalFooter() {
-  const t = useTranslations()
+import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+
+export async function LegalFooter({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale })
 
   return (
     <footer className="mt-8 text-center">

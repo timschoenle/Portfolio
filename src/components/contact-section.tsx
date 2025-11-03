@@ -1,14 +1,13 @@
-'use client'
+'use server'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Mail, Github, MapPin, Download, FileText } from 'lucide-react'
-import { useTranslations, useLocale } from 'next-intl'
 import { siteConfig } from '@/lib/config'
+import { getTranslations } from 'next-intl/server'
 
-export function ContactSection() {
-  const t = useTranslations('contact')
-  const locale = useLocale()
+export async function ContactSection({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'contact' })
 
   const resumePath = locale === 'de' ? '/resume-de.pdf' : '/resume-en.pdf'
 

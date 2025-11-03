@@ -1,12 +1,12 @@
-'use client'
+'use server'
 
 import { Button } from '@/components/ui/button'
 import { Mail, Github, ArrowDown } from 'lucide-react'
-import { useTranslations } from 'next-intl'
 import { siteConfig } from '@/lib/config'
+import { getTranslations } from 'next-intl/server'
 
-export function HeroSection() {
-  const t = useTranslations('hero')
+export async function HeroSection({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'hero' })
 
   return (
     <section className="relative flex h-screen min-h-screen snap-start items-center justify-center px-4 py-20">

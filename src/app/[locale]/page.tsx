@@ -1,5 +1,4 @@
 import { HeroSection } from '@/components/hero-section'
-import { AboutSection } from '@/components/about-section'
 import { SkillsSection } from '@/components/skills-section'
 import { ProjectsSection } from '@/components/projects-section'
 import { ExperienceSection } from '@/components/experience-section'
@@ -12,6 +11,8 @@ import {
 } from '@/lib/github'
 import { siteConfig } from '@/lib/config'
 import type { Metadata } from 'next'
+import { AboutSection } from '@/components/about-section'
+import { setRequestLocale } from 'next-intl/server'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -62,7 +63,16 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function Home() {
+export default async function Home({
+  params,
+}: Readonly<{
+  params: Promise<{ locale: string }>
+}>) {
+  const { locale } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
   // Fetch GitHub data in parallel for better performance
   const [projects, stats, contributionData] = await Promise.all([
     getFeaturedProjects(siteConfig.githubUsername, siteConfig.featuredRepos),
@@ -73,19 +83,20 @@ export default async function Home() {
   return (
     <>
       <main className="bg-background h-screen snap-y snap-mandatory overflow-y-scroll">
-        <HeroSection />
+        <HeroSection locale={locale} />
         <div className="snap-start">
-          <AboutSection />
-          <SkillsSection />
+          <AboutSection locale={locale} />
+          <SkillsSection locale={locale} />
           <ProjectsSection
+            locale={locale}
             githubUsername={siteConfig.githubUsername}
             projects={projects}
             stats={stats}
             contributionData={contributionData}
           />
-          <ExperienceSection />
-          <TestimonialsSection />
-          <ContactSection />
+          <ExperienceSection locale={locale} />
+          <TestimonialsSection locale={locale} />
+          <ContactSection locale={locale} />
         </div>
       </main>
     </>

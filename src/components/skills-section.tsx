@@ -1,8 +1,8 @@
-'use client'
+'use server'
 
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 const skills = {
   expertise: ['Java', 'Spring Boot', 'Maven', 'Gradle'],
@@ -10,8 +10,8 @@ const skills = {
   tools: ['Git', 'GitHub', 'Docker', 'Linux'],
 }
 
-export function SkillsSection() {
-  const t = useTranslations('skills')
+export async function SkillsSection({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'skills' })
 
   return (
     <section id="skills" className="bg-muted/30 relative px-4 py-20">

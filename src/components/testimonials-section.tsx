@@ -1,9 +1,9 @@
-'use client'
+'use server'
 
 import { Card } from '@/components/ui/card'
 import { Quote } from 'lucide-react'
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 interface TestimonialItem {
   name: string
@@ -13,8 +13,8 @@ interface TestimonialItem {
   quote: string
 }
 
-export function TestimonialsSection() {
-  const t = useTranslations('testimonials')
+export async function TestimonialsSection({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'testimonials' })
 
   const testimonials: TestimonialItem[] = t.raw('items')
 

@@ -1,4 +1,4 @@
-'use client'
+'use server'
 
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button'
 import { ExternalLink, Github, Star, GitFork } from 'lucide-react'
 import { type GitHubProject } from '@/lib/github'
 import { ContributionGraph } from '@/components/contribution-graph'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 interface ProjectsSectionProps {
+  locale: string
   githubUsername: string
   projects: GitHubProject[]
   stats: {
@@ -23,13 +24,14 @@ interface ProjectsSectionProps {
   }>
 }
 
-export function ProjectsSection({
+export async function ProjectsSection({
+  locale,
   githubUsername,
   projects,
   stats,
   contributionData,
 }: ProjectsSectionProps) {
-  const t = useTranslations('projects')
+  const t = await getTranslations({ locale, namespace: 'projects' })
 
   return (
     <section
@@ -162,7 +164,7 @@ export function ProjectsSection({
 
         {/* GitHub Contribution Graph */}
         <div className="mt-16">
-          <ContributionGraph data={contributionData} />
+          <ContributionGraph data={contributionData} locale={locale} />
         </div>
 
         {/* View All Projects Button */}

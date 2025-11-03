@@ -1,9 +1,9 @@
-'use client'
+'use server'
 
 import { Card, CardContent } from '@/components/ui/card'
 import { Briefcase, Calendar } from 'lucide-react'
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 interface Experience {
   company: string
@@ -13,8 +13,8 @@ interface Experience {
   description: string
 }
 
-export function ExperienceSection() {
-  const t = useTranslations('experience')
+export async function ExperienceSection({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'experience' })
 
   const experiences: Experience[] = t.raw('items')
 

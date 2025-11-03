@@ -1,10 +1,17 @@
-import { getTranslations } from 'next-intl/server'
+'use server'
+
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { Metadata } from 'next'
 import { siteConfig } from '@/lib/config'
-import { LegalPageLayout } from '@/components/legal-page-layout'
+import LegalPageLayout from '@/components/legal-page-layout'
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('imprint')
+export async function generateMetadata({
+  params,
+}: Readonly<{
+  params: Promise<{ locale: string }>
+}>): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'imprint' })
 
   return {
     title: t('title'),
@@ -16,12 +23,21 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function ImprintPage() {
-  const t = await getTranslations('imprint')
-  const tContact = await getTranslations('contact')
+export default async function ImprintPage({
+  params,
+}: Readonly<{
+  params: Promise<{ locale: string }>
+}>) {
+  const { locale } = await params
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
+  const t = await getTranslations({ locale, namespace: 'imprint' })
+  const tContact = await getTranslations({ locale, namespace: 'contact' })
 
   return (
-    <LegalPageLayout title={t('title')}>
+    <LegalPageLayout title={t('title')} locale={locale}>
       <div>
         <h2 className="mb-2 text-xl font-semibold">{t('infoTitle')}</h2>
         <p className="text-muted-foreground">
