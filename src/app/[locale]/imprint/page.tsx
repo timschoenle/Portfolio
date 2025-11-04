@@ -1,10 +1,11 @@
 'use server'
 
-import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { Metadata } from 'next'
-import { siteConfig } from '@/lib/config'
-import LegalPageLayout from '@/components/legal-page-layout'
 import { type Locale } from 'next-intl'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+
+import LegalPageLayout from '@/components/legal-page-layout'
+import { siteConfig } from '@/lib/config'
 
 export async function generateMetadata({
   params,
@@ -34,7 +35,7 @@ export default async function ImprintPage({
   const tContact = await getTranslations({ locale, namespace: 'contact' })
 
   return (
-    <LegalPageLayout title={t('title')} locale={locale}>
+    <LegalPageLayout locale={locale} title={t('title')}>
       <div>
         <h2 className="mb-2 text-xl font-semibold">{t('infoTitle')}</h2>
         <p className="text-muted-foreground">
@@ -49,8 +50,8 @@ export default async function ImprintPage({
         <p className="text-muted-foreground">
           {tContact('email')}:{' '}
           <a
-            href={`mailto:${siteConfig.email}`}
             className="text-primary hover:underline"
+            href={`mailto:${siteConfig.email}`}
           >
             {siteConfig.email}
           </a>

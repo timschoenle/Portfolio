@@ -1,18 +1,19 @@
-import { HeroSection } from '@/components/hero-section'
-import { SkillsSection } from '@/components/skills-section'
-import { ProjectsSection } from '@/components/projects-section'
-import { ExperienceSection } from '@/components/experience-section'
-import { TestimonialsSection } from '@/components/testimonials-section'
+import { type Locale } from 'next-intl'
+import { setRequestLocale } from 'next-intl/server'
+
+import { AboutSection } from '@/components/about-section'
 import { ContactSection } from '@/components/contact-section'
+import { ExperienceSection } from '@/components/experience-section'
+import { HeroSection } from '@/components/hero-section'
+import { ProjectsSection } from '@/components/projects-section'
+import { SkillsSection } from '@/components/skills-section'
+import { TestimonialsSection } from '@/components/testimonials-section'
+import { siteConfig } from '@/lib/config'
 import {
   getContributionData,
   getFeaturedProjects,
   getUserStats,
 } from '@/lib/github'
-import { siteConfig } from '@/lib/config'
-import { AboutSection } from '@/components/about-section'
-import { setRequestLocale } from 'next-intl/server'
-import { type Locale } from 'next-intl'
 
 export default async function Home({
   params,
@@ -32,24 +33,22 @@ export default async function Home({
   ])
 
   return (
-    <>
-      <main className="bg-background h-screen snap-y snap-mandatory overflow-y-scroll">
+    <main className="bg-background h-screen snap-y snap-mandatory overflow-y-scroll">
         <HeroSection locale={locale} />
         <div className="snap-start">
           <AboutSection locale={locale} />
           <SkillsSection locale={locale} />
           <ProjectsSection
-            locale={locale}
+            contributionData={contributionData}
             githubUsername={siteConfig.githubUsername}
+            locale={locale}
             projects={projects}
             stats={stats}
-            contributionData={contributionData}
           />
           <ExperienceSection locale={locale} />
           <TestimonialsSection locale={locale} />
           <ContactSection locale={locale} />
         </div>
       </main>
-    </>
   )
 }

@@ -1,10 +1,26 @@
-/**
- * Site Configuration
- *
- * Centralized configuration for easy customization
- */
-export const siteConfig = {
-  // Personal Information
+export type SiteConfig = {
+  readonly name: string
+  readonly fullName: string
+  readonly description: string
+  readonly username: string
+  readonly title: string
+  readonly email: string
+  readonly github: string
+  readonly twitter: string
+  readonly url: string
+  readonly githubUsername: string
+  readonly featuredRepos: readonly string[]
+  readonly seo: {
+    readonly keywords: readonly string[]
+  }
+  readonly skills: {
+    readonly expertise: readonly string[]
+    readonly learning: readonly string[]
+    readonly tools: readonly string[]
+  }
+}
+
+export const siteConfig: SiteConfig = {
   name: 'Tim',
   fullName: 'Tim Schönle',
   description:
@@ -12,15 +28,11 @@ export const siteConfig = {
   username: 'Timmi6790',
   title: 'Tim - Software Developer',
 
-  // Contact Information
   email: 'contact@timmi6790.de',
   github: 'https://github.com/Timmi6790',
   twitter: '@Timmi6790',
-
-  // Site URLs
   url: 'https://timmi6790.de',
 
-  // GitHub Configuration
   githubUsername: 'Timmi6790',
   featuredRepos: [
     'cloudflare-access-webhook-redirect',
@@ -28,7 +40,6 @@ export const siteConfig = {
     'helm-charts',
   ],
 
-  // SEO Configuration
   seo: {
     keywords: [
       'Tim',
@@ -43,12 +54,9 @@ export const siteConfig = {
     ],
   },
 
-  // List of skills to display on the skills section
   skills: {
     expertise: ['Java', 'Spring Boot', 'Maven', 'Gradle'],
     learning: ['Rust', 'Next.js', 'React', 'TypeScript'],
     tools: ['Git', 'GitHub', 'Docker', 'Linux'],
   },
-} as const
-
-export type SiteConfig = typeof siteConfig
+}

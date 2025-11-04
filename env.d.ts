@@ -4,10 +4,13 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       // GitHub API Token (optional but recommended)
-      GITHUB_TOKEN?: string
+      readonly GITHUB_TOKEN?: string
+
+      // Enable bundle analyzer
+      readonly ANALYZE?: 'true' | 'false'
 
       // Next.js built-in
-      NODE_ENV: 'development' | 'production' | 'test'
+      readonly NODE_ENV: 'development' | 'production' | 'test'
     }
   }
 }

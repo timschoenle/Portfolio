@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AlertTriangle } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { useEffect } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function Error({
   error,
@@ -37,13 +38,13 @@ export default function Error({
             </p>
           )}
           <div className="flex gap-2">
-            <Button onClick={reset} className="w-full">
+            <Button className="w-full" onClick={reset}>
               {t('tryAgain')}
             </Button>
             <Button
+              className="w-full"
               variant="outline"
               onClick={() => (window.location.href = '/')}
-              className="w-full"
             >
               {t('goHome')}
             </Button>

@@ -35,7 +35,7 @@
     "allowUnreachableCode": false,
     "noImplicitOverride": true,
     "exactOptionalPropertyTypes": true, // Prevent undefined sneaking in optional properties
-    "preserveValueImports": true, // Preserve type-only imports for stricter checking
+    "verbatimModuleSyntax": true, // Preserve type-only imports for stricter checking
 
     // ======================================================================
     // Interoperability

@@ -1,9 +1,10 @@
 'use server'
 
 import type { Metadata } from 'next'
-import { getTranslations, setRequestLocale } from 'next-intl/server'
-import LegalPageLayout from '@/components/legal-page-layout'
 import { type Locale } from 'next-intl'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+
+import LegalPageLayout from '@/components/legal-page-layout'
 
 export async function generateMetadata({
   params,
@@ -58,7 +59,7 @@ export default async function PrivacyPolicyPage({
   }
 
   return (
-    <LegalPageLayout title={t('title')} locale={locale}>
+    <LegalPageLayout locale={locale} title={t('title')}>
       <div>
         <h2 className="mb-2 text-xl font-semibold">{controller.title}</h2>
         <p className="text-muted-foreground">
@@ -68,8 +69,8 @@ export default async function PrivacyPolicyPage({
           <br />
           <strong>Email:</strong>{' '}
           <a
-            href={`mailto:${controller.email}`}
             className="text-primary hover:underline"
+            href={`mailto:${controller.email}`}
           >
             {controller.email}
           </a>
@@ -87,10 +88,10 @@ export default async function PrivacyPolicyPage({
         </p>
         <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
           <a
-            href={cloudflare.policyLink}
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-primary hover:underline"
+            href={cloudflare.policyLink}
+            rel="noopener noreferrer"
+            target="_blank"
           >
             {cloudflare.policyLink}
           </a>

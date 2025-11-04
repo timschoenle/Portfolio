@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next'
-import { siteConfig } from '@/lib/config'
-import { getPathname, routing } from '@/i18n/routing'
 import { type Locale } from 'next-intl'
+
+import { getPathname, routing } from '@/i18n/routing'
+import { siteConfig } from '@/lib/config'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url.replace(/\/$/, '')

@@ -1,18 +1,22 @@
-import type React from 'react'
 import type { Metadata } from 'next'
+import type React from 'react'
 import { Toaster } from 'sonner'
 import '../globals.css'
 import { Geist, Geist_Mono, Source_Serif_4 } from 'next/font/google'
-import { ThemeProvider } from '@/components/theme-provider'
-import { ThemeToggle } from '@/components/theme-toggle'
-import { CookieBanner } from '@/components/cookie-banner'
+
 import { CommandPalette } from '@/components/command-palette'
+import { CookieBanner } from '@/components/cookie-banner'
 import { EasterEggs } from '@/components/easter-eggs'
 import { LanguageSwitcher } from '@/components/language-switcher'
+import { LegalFooter } from '@/components/legal-footer'
+import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeToggle } from '@/components/theme-toggle'
+
 import { NextIntlClientProvider, hasLocale, type Locale } from 'next-intl'
+
 import { getPathname, routing } from '@/i18n/routing'
 import { siteConfig } from '@/lib/config'
-import { LegalFooter } from '@/components/legal-footer'
+
 import { notFound } from 'next/navigation'
 import { setRequestLocale } from 'next-intl/server'
 
@@ -120,7 +124,7 @@ export default async function RootLayout({
   setRequestLocale(locale)
 
   return (
-    <html lang={locale} className="dark">
+    <html className="dark" lang={locale}>
       <body
         className={`${geist.variable} ${geistMono.variable} ${sourceSerif.variable} font-sans antialiased`}
       >
