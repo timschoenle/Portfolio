@@ -1,102 +1,216 @@
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import js from "@eslint/js";
-import globals from "globals";
-import reactHooks from "eslint-plugin-react-hooks";
-import react from "eslint-plugin-react";
+import typescriptEslint from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import react from 'eslint-plugin-react'
+import nextPlugin from '@next/eslint-plugin-next'
+import importPlugin from 'eslint-plugin-import'
+import securityPlugin from 'eslint-plugin-security'
+import sonarjs from 'eslint-plugin-sonarjs'
 
 export default [
   {
     ignores: [
-      "**/node_modules/",
-      "**/.next/",
-      "**/out/",
-      "**/public/",
-      "**/*.config.js",
-      "**/*.config.mjs",
+      '**/node_modules/',
+      '**/.next/',
+      '**/out/',
+      '**/public/',
+      '**/*.config.js',
+      '**/*.config.mjs',
     ],
   },
+
   js.configs.recommended,
+
   {
-    files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+    files: ['**/*.{ts,tsx,js,jsx}'],
     plugins: {
-      "@typescript-eslint": typescriptEslint,
-      "react-hooks": reactHooks,
-      "react": react,
+      '@typescript-eslint': typescriptEslint,
+      'react-hooks': reactHooks,
+      react,
+      next: nextPlugin,
+      import: importPlugin,
+      security: securityPlugin,
+      sonarjs,
     },
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 2024,
-      sourceType: "module",
+      sourceType: 'module',
       globals: {
         ...globals.browser,
         ...globals.node,
       },
-
       parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-        project: "./tsconfig.json",
+        ecmaFeatures: { jsx: true },
+        project: './tsconfig.json',
         tsconfigRootDir: import.meta.dirname,
       },
     },
-
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
-      // Base ESLint rules
-      "no-unused-vars": "off",
-      "no-console": ["warn", {
-        allow: ["warn", "error"],
-      }],
-      "prefer-const": "error",
-      "no-var": "error",
-      "no-duplicate-imports": "error",
-      "no-unreachable": "error",
-      "eqeqeq": ["error", "always"],
+      /**
+       * TypeScript strictness
+       */
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: false,
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/strict-boolean-expressions': 'error',
+      '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/no-misused-promises': 'error',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
+      ],
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
+      '@typescript-eslint/explicit-function-return-type': [
+        'error',
+        { allowExpressions: false, allowTypedFunctionExpressions: false },
+      ],
+      '@typescript-eslint/explicit-member-accessibility': [
+        'error',
+        { accessibility: 'explicit' },
+      ],
+      '@typescript-eslint/no-unnecessary-condition': 'error',
+      '@typescript-eslint/prefer-nullish-coalescing': 'error',
+      '@typescript-eslint/prefer-optional-chain': 'error',
+      '@typescript-eslint/typedef': [
+        'error',
+        {
+          arrayDestructuring: true,
+          arrowParameter: true,
+          objectDestructuring: true,
+          variableDeclaration: true,
+          memberVariableDeclaration: true,
+        },
+      ],
+      '@typescript-eslint/ban-ts-comment': [
+        'error',
+        { 'ts-ignore': 'allow-with-description' },
+      ],
+      '@typescript-eslint/consistent-type-exports': 'error',
+      '@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
 
-      // TypeScript rules
-      "@typescript-eslint/no-unused-vars": ["error", {
-        argsIgnorePattern: "^_",
-        varsIgnorePattern: "^_",
-        ignoreRestSiblings: true,
-      }],
-      "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-non-null-assertion": "warn",
-      "@typescript-eslint/prefer-nullish-coalescing": "warn",
-      "@typescript-eslint/prefer-optional-chain": "warn",
-      "@typescript-eslint/no-unnecessary-condition": "warn",
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/await-thenable": "error",
-      "@typescript-eslint/no-misused-promises": "error",
-      "@typescript-eslint/consistent-type-imports": ["error", {
-        prefer: "type-imports",
-        fixStyle: "inline-type-imports",
-      }],
+      /**
+       * JS / base rules
+       */
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'no-duplicate-imports': 'error',
+      'no-unreachable': 'error',
+      eqeqeq: ['error', 'always'],
+      'no-console': ['error'],
+      complexity: ['error', 8],
+      'max-lines-per-function': ['error', 40],
+      'max-params': ['error', 3],
+      'max-depth': ['error', 3],
+      'max-nested-callbacks': ['error', 3],
+      'no-else-return': 'error',
+      'no-return-await': 'error',
+      curly: ['error', 'all'],
+      'no-param-reassign': 'error',
 
-      // React rules
-      "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
-      "react/jsx-no-target-blank": "error",
-      "react/jsx-key": "error",
-      "react/no-unescaped-entities": "warn",
-      "react/self-closing-comp": "error",
+      /**
+       * React / JSX
+       */
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'react/jsx-no-target-blank': 'error',
+      'react/jsx-key': 'error',
+      'react/no-unescaped-entities': 'error',
+      'react/self-closing-comp': 'error',
+      'react/jsx-pascal-case': 'error',
+      'react/jsx-boolean-value': ['error', 'always'],
+      'react/jsx-curly-brace-presence': [
+        'error',
+        { props: 'never', children: 'never' },
+      ],
+      'react/jsx-no-useless-fragment': 'error',
+      'react/jsx-sort-props': [
+        'error',
+        { callbacksLast: true, shorthandFirst: true, ignoreCase: true },
+      ],
+      'react/function-component-definition': [
+        'error',
+        {
+          namedComponents: 'arrow-function',
+          unnamedComponents: 'arrow-function',
+        },
+      ],
+      'react/no-array-index-key': 'error',
+      'react/jsx-no-literals': ['error', { allowedStrings: [] }],
 
-      // Next.js specific (using hooks)
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      /**
+       * Hooks
+       */
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'error',
 
-      // Security-focused rules
-      "no-eval": "error",
-      "no-implied-eval": "error",
-      "no-new-func": "error",
-      "no-script-url": "error",
-      "@typescript-eslint/no-implied-eval": "error",
+      /**
+       * Next.js
+       */
+      'next/no-html-link-for-pages': ['error', 'src/app'],
+      'next/no-img-element': 'error',
+      'next/no-head-element': 'error',
+      'next/no-sync-scripts': 'error',
+      'next/no-document-import-in-page': 'error',
+      'next/no-before-interactive-script-outside-document': 'error',
+      'next/next-script-for-ga': 'error',
+      'next/no-css-tags': 'error',
 
-      // React/Next.js security
-      "react/no-danger": "error",
-      "react/no-danger-with-children": "error",
-      "react/jsx-no-script-url": "error",
+      /**
+       * Imports
+       */
+      'import/order': [
+        'error',
+        { alphabetize: { order: 'asc' }, 'newlines-between': 'always' },
+      ],
+      'import/no-duplicates': 'error',
+      'import/no-cycle': 'error',
+
+      /**
+       * Security
+       */
+      'no-eval': 'error',
+      'no-implied-eval': 'error',
+      'no-new-func': 'error',
+      'no-script-url': 'error',
+      '@typescript-eslint/no-implied-eval': 'error',
+      'react/no-danger': 'error',
+      'react/no-danger-with-children': 'error',
+      'react/jsx-no-script-url': 'error',
+      'security/detect-object-injection': 'error',
+      'security/detect-non-literal-fs-filename': 'error',
+      'security/detect-non-literal-regexp': 'error',
+
+      /**
+       * SonarJS - maintainability / smells
+       */
+      'sonarjs/cognitive-complexity': ['error', 15],
+      'sonarjs/no-duplicate-string': [
+        'error',
+        { threshold: 3, ignoreStrings: 'application/json' },
+      ],
+      'sonarjs/no-ignored-return': 'error',
+      'sonarjs/no-useless-catch': 'error',
+      'sonarjs/prefer-immediate-return': 'error',
+      'sonarjs/prefer-object-literal': 'error',
     },
   },
-];
+]
