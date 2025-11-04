@@ -1,26 +1,19 @@
-name: Analyze Bundle
+name: 'Next.js Bundle Analysis'
 
 on:
   pull_request:
-    branches: [ main, develop ]
-
-permissions:
-  contents: read
-  pull-requests: write
+  push:
+    branches:
+      # change this if your default branch is named differently
+      - main
+  workflow_dispatch:
 
 jobs:
   analyze:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v5
-
-      - name: Setup base environment
-        uses: ./.github/actions/build-dependency
-
-      - name: Run bundle analyzer (Webpack)
-        run: pnpm run analyze
-
-      - name: Analyze bundle sizes
-        uses: transferwise/actions-next-bundle-analyzer@v2
+    uses: hashicorp/nextjs-bundle-analysis/.github/workflows/analyze.yml@v0.5.0
+    with:
+      node-version: 24
+      package-manager: pnpm
+    #   working-directory: ./
+    #   build-output-directory: .next
+    #   build-command: ./node_modules/.bin/next build
