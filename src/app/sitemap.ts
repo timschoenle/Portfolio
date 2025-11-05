@@ -4,46 +4,73 @@ import { type Locale } from 'next-intl'
 import { getPathname, routing } from '@/i18n/routing'
 import { siteConfig } from '@/lib/config'
 
+type ChangeFreq = MetadataRoute.Sitemap[0]['changeFrequency']
+
+interface CreateUrlEntryOptions {
+  readonly baseUrl: string
+  readonly now: Readonly<Date>
+  readonly path: string
+  readonly changeFreq: ChangeFreq
+  readonly priority: number
+}
+
+function createUrlEntry({
+  baseUrl,
+  now,
+  path,
+  changeFreq,
+  priority,
+}: CreateUrlEntryOptions): MetadataRoute.Sitemap {
+  const adjustedBasePath: string = path.startsWith('/') ? path : `/${path}`
+
+  const alternates: Record<string, string> = Object.fromEntries(
+    routing.locales.map((loc: Locale): [string, string] => [
+      loc,
+      `${baseUrl}${getPathname({ locale: loc, href: adjustedBasePath })}`,
+    ])
+  )
+
+  return [
+    {
+      url: `${baseUrl}${adjustedBasePath}`,
+      lastModified: now,
+      changeFrequency: changeFreq,
+      priority,
+      alternates: { languages: alternates },
+    },
+  ]
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = siteConfig.url.replace(/\/$/, '')
-  const now = new Date()
+  const baseUrl: string = siteConfig.url.replace(/\/$/, '')
+  const now: Date = new Date()
 
-  const staticPages = ['imprint', 'privacy']
+  const staticPages: readonly string[] = ['imprint', 'privacy']
 
-  // Function to create URL entries
-  function createUrlEntry(
-    path: string,
-    changeFreq: MetadataRoute.Sitemap[0]['changeFrequency'],
-    priority: number
-  ): MetadataRoute.Sitemap {
-    const adjustedBasePath = path.startsWith('/') ? path : `/${path}`
-    return [
-      {
-        url: `${baseUrl}${adjustedBasePath}`,
-        lastModified: now,
-        changeFrequency: changeFreq,
-        priority,
-        alternates: {
-          languages: Object.fromEntries(
-            routing.locales.map((loc: Locale) => [
-              loc,
-              `${baseUrl}${getPathname({ locale: loc, href: adjustedBasePath })}`,
-            ])
-          ),
-        },
-      },
-    ]
-  }
-
-  // Build sitemap array
   const urls: MetadataRoute.Sitemap = []
 
-  // Root pages
-  urls.push(...createUrlEntry('/', 'weekly', 1.0))
+  // Root page
+  urls.push(
+    ...createUrlEntry({
+      baseUrl,
+      now,
+      path: '/',
+      changeFreq: 'weekly',
+      priority: 1.0,
+    })
+  )
 
   // Static pages
   for (const page of staticPages) {
-    urls.push(...createUrlEntry(page, 'monthly', 0.5))
+    urls.push(
+      ...createUrlEntry({
+        baseUrl,
+        now,
+        path: page,
+        changeFreq: 'monthly',
+        priority: 0.5,
+      })
+    )
   }
 
   return urls
