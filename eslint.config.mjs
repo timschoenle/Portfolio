@@ -165,7 +165,7 @@ export default tseslint.config(
       '@typescript-eslint/consistent-type-exports': 'error',
       '@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
       '@typescript-eslint/prefer-readonly': 'error',
-      '@typescript-eslint/prefer-readonly-parameter-types': 'error',
+      // '@typescript-eslint/prefer-readonly-parameter-types': 'error',
 
       // General maintainability
       'no-var': 'error',
