@@ -142,7 +142,9 @@
     "essentialDesc": "Erforderlich für das ordnungsgemäße Funktionieren der Website. Diese können nicht deaktiviert werden.",
     "analytics": "Analyse-Cookies",
     "analyticsDesc": "Helfen uns zu verstehen, wie Besucher mit unserer Website interagieren, indem Informationen anonym gesammelt und gemeldet werden.",
-    "save": "Einstellungen speichern"
+    "save": "Einstellungen speichern",
+    "required": "Benötigt",
+    "back": "Zurück"
   },
   "privacy": {
     "title": "Datenschutzerklärung",

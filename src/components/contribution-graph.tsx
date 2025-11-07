@@ -11,6 +11,7 @@ import React, {
 } from 'react'
 
 import { Card } from '@/components/ui/card'
+import { panic } from '@/lib/utils'
 import type { FCStrict } from '@/types/fc'
 import {
   CONTRIBUTION_LEVELS,
@@ -149,31 +150,39 @@ const buildCalendar: (props: BuildCalendarProps) => CalendarModel = ({
       new Date(a.date).getTime() - new Date(b.date).getTime()
   )
 
-  const firstDate: Date = new Date(sorted[0]?.date ?? Date.now())
-  const lastDate: Date = new Date(sorted[sorted.length - 1]?.date ?? Date.now())
+  // normalize to UTC midnight to avoid TZ/DST drift
+  const firstISO: string =
+    sorted[0]?.date ?? panic('buildCalendar: empty contributions array')
+
+  const lastISO: string =
+    sorted[sorted.length - 1]?.date ?? panic('buildCalendar: missing last item')
+
+  const firstDate: Date = new Date(`${firstISO}T00:00:00Z`)
+  const lastDate: Date = new Date(`${lastISO}T00:00:00Z`)
 
   const cursor: Date = sundayOfWeekUTC(firstDate)
   const weeks: WeekModel[] = []
   const monthLabels: MonthLabel[] = []
   let currentMonth: string = ''
 
-  while (cursor <= lastDate) {
-    const start: Date = new Date(cursor)
+  while (cursor.getTime() <= lastDate.getTime()) {
+    const start: Date = new Date(cursor.getTime())
     const days: (ContributionPoint | null)[] = []
+
     for (let i: number = 0; i < 7; i++) {
-      const key: string = isoDate(cursor)
+      const key: string = isoDate(cursor) // YYYY-MM-DD (UTC)
       const day: ContributionPoint | null = dataMap.get(key) ?? null
       days.push(day)
-      cursor.setDate(cursor.getDate() + 1)
+      // 🔧 advance in UTC, not local time
+      cursor.setUTCDate(cursor.getUTCDate() + 1)
     }
 
-    const res: { readonly next: string; readonly label: MonthLabel | null } =
-      computeMonthLabel({
-        weekDays: days,
-        locale,
-        weeksLength: weeks.length,
-        currentMonth,
-      })
+    const res: ComputeMonthLabelResult = computeMonthLabel({
+      weekDays: days,
+      locale,
+      weeksLength: weeks.length,
+      currentMonth,
+    })
     currentMonth = res.next
     if (res.label !== null) {
       monthLabels.push(res.label)
@@ -181,6 +190,7 @@ const buildCalendar: (props: BuildCalendarProps) => CalendarModel = ({
 
     weeks.push({ key: isoDate(start), days })
   }
+
   return { weeks, monthLabels }
 }
 
@@ -202,7 +212,9 @@ const dayLabelTriple: (p: DayLabelTripleProps) => DayLabelTripleResult = ({
     return { d1: '', d3: '', d5: '' }
   }
 
-  const firstUTC: Date = new Date(data[0]!.date + 'T00:00:00Z')
+  const iso: string =
+    data[0]?.date ?? panic('dayLabelTriple: empty contributions array')
+  const firstUTC: Date = new Date(`${iso}T00:00:00Z`)
   const start: Date = sundayOfWeekUTC(firstUTC)
 
   const labelUTC: (offset: number) => string = (offset: number): string => {
@@ -465,6 +477,7 @@ const Tooltip: FCStrict<TooltipProps> = ({
     month: 'short',
     day: 'numeric',
     year: 'numeric',
+    timeZone: 'UTC',
   })
   return (
     <div

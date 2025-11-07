@@ -35,7 +35,11 @@ const InfoCard: FCStrict<InfoCardProps> = ({
       </div>
       <div>
         <h3 className="text-foreground mb-2 text-xl font-semibold">{title}</h3>
-        <p className="text-muted-foreground leading-relaxed">{description}</p>
+        <p className="text-muted-foreground leading-relaxed">
+          <div className="text-muted-foreground leading-relaxed">
+            {description}
+          </div>
+        </p>
       </div>
     </CardContent>
   </Card>
@@ -64,18 +68,6 @@ async function getAboutTranslations(
   return { t, learningDescription, expertiseDescription }
 }
 
-interface CreateDescriptionParams {
-  readonly description: ReactNode
-}
-
-const createDescription: FCStrict<CreateDescriptionParams> = ({
-  description,
-}: CreateDescriptionParams): JSX.Element => {
-  return (
-    <div className="text-muted-foreground leading-relaxed">{description}</div>
-  )
-}
-
 const AboutSection: AsyncPageFC<AboutSectionProps> = async ({
   locale,
 }: AboutSectionProps): Promise<JSX.Element> => {
@@ -96,16 +88,12 @@ const AboutSection: AsyncPageFC<AboutSectionProps> = async ({
 
         <div className="grid gap-6 md:grid-cols-2">
           <InfoCard
-            description={createDescription({
-              description: learningDescription,
-            })}
+            description={learningDescription}
             icon={<BookOpen className="text-primary h-6 w-6" />}
             title={t('learning.title')}
           />
           <InfoCard
-            description={createDescription({
-              description: expertiseDescription,
-            })}
+            description={expertiseDescription}
             icon={<Code2 className="text-primary h-6 w-6" />}
             title={t('expertise.title')}
           />

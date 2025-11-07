@@ -6,10 +6,12 @@ import {
   type NestedKeyOf,
 } from 'next-intl'
 
-type Nested = NamespaceKeys<Messages, NestedKeyOf<Messages>>
+type Ns = NamespaceKeys<Messages, NestedKeyOf<Messages>>
+type NormalizeAll<N> = [N] extends [''] ? never : N
 
-export type Translations<N extends Nested> = ReturnType<
-  typeof createTranslator<Messages, N>
+/** Translator type. Requires a generic. `''` means “all messages”. */
+export type Translations<N extends '' | Ns> = ReturnType<
+  typeof createTranslator<Messages, NormalizeAll<N> & Ns>
 >
 
 export interface UnparsedLocalePageProps {

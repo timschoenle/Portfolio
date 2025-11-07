@@ -1,3 +1,4 @@
+import type { RoutingConfig } from 'next-intl/dist/types/routing/config'
 import { createNavigation } from 'next-intl/navigation'
 import { defineRouting } from 'next-intl/routing'
 
