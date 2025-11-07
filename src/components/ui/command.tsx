@@ -1,8 +1,6 @@
-'use client'
-
 import { Command as CommandPrimitive } from 'cmdk'
 import { SearchIcon } from 'lucide-react'
-import * as React from 'react'
+import type { ComponentProps, JSX } from 'react'
 
 import {
   Dialog,
@@ -12,11 +10,39 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
+import type { FCStrict, FCWithRequiredChildren } from '@/types/fc'
 
-const Command = ({
+/* ───────────── types ───────────── */
+
+type CommandRootProps = ComponentProps<typeof CommandPrimitive>
+
+interface CommandDialogProps extends ComponentProps<typeof Dialog> {
+  readonly title: string
+  readonly description: string
+  readonly className?: string
+  readonly showCloseButton?: boolean
+}
+
+type CommandInputProps = ComponentProps<typeof CommandPrimitive.Input>
+
+type CommandListProps = ComponentProps<typeof CommandPrimitive.List>
+
+type CommandEmptyProps = ComponentProps<typeof CommandPrimitive.Empty>
+
+type CommandGroupProps = ComponentProps<typeof CommandPrimitive.Group>
+
+type CommandSeparatorProps = ComponentProps<typeof CommandPrimitive.Separator>
+
+type CommandItemProps = ComponentProps<typeof CommandPrimitive.Item>
+
+type CommandShortcutProps = ComponentProps<'span'>
+
+/* ───────────── components ───────────── */
+
+const Command: FCStrict<CommandRootProps> = ({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive>) => {
+}: CommandRootProps): JSX.Element => {
   return (
     <CommandPrimitive
       className={cn(
@@ -29,19 +55,14 @@ const Command = ({
   )
 }
 
-const CommandDialog = ({
+const CommandDialog: FCWithRequiredChildren<CommandDialogProps> = ({
   title,
   description,
   children,
   className,
   showCloseButton = true,
   ...props
-}: React.ComponentProps<typeof Dialog> & {
-  title: string
-  description: string
-  className?: string
-  showCloseButton?: boolean
-}) => {
+}: CommandDialogProps): JSX.Element => {
   return (
     <Dialog {...props}>
       <DialogHeader className="sr-only">
@@ -60,10 +81,10 @@ const CommandDialog = ({
   )
 }
 
-const CommandInput = ({
+const CommandInput: FCStrict<CommandInputProps> = ({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) => {
+}: CommandInputProps): JSX.Element => {
   return (
     <div
       className="flex h-9 items-center gap-2 border-b px-3"
@@ -82,14 +103,14 @@ const CommandInput = ({
   )
 }
 
-const CommandList = ({
+const CommandList: FCStrict<CommandListProps> = ({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.List>) => {
+}: CommandListProps): JSX.Element => {
   return (
     <CommandPrimitive.List
       className={cn(
-        'max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto',
+        'max-h[300px] scroll-py-1 overflow-x-hidden overflow-y-auto',
         className
       )}
       data-slot="command-list"
@@ -98,9 +119,9 @@ const CommandList = ({
   )
 }
 
-const CommandEmpty = ({
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive.Empty>) => {
+const CommandEmpty: FCStrict<CommandEmptyProps> = (
+  props: CommandEmptyProps
+): JSX.Element => {
   return (
     <CommandPrimitive.Empty
       className="py-6 text-center text-sm"
@@ -110,10 +131,10 @@ const CommandEmpty = ({
   )
 }
 
-const CommandGroup = ({
+const CommandGroup: FCStrict<CommandGroupProps> = ({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Group>) => {
+}: CommandGroupProps): JSX.Element => {
   return (
     <CommandPrimitive.Group
       className={cn(
@@ -126,10 +147,10 @@ const CommandGroup = ({
   )
 }
 
-const CommandSeparator = ({
+const CommandSeparator: FCStrict<CommandSeparatorProps> = ({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Separator>) => {
+}: CommandSeparatorProps): JSX.Element => {
   return (
     <CommandPrimitive.Separator
       className={cn('bg-border -mx-1 h-px', className)}
@@ -139,10 +160,10 @@ const CommandSeparator = ({
   )
 }
 
-const CommandItem = ({
+const CommandItem: FCStrict<CommandItemProps> = ({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Item>) => {
+}: CommandItemProps): JSX.Element => {
   return (
     <CommandPrimitive.Item
       className={cn(
@@ -155,10 +176,10 @@ const CommandItem = ({
   )
 }
 
-const CommandShortcut = ({
+const CommandShortcut: FCStrict<CommandShortcutProps> = ({
   className,
   ...props
-}: React.ComponentProps<'span'>) => {
+}: CommandShortcutProps): JSX.Element => {
   return (
     <span
       className={cn(

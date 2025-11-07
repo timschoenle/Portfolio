@@ -1,6 +1,9 @@
 'use client'
 
 import * as React from 'react'
+import { type JSX } from 'react'
+
+import type { FCStrict } from '@/types/fc'
 
 type Theme = 'dark' | 'light'
 
@@ -18,10 +21,10 @@ const ThemeProviderContext = React.createContext<
   ThemeProviderState | undefined
 >(undefined)
 
-export const ThemeProvider = ({
+export const ThemeProvider: FCStrict<ThemeProviderProps> = ({
   children,
   defaultTheme = 'dark',
-}: ThemeProviderProps) => {
+}: ThemeProviderProps): JSX.Element => {
   const [theme, setTheme] = React.useState<Theme>(defaultTheme)
 
   React.useEffect(() => {

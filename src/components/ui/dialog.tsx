@@ -1,39 +1,52 @@
-'use client'
-
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { XIcon } from 'lucide-react'
-import * as React from 'react'
+import type { ComponentProps, JSX } from 'react'
 
 import { cn } from '@/lib/utils'
+import type { FCStrict, FCWithRequiredChildren } from '@/types/fc'
 
-const Dialog = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Root>) => {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />
+/* ───────────── props ───────────── */
+
+type DialogRootProps = ComponentProps<typeof DialogPrimitive.Root>
+type DialogTriggerProps = ComponentProps<typeof DialogPrimitive.Trigger>
+type DialogPortalProps = ComponentProps<typeof DialogPrimitive.Portal>
+type DialogCloseProps = ComponentProps<typeof DialogPrimitive.Close>
+type DialogOverlayProps = ComponentProps<typeof DialogPrimitive.Overlay>
+interface DialogContentBaseProps
+  extends ComponentProps<typeof DialogPrimitive.Content> {
+  readonly showCloseButton?: boolean
 }
+type DialogHeaderProps = ComponentProps<'div'>
+type DialogFooterProps = ComponentProps<'div'>
+type DialogTitleProps = ComponentProps<typeof DialogPrimitive.Title>
+type DialogDescriptionProps = ComponentProps<typeof DialogPrimitive.Description>
 
-const DialogTrigger = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) => {
-  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
-}
+/* ───────────── components ───────────── */
 
-const DialogPortal = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) => {
-  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
-}
+const Dialog: FCStrict<DialogRootProps> = (
+  props: DialogRootProps
+): JSX.Element => <DialogPrimitive.Root data-slot="dialog" {...props} />
 
-const DialogClose = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) => {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
-}
+const DialogTrigger: FCStrict<DialogTriggerProps> = (
+  props: DialogTriggerProps
+): JSX.Element => (
+  <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
+)
 
-const DialogOverlay = ({
+const DialogPortal: FCStrict<DialogPortalProps> = (
+  props: DialogPortalProps
+): JSX.Element => (
+  <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
+)
+
+const DialogClose: FCStrict<DialogCloseProps> = (
+  props: DialogCloseProps
+): JSX.Element => <DialogPrimitive.Close data-slot="dialog-close" {...props} />
+
+const DialogOverlay: FCStrict<DialogOverlayProps> = ({
   className,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Overlay>) => {
+}: DialogOverlayProps): JSX.Element => {
   return (
     <DialogPrimitive.Overlay
       className={cn(
@@ -46,14 +59,12 @@ const DialogOverlay = ({
   )
 }
 
-const DialogContent = ({
+const DialogContent: FCWithRequiredChildren<DialogContentBaseProps> = ({
   className,
   children,
   showCloseButton = true,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content> & {
-  showCloseButton?: boolean
-}) => {
+}: DialogContentBaseProps): JSX.Element => {
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
@@ -66,21 +77,24 @@ const DialogContent = ({
         {...props}
       >
         {children}
-        {showCloseButton && (
+        {showCloseButton ? (
           <DialogPrimitive.Close
+            aria-label="Close"
             className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
             data-slot="dialog-close"
           >
-            <XIcon />
-            <span className="sr-only">Close</span>
+            <XIcon aria-hidden="true" />
           </DialogPrimitive.Close>
-        )}
+        ) : null}
       </DialogPrimitive.Content>
     </DialogPortal>
   )
 }
 
-const DialogHeader = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const DialogHeader: FCStrict<DialogHeaderProps> = ({
+  className,
+  ...props
+}: DialogHeaderProps): JSX.Element => {
   return (
     <div
       className={cn('flex flex-col gap-2 text-center sm:text-left', className)}
@@ -90,7 +104,10 @@ const DialogHeader = ({ className, ...props }: React.ComponentProps<'div'>) => {
   )
 }
 
-const DialogFooter = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const DialogFooter: FCStrict<DialogFooterProps> = ({
+  className,
+  ...props
+}: DialogFooterProps): JSX.Element => {
   return (
     <div
       className={cn(
@@ -103,10 +120,10 @@ const DialogFooter = ({ className, ...props }: React.ComponentProps<'div'>) => {
   )
 }
 
-const DialogTitle = ({
+const DialogTitle: FCStrict<DialogTitleProps> = ({
   className,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Title>) => {
+}: DialogTitleProps): JSX.Element => {
   return (
     <DialogPrimitive.Title
       className={cn('text-lg leading-none font-semibold', className)}
@@ -116,10 +133,10 @@ const DialogTitle = ({
   )
 }
 
-const DialogDescription = ({
+const DialogDescription: FCStrict<DialogDescriptionProps> = ({
   className,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Description>) => {
+}: DialogDescriptionProps): JSX.Element => {
   return (
     <DialogPrimitive.Description
       className={cn('text-muted-foreground text-sm', className)}

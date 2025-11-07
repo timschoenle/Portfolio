@@ -1,8 +1,20 @@
-import * as React from 'react'
+import type { ComponentProps, JSX } from 'react'
 
 import { cn } from '@/lib/utils'
+import type { FCStrict } from '@/types/fc'
 
-const Card = ({ className, ...props }: React.ComponentProps<'div'>) => {
+interface CardProps extends ComponentProps<'div'> {}
+interface CardHeaderProps extends ComponentProps<'div'> {}
+interface CardTitleProps extends ComponentProps<'div'> {}
+interface CardDescriptionProps extends ComponentProps<'div'> {}
+interface CardActionProps extends ComponentProps<'div'> {}
+interface CardContentProps extends ComponentProps<'div'> {}
+interface CardFooterProps extends ComponentProps<'div'> {}
+
+const Card: FCStrict<CardProps> = ({
+  className,
+  ...props
+}: CardProps): JSX.Element => {
   return (
     <div
       className={cn(
@@ -15,7 +27,10 @@ const Card = ({ className, ...props }: React.ComponentProps<'div'>) => {
   )
 }
 
-const CardHeader = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const CardHeader: FCStrict<CardHeaderProps> = ({
+  className,
+  ...props
+}: CardHeaderProps): JSX.Element => {
   return (
     <div
       className={cn(
@@ -28,7 +43,10 @@ const CardHeader = ({ className, ...props }: React.ComponentProps<'div'>) => {
   )
 }
 
-const CardTitle = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const CardTitle: FCStrict<CardTitleProps> = ({
+  className,
+  ...props
+}: CardTitleProps): JSX.Element => {
   return (
     <div
       className={cn('leading-none font-semibold', className)}
@@ -38,7 +56,10 @@ const CardTitle = ({ className, ...props }: React.ComponentProps<'div'>) => {
   )
 }
 
-const CardDescription = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const CardDescription: FCStrict<CardDescriptionProps> = ({
+  className,
+  ...props
+}: CardDescriptionProps): JSX.Element => {
   return (
     <div
       className={cn('text-muted-foreground text-sm', className)}
@@ -48,7 +69,10 @@ const CardDescription = ({ className, ...props }: React.ComponentProps<'div'>) =
   )
 }
 
-const CardAction = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const CardAction: FCStrict<CardActionProps> = ({
+  className,
+  ...props
+}: CardActionProps): JSX.Element => {
   return (
     <div
       className={cn(
@@ -61,7 +85,10 @@ const CardAction = ({ className, ...props }: React.ComponentProps<'div'>) => {
   )
 }
 
-const CardContent = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const CardContent: FCStrict<CardContentProps> = ({
+  className,
+  ...props
+}: CardContentProps): JSX.Element => {
   return (
     <div
       className={cn('px-6', className)}
@@ -71,7 +98,10 @@ const CardContent = ({ className, ...props }: React.ComponentProps<'div'>) => {
   )
 }
 
-const CardFooter = ({ className, ...props }: React.ComponentProps<'div'>) => {
+const CardFooter: FCStrict<CardFooterProps> = ({
+  className,
+  ...props
+}: CardFooterProps): JSX.Element => {
   return (
     <div
       className={cn('flex items-center px-6 [.border-t]:pt-6', className)}
