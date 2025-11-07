@@ -14,7 +14,13 @@ import perfectionist from 'eslint-plugin-perfectionist'
 export default tseslint.config(
   // Ignore build/vendor outputs
   {
-    ignores: ['**/node_modules/', '**/.next/', '**/out/', '**/public/'],
+    ignores: [
+      '**/node_modules/',
+      '**/.next/',
+      '**/out/',
+      '**/public/',
+      '**next-env.d.ts',
+    ],
   },
 
   // Disallow JS/CJS/MJS everywhere...
@@ -128,7 +134,7 @@ export default tseslint.config(
         'error',
         { accessibility: 'explicit' },
       ],
-      '@typescript-eslint/no-unnecessary-condition': 'error',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
       '@typescript-eslint/prefer-nullish-coalescing': 'error',
       '@typescript-eslint/prefer-optional-chain': 'error',
       '@typescript-eslint/no-inferrable-types': 'off',

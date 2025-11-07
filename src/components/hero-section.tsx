@@ -43,11 +43,7 @@ const HeroTitle: FCStrict<HeroTitleProperties> = ({
 }: HeroTitleProperties): JSX.Element => (
   <h1 className="text-foreground animate-in fade-in slide-in-from-bottom-4 mb-6 text-5xl font-bold tracking-tight text-balance duration-1000 md:text-7xl">
     {greeting}{' '}
-    <span
-      className="gradient-text-protected from-primary to-primary/60 bg-gradient-to-r bg-clip-text text-transparent"
-      data-darkreader-inline-bgcolor=""
-      data-darkreader-inline-color=""
-    >
+    <span className="from-primary to-primary/60 bg-gradient-to-r bg-clip-text text-transparent">
       {name}
     </span>
   </h1>

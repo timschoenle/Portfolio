@@ -37,11 +37,9 @@ const InfoCard: FCStrict<InfoCardProperties> = ({
       </div>
       <div>
         <h3 className="text-foreground mb-2 text-xl font-semibold">{title}</h3>
-        <p className="text-muted-foreground leading-relaxed">
-          <div className="text-muted-foreground leading-relaxed">
-            {description}
-          </div>
-        </p>
+        <div className="text-muted-foreground leading-relaxed">
+          {description}
+        </div>
       </div>
     </CardContent>
   </Card>

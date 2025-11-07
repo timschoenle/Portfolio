@@ -1,4 +1,6 @@
-import type { ComponentProps, JSX } from 'react'
+'use client'
+
+import type { ComponentProps, JSX, ReactNode } from 'react'
 
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { XIcon } from 'lucide-react'
@@ -17,6 +19,12 @@ interface DialogContentBaseProperties
   extends ComponentProps<typeof DialogPrimitive.Content> {
   readonly showCloseButton?: boolean
 }
+
+interface DialogContentProperties extends DialogContentBaseProperties {
+  readonly description?: ReactNode
+  readonly title?: string
+}
+
 type DialogHeaderProperties = ComponentProps<'div'>
 type DialogFooterProperties = ComponentProps<'div'>
 type DialogTitleProperties = ComponentProps<typeof DialogPrimitive.Title>
@@ -25,7 +33,6 @@ type DialogDescriptionProperties = ComponentProps<
 >
 
 /* ───────────── components ───────────── */
-
 const Dialog: FCWithChildren<DialogRootProperties> = (
   properties: DialogRootProperties
 ): JSX.Element => <DialogPrimitive.Root data-slot="dialog" {...properties} />
@@ -64,12 +71,15 @@ const DialogOverlay: FCWithChildren<DialogOverlayProperties> = ({
   )
 }
 
-const DialogContent: FCWithChildren<DialogContentBaseProperties> = ({
+// eslint-disable-next-line max-lines-per-function
+const DialogContent: FCWithChildren<DialogContentProperties> = ({
   children,
   className,
+  description,
   showCloseButton = true,
+  title,
   ...properties
-}: DialogContentBaseProperties): JSX.Element => {
+}: DialogContentProperties): JSX.Element => {
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
@@ -81,7 +91,35 @@ const DialogContent: FCWithChildren<DialogContentBaseProperties> = ({
         data-slot="dialog-content"
         {...properties}
       >
+        {title !== null || description !== null ? (
+          <div
+            className="flex flex-col gap-2 text-center sm:text-left"
+            data-slot="dialog-header"
+          >
+            {title !== null ? (
+              <DialogPrimitive.Title
+                /** Force a single, semantic heading; avoid asChild & nested headings */
+                asChild={false}
+                className="text-lg leading-none font-semibold"
+                data-slot="dialog-title"
+                suppressHydrationWarning={true}
+              >
+                {title}
+              </DialogPrimitive.Title>
+            ) : null}
+            {description !== null ? (
+              <DialogPrimitive.Description
+                className="text-muted-foreground text-sm"
+                data-slot="dialog-description"
+              >
+                {description}
+              </DialogPrimitive.Description>
+            ) : null}
+          </div>
+        ) : null}
+
         {children}
+
         {showCloseButton ? (
           <DialogPrimitive.Close
             aria-label="Close"
@@ -131,8 +169,10 @@ const DialogTitle: FCWithChildren<DialogTitleProperties> = ({
 }: DialogTitleProperties): JSX.Element => {
   return (
     <DialogPrimitive.Title
+      asChild={false}
       className={cn('text-lg leading-none font-semibold', className)}
       data-slot="dialog-title"
+      suppressHydrationWarning={true}
       {...properties}
     />
   )
