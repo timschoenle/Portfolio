@@ -45,6 +45,8 @@
   --shadow-spread: 0px;
   --shadow-opacity: 0.05;
   --shadow-color: #000000;
+  /* a11y: minimum pointer target */
+  --hit-min: 24px;
 }
 
 .dark {
@@ -227,5 +229,20 @@
     100% {
       filter: hue-rotate(360deg);
     }
+  }
+
+  /* --- a11y: enlarge and outline tiny dot buttons (calendar, etc.) --- */
+  :where([role='button'][tabindex='0'][class*='h-4'][class*='w-4']),
+  :where([role='button'][aria-label*=' on '][tabindex='0']) {
+    position: relative;
+    min-width: var(--hit-min);
+    min-height: var(--hit-min);
+    outline: 2px solid var(--ring);
+    outline-offset: -2px;
+  }
+
+  .dark :where([role='button'][tabindex='0'][class*='h-4'][class*='w-4']),
+  .dark :where([role='button'][aria-label*=' on '][tabindex='0']) {
+    outline-color: #93c5fd;
   }
 }
