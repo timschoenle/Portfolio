@@ -3,7 +3,7 @@ import '../globals.css'
 import type { JSX } from 'react'
 
 import type { Metadata } from 'next'
-import { type Locale, NextIntlClientProvider } from 'next-intl'
+import { type Locale, type Messages, NextIntlClientProvider } from 'next-intl'
 
 import { Geist, Geist_Mono, Source_Serif_4 } from 'next/font/google'
 import { getMessages, setRequestLocale } from 'next-intl/server'
@@ -31,6 +31,7 @@ import type {
 } from '@/types/page'
 
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font'
+import type { DeepPartial } from 'react-hook-form'
 
 /* ---------- fonts ---------- */
 const geist: NextFontWithVariable = Geist({
@@ -164,7 +165,7 @@ const RootLayout: RoutePageWithChildrenFC<RootLayoutProperties> = async ({
 
   setRequestLocale(locale)
 
-  const messages = await getMessages()
+  const messages: DeepPartial<Messages> = await getMessages()
 
   return (
     <html className="dark" lang={locale}>
