@@ -9,6 +9,8 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ~/.cache/ms-playwright
     steps:
       - name: Checkout repo
         uses: actions/checkout@v5
@@ -16,24 +18,28 @@ jobs:
       - name: Setup base environment
         uses: ./.github/actions/build-dependency
 
-      - name: Determine Playwright version
+      - name: Determine Playwright version from pnpm-lock.yaml
         id: pw
-        shell: bash
-        run: echo "version=$(node -p \"require('@playwright/test/package.json').version\")" >> "$GITHUB_OUTPUT"
+        run: |
+          node -e "
+            const fs = require('fs');
+            const text = fs.readFileSync('pnpm-lock.yaml', 'utf8');
+            let m = text.match(/['\"]?@playwright\/test@(\d+\.\d+\.\d+)/) || text.match(/\/@playwright\/test@(\d+\.\d+\.\d+)/);
+            if (!m) { console.error('Playwright version not found in pnpm-lock.yaml'); process.exit(1); }
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `version=${m[1]}\n`);
+          "
 
-      # Cache the Playwright browser binaries
       - name: Cache Playwright browsers
         id: pw-cache
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.cache/ms-playwright
+          path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-${{ runner.arch }}-ms-playwright-${{ steps.pw.outputs.version }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-${{ runner.arch }}-ms-playwright-${{ steps.pw.outputs.version }}-
             ${{ runner.os }}-${{ runner.arch }}-ms-playwright-
 
-      - name: Install Playwright browsers
+      - name: Install Playwright browsers (only on cold cache)
         if: steps.pw-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
@@ -50,3 +56,4 @@ jobs:
           name: playwright-report
           path: playwright-report
           if-no-files-found: ignore
+          retention-days: 14
