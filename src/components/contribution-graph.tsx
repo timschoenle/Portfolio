@@ -124,6 +124,7 @@ const computeMonthLabel: (context: MonthContext) => ComputeMonthLabelResult = ({
 
   const monthName: string = new Date(first.date).toLocaleDateString(locale, {
     month: 'short',
+    timeZone: 'UTC',
   })
   if (monthName === currentMonth) {
     return { label: null, next: currentMonth }
