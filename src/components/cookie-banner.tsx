@@ -79,7 +79,13 @@ const Header: FCStrict<HeaderProperties> = ({
     <Heading as="h3" className="text-xl font-semibold">
       {title}
     </Heading>
-    <Button className="h-8 w-8" size="icon" variant="ghost" onClick={onClose}>
+    <Button
+      aria-label={title}
+      className="h-8 w-8"
+      size="icon"
+      variant="ghost"
+      onClick={onClose}
+    >
       <X className="h-4 w-4" />
     </Button>
   </div>

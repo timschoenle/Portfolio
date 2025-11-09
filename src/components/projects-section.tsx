@@ -77,10 +77,12 @@ const StatsCard: FCStrict<StatsCardProperties> = ({
 
 interface ProjectCardProperties {
   readonly project: GitHubProject
+  readonly translations: Translations<'projects'>
 }
 // eslint-disable-next-line max-lines-per-function
 const ProjectCard: FCStrict<ProjectCardProperties> = ({
   project,
+  translations,
 }: ProjectCardProperties): JSX.Element => {
   const hasHomepage: boolean =
     typeof project.homepage === 'string' && project.homepage.length > 0
@@ -129,6 +131,7 @@ const ProjectCard: FCStrict<ProjectCardProperties> = ({
           <div className="flex gap-2">
             <Button asChild={true} size="sm" variant="ghost">
               <a
+                aria-label={translations('view')}
                 href={project.html_url}
                 rel="noopener noreferrer"
                 target="_blank"
@@ -139,6 +142,7 @@ const ProjectCard: FCStrict<ProjectCardProperties> = ({
             {hasHomepage ? (
               <Button asChild={true} size="sm" variant="ghost">
                 <a
+                  aria-label={translations('view')}
                   href={project.homepage}
                   rel="noopener noreferrer"
                   target="_blank"
@@ -156,15 +160,21 @@ const ProjectCard: FCStrict<ProjectCardProperties> = ({
 
 interface ProjectsGridProperties {
   readonly projects: readonly GitHubProject[]
+  readonly translations: Translations<'projects'>
 }
 const ProjectsGrid: FCStrict<ProjectsGridProperties> = ({
   projects,
+  translations,
 }: ProjectsGridProperties): JSX.Element => {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {projects.map(
         (project: GitHubProject): JSX.Element => (
-          <ProjectCard key={project.html_url} project={project} />
+          <ProjectCard
+            key={project.html_url}
+            project={project}
+            translations={translations}
+          />
         )
       )}
     </div>
@@ -247,7 +257,7 @@ export const ProjectsSection: FCAsync<ProjectsSectionProperties> = async ({
         </div>
 
         {/* Featured Projects */}
-        <ProjectsGrid projects={projects} />
+        <ProjectsGrid projects={projects} translations={translations} />
 
         {/* GitHub Contribution Graph */}
         <div className="mt-16">
