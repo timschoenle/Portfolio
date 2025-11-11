@@ -80,7 +80,7 @@ const Header: FCStrict<HeaderProperties> = ({
   title,
 }: HeaderProperties): JSX.Element => (
   <div className="mb-4 flex items-start justify-between">
-    <Heading as="h3" className="text-xl font-semibold">
+    <Heading as="h3" className="text-xl font-semibold" id="cookie-title">
       {title}
     </Heading>
     <Button
@@ -303,7 +303,9 @@ export const CookieBanner: FCNullable = (): JSX.Element | null => {
       className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center p-4"
     >
       <Card
+        aria-describedby={customize ? undefined : 'cookie-desc'}
         aria-hidden={!expanded}
+        aria-label={translations('title')}
         aria-modal="true"
         className={[
           'bg-background/95 pointer-events-auto w-full max-w-2xl border-2 p-6 shadow-2xl backdrop-blur-sm',
@@ -343,7 +345,7 @@ export const CookieBanner: FCNullable = (): JSX.Element | null => {
           </>
         ) : (
           <>
-            <p className="text-muted-foreground mb-6 text-sm">
+            <p className="text-muted-foreground mb-6 text-sm" id="cookie-desc">
               {translations('description')}
             </p>
             <SummaryActions
