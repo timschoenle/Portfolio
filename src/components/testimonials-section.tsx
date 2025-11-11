@@ -65,7 +65,10 @@ const TestimonialCard: FCStrict<TestimonialCardProperties> = ({
 }: TestimonialCardProperties): JSX.Element => {
   return (
     <Card className="group hover:border-primary/50 relative overflow-hidden border-2 p-8 transition-all duration-300 hover:shadow-2xl">
-      <div className="absolute top-4 right-4 opacity-10 transition-opacity group-hover:opacity-20">
+      <div
+        aria-hidden="true"
+        className="absolute top-4 right-4 opacity-10 transition-opacity group-hover:opacity-20"
+      >
         <Quote className="text-primary h-16 w-16" />
       </div>
 
@@ -83,8 +86,8 @@ const TestimonialCard: FCStrict<TestimonialCardProperties> = ({
             <Heading as="h3" className="text-lg font-bold">
               {item.name}
             </Heading>
-            <p className="text-muted-foreground text-sm">{item.role}</p>
-            <p className="text-primary text-xs">{item.company}</p>
+            <p className="text-foreground text-sm">{item.role}</p>
+            <p className="text-foreground text-sm">{item.company}</p>
           </div>
         </div>
 
