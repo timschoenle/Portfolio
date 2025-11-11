@@ -39,6 +39,8 @@ export default tseslint.config(
       '**/test-results/',
       '**/tests/',
       '**/test/',
+      '**/*.test.ts',
+      '**/*.test.tsx',
     ],
   },
 

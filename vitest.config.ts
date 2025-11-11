@@ -20,6 +20,7 @@ export default defineConfig({
       // thresholds (optional):
       // thresholds: { lines: 80, functions: 80, branches: 80, statements: 80 }
     },
+    css: false,
     environment: 'jsdom',
     globals: true,
     include: ['src/**/*.{test,spec}.{ts,tsx}'],
