@@ -32,7 +32,7 @@ jobs:
             '$BASE_URL/en'
             '$BASE_URL/de'
           configPath: './.github/lighthouse/lighthouserc.js'
-          uploadArtifacts: true
+          uploadArtifacts: false
           temporaryPublicStorage: true
         env:
           LHCI_FORM_FACTOR: ${{ matrix.formFactor }}
