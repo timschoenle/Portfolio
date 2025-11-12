@@ -12,9 +12,9 @@ export default defineConfig({
     { name: 'webkit', use: { ...devices['Desktop Safari'] } },
   ],
   reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-    ['junit', { outputFile: 'test-results/junit-a11y.xml' }],
+    ['github'],
+    ['html', { open: 'never', outputFolder: 'playwright-report' }],
+    ['junit', { outputFile: 'test-results/results.xml' }],
   ],
   retries: isCI ? 2 : 0,
   testDir: './tests/e2e',
@@ -25,7 +25,7 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
   webServer: {
-    command: 'node .next/standalone/server.js',
+    command: 'pnpm start',
     port: 3000,
     reuseExistingServer: !isCI,
     timeout: 120_000,
