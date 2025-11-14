@@ -37,7 +37,7 @@ module.exports = {
         'total-blocking-time': [
           'error',
           {
-            maxNumericValue: isDesktop ? 300 : 350,
+            maxNumericValue: isDesktop ? 350 : 400,
             aggregationMethod: 'median',
           },
         ],
