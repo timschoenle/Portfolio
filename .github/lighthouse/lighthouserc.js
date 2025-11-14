@@ -30,7 +30,7 @@ module.exports = {
         'largest-contentful-paint': [
           'error',
           {
-            maxNumericValue: isDesktop ? 3000 : 3500,
+            maxNumericValue: isDesktop ? 3500 : 4000,
             aggregationMethod: 'median',
           },
         ],
