@@ -93,7 +93,7 @@ jobs:
           context: .
           push: false
           load: true
-          tags: $IMAGE_TAG
+          tags: ${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Save image as tar
