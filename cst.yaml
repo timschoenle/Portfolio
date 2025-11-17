@@ -17,7 +17,6 @@ metadataTest:
       value: '3000'
 
 fileExistenceTests:
-  # App/runtime bits
   - name: server.js present
     path: /app/server.js
     shouldExist: true
