@@ -4,7 +4,8 @@ metadataTest:
   cmd: ['server.js']
   workdir: '/app'
   exposedPorts: ['3000']
-  env:
+  user: "nonroot"
+  envVars:
     - key: NODE_ENV
       value: production
     - key: NEXT_TELEMETRY_DISABLED
@@ -21,7 +22,3 @@ fileExistenceTests:
   - name: next static present
     path: /app/.next/static
     shouldExist: true
-
-userTests:
-  - name: running as nonroot
-    user: 'nonroot'
