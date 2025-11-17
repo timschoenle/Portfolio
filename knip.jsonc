@@ -1,3 +1,4 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "exclude": ["binaries", "exports", "files", "types", "devDependencies"]
 }
