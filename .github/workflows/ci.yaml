@@ -486,6 +486,7 @@ jobs:
         with:
           workflow: ci.yaml
           branch: ${{ github.event.pull_request.base.ref }}
+          name: bundle
           path: .next/analyze/base
 
       - name: Compare with base branch bundle
