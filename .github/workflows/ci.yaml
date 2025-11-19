@@ -52,7 +52,7 @@ jobs:
           name: codecov-umbrella
           fail_ci_if_error: false
 
-      - name: Knip Depenedency check
+      - name: Knip Dependency check
         run: pnpm run lint:deps
 
   build:
