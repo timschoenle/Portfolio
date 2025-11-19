@@ -258,24 +258,12 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Verify build output
-        if: success()
-        run: |
-          echo "Checking .next directory..."
-          ls -la
-          if [ -d ".next" ]; then
-            echo "✓ .next directory exists"
-            ls -la .next
-          else
-            echo "✗ .next directory not found!"
-            exit 1
-          fi
-
       - name: Upload build artifact
         if: success()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: nextjs-build
+          include-hidden-files: true
           path: |
             .next/**/*
             !.next/cache
