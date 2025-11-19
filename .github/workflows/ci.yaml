@@ -48,6 +48,7 @@ jobs:
               - &src_path 'src/**'
               - &config_files '*.config.*'
               - &pkg_json 'package.json'
+              - &github_path '.github/**'
               - 'pnpm-lock.yaml'
               - 'messages/**'
               - 'public/**'
@@ -57,12 +58,14 @@ jobs:
               - 'test/**'
               - 'vitest.config.ts'
               - *pkg_json
+              - *github_path
 
             e2e:
               - *src_path
               - 'tests/**'
               - 'playwright.config.ts'
               - *pkg_json
+              - *github_path
 
             docker:
               - 'Dockerfile'
@@ -70,6 +73,7 @@ jobs:
               - '.dockerignore'
               - *src_path
               - *pkg_json
+              - *github_path
 
             dockerfile-lint:
               - 'Dockerfile'
@@ -81,11 +85,13 @@ jobs:
               - '.github/lighthouse/**'
               - *config_files
               - *pkg_json
+              - *github_path
 
             bundle:
               - *src_path
               - *config_files
               - *pkg_json
+              - *github_path
 
   # Install dependencies once and cache for all parallel jobs
   install-deps:
