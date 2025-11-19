@@ -12,7 +12,6 @@ concurrency:
 env:
   IMAGE_TAG: app:test-${{ github.sha }}
   STORED_IMAGE_NAME: docker-image-tar
-  NODE_MODULES_CACHE_KEY: node-modules-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
 
 permissions:
   contents: read
@@ -107,7 +106,7 @@ jobs:
         uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: node_modules
-          key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          key: &cache_key node-modules-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
 
   # Quality checks - run in parallel using cached dependencies
   lint:
@@ -122,7 +121,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Run ESLint
         run: pnpm run lint --max-warnings=0
@@ -139,7 +138,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Run Prettier
         run: pnpm run format:check
@@ -156,7 +155,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Run TypeScript
         run: pnpm run type-check
@@ -173,7 +172,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Run i18n check
         run: pnpm run i18n-check
@@ -190,7 +189,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Run Knip
         run: pnpm run lint:deps
@@ -209,7 +208,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Run tests
         run: pnpm run test:ci
@@ -240,7 +239,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Restore Next.js cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
@@ -279,7 +278,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Restore build artifact
         uses: ./.github/actions/restore-build
@@ -335,7 +334,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Restore build artifact
         uses: ./.github/actions/restore-build
@@ -390,7 +389,7 @@ jobs:
         uses: ./.github/actions/setup-pnpm-node
         with:
           mode: 'cache'
-          cache-key: ${{ env.NODE_MODULES_CACHE_KEY }}
+          cache-key: *cache_key
 
       - name: Restore build artifact
         uses: ./.github/actions/restore-build
