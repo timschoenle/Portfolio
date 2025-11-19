@@ -10,6 +10,15 @@ runs:
         name: node-modules
         path: node_modules
 
+    - name: Restore executable permissions
+      shell: bash
+      run: |
+        # Restore executable permissions for binaries
+        if [ -d "node_modules/.bin" ]; then
+          chmod +x node_modules/.bin/*
+          echo "✓ Restored executable permissions for node_modules/.bin"
+        fi
+
     - name: Verify node_modules
       shell: bash
       run: |
