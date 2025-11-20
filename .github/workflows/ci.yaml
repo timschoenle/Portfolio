@@ -103,7 +103,6 @@ jobs:
     if: needs.changes.outputs.source == 'true'
     outputs:
       cache-hit: ${{ steps.cache-check.outputs.cache-hit }}
-      node-modules-mode: ${{ steps.cache-check.outputs.cache-hit == 'true' && 'cache' || 'artifact' }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
@@ -160,14 +159,6 @@ jobs:
           path: ${{ env.STORE_PATH }}
           key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - name: Upload node_modules artifact
-        if: steps.cache-check.outputs.cache-hit != 'true'
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
-        with:
-          name: node-modules
-          path: node_modules
-          retention-days: 1
-
   # Quality checks - run in parallel using cached dependencies
   lint:
     name: Lint (ESLint)
@@ -177,12 +168,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Run ESLint
@@ -196,12 +187,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Run Prettier
@@ -215,12 +206,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Run TypeScript
@@ -234,12 +225,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Run i18n check
@@ -253,12 +244,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Run Knip
@@ -274,12 +265,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Run tests
@@ -316,12 +307,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Restore Next.js cache
@@ -361,12 +352,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Restore build artifact
@@ -419,12 +410,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Restore build artifact
@@ -476,12 +467,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
-      - name: Setup with dynamic mode
+      - name: Setup with cache
         uses: ./.github/actions/setup-pnpm-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           pnpm-version: ${{ env.PNPM_VERSION }}
-          mode: ${{ needs.install-deps.outputs.node-modules-mode }}
+          mode: 'cache'
           cache-key: *cache_key
 
       - name: Build and Analyze
@@ -613,7 +604,7 @@ jobs:
   cleanup-artifacts:
     name: Cleanup Build Artifacts
     runs-on: ubuntu-latest
-    needs: [install-deps, e2e, lighthouse, bundle-analysis]
+    needs: [e2e, lighthouse, bundle-analysis]
     if: always()
     permissions:
       actions: write
@@ -625,11 +616,4 @@ jobs:
         uses: ./.github/actions/delete-artifact
         with:
           artifact-name: nextjs-build
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Delete node_modules artifact
-        if: needs.install-deps.outputs.node-modules-mode == 'artifact'
-        uses: ./.github/actions/delete-artifact
-        with:
-          artifact-name: node-modules
           github-token: ${{ secrets.GITHUB_TOKEN }}
