@@ -477,8 +477,8 @@ jobs:
           mode: 'cache'
           cache-key: *cache_key
 
-      - name: Build for analysis
-        run: pnpm run build
+      - name: Build for analysis (Webpack)
+        run: pnpm run analyze
 
       - name: Analyze bundle sizes
         uses: transferwise/actions-next-bundle-analyzer@v2
