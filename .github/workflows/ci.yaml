@@ -568,7 +568,7 @@ jobs:
   docker-pipeline:
     name: Docker Pipeline
     runs-on: ubuntu-latest
-    needs: [changes, test]
+    needs: changes
     if: needs.changes.outputs.docker == 'true'
     steps:
       - name: Checkout repo
