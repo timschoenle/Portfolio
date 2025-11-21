@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import type { ResumeData } from '@/types/resume-types'
+import type {
+  ResumeData,
+  ResumeSectionTitleTranslations,
+} from '@/types/resume-types'
 import React from 'react'
 
 // Mock @react-pdf/renderer before importing component
@@ -80,12 +83,28 @@ describe('ResumePDFDocument', () => {
     expect(typeof ResumePDFDocument).toBe('function')
   })
 
+  const mockTranslations = {
+    contact: 'Contact',
+    education: 'Education',
+    email: 'Email',
+    experience: 'Experience',
+    github: 'GitHub',
+    linkedin: 'LinkedIn',
+    location: 'Location',
+    projects: 'Projects',
+    skills: 'Skills',
+    summary: 'Summary',
+  } as unknown as ResumeSectionTitleTranslations
+
   it('accepts resume data as a prop', async () => {
     const { ResumePDFDocument } = await import(
       '@/components/resume/resume-pdf-document'
     )
     expect(() => {
-      ResumePDFDocument({ data: mockResumeData })
+      ResumePDFDocument({
+        data: mockResumeData,
+        translations: mockTranslations,
+      })
     }).not.toThrow()
   })
 })

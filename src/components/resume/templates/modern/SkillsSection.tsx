@@ -3,23 +3,24 @@ import { type FC, type ReactElement } from 'react'
 
 import { Text, View } from '@react-pdf/renderer'
 
-import type { ResumeSkills } from '@/types/resume-types'
+import type {
+  ResumeSectionTitleTranslations,
+  ResumeSkills,
+} from '@/types/resume-types'
 
 import { styles } from './modern.styles'
 
 interface SkillsSectionProperties {
   readonly skills: ResumeSkills
-  readonly titles: Record<string, string>
+  readonly translations: ResumeSectionTitleTranslations
 }
 
 export const SkillsSection: FC<SkillsSectionProperties> = ({
   skills,
-  titles,
+  translations,
 }: SkillsSectionProperties): ReactElement => (
   <>
-    <Text style={styles.sectionTitle}>
-      {titles['skills'] ?? 'Technical Skills'}
-    </Text>
+    <Text style={styles.sectionTitle}>{translations.skills}</Text>
     <View style={styles.sectionDivider} />
 
     <Text style={styles.contactLabel}>{'Expertise'}</Text>

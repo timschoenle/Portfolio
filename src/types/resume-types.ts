@@ -1,3 +1,7 @@
+import type en from '../../messages/en.json'
+
+export type ResumeSectionTitleTranslations = typeof en.contact.sectionTitles
+
 export interface ResumePersonalInfo {
   readonly email: string
   readonly github: string

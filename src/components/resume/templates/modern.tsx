@@ -2,7 +2,11 @@ import { type FC, type ReactElement } from 'react'
 
 import { Page, Text, View } from '@react-pdf/renderer'
 
-import type { ResumeData, ResumePersonalInfo } from '@/types/resume-types'
+import type {
+  ResumeData,
+  ResumePersonalInfo,
+  ResumeSectionTitleTranslations,
+} from '@/types/resume-types'
 
 import { ContactSection } from './modern/ContactSection'
 import { EducationSection } from './modern/EducationSection'
@@ -13,12 +17,12 @@ import { SkillsSection } from './modern/SkillsSection'
 
 interface ModernTemplateProperties {
   readonly data: ResumeData
-  readonly titles?: Record<string, string>
+  readonly translations: ResumeSectionTitleTranslations
 }
 
 export const ModernTemplate: FC<ModernTemplateProperties> = ({
   data,
-  titles = {},
+  translations,
 }: ModernTemplateProperties): ReactElement => {
   const personalInfo: ResumePersonalInfo = data.personalInfo ?? {
     email: '',
@@ -39,15 +43,27 @@ export const ModernTemplate: FC<ModernTemplateProperties> = ({
       <View style={styles.mainContainer}>
         {/* Left sidebar */}
         <View style={styles.leftColumn}>
-          <ContactSection personalInfo={personalInfo} titles={titles} />
-          <SkillsSection skills={data.skills} titles={titles} />
-          <EducationSection education={data.education} titles={titles} />
+          <ContactSection
+            personalInfo={personalInfo}
+            translations={translations}
+          />
+          <SkillsSection skills={data.skills} translations={translations} />
+          <EducationSection
+            education={data.education}
+            translations={translations}
+          />
         </View>
 
         {/* Main content */}
         <View style={styles.rightColumn}>
-          <ExperienceSection experience={data.experience} titles={titles} />
-          <ProjectsSection projects={data.projects} titles={titles} />
+          <ExperienceSection
+            experience={data.experience}
+            translations={translations}
+          />
+          <ProjectsSection
+            projects={data.projects}
+            translations={translations}
+          />
         </View>
       </View>
     </Page>

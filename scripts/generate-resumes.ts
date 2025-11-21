@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/prefer-top-level-await */
 /* eslint-disable security/detect-non-literal-fs-filename */
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 import React from 'react'
+
+import { createTranslator, type Messages } from 'next-intl'
 
 import { renderToBuffer } from '@react-pdf/renderer'
 
@@ -17,7 +19,12 @@ import {
   resumeSkills,
 } from '@/data/resume'
 import { siteConfig } from '@/lib/config'
-import type { ResumeData, ResumePersonalInfo } from '@/types/resume-types'
+import type { Translations } from '@/types/i18n'
+import type {
+  ResumeData,
+  ResumePersonalInfo,
+  ResumeSectionTitleTranslations,
+} from '@/types/resume-types'
 
 type Locale = 'de' | 'en'
 
@@ -50,25 +57,20 @@ void (async (): Promise<void> => {
   for (const locale of LOCALES) {
     console.log(`Generating resume for locale: ${locale}`)
 
-    // Read i18n file for section titles
-    const messagesPath: string = path.join(
-      process.cwd(),
-      'messages',
-      `${locale}.json`
-    )
-    const messagesContent: string = await readFile(messagesPath, 'utf8')
-    const messages: Record<string, unknown> = JSON.parse(
-      messagesContent
-    ) as Record<string, unknown>
-    const contactSection: unknown = messages['contact']
+    // Load messages for the locale
+    const messages: Messages =
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,unicorn/no-await-expression-member
+      (await import(`../messages/${locale}.json`)).default as Messages
 
-    // Extract section titles
-    const sectionTitles: Record<string, string> =
-      typeof contactSection === 'object' && contactSection !== null
-        ? ((contactSection as Record<string, unknown>)[
-            'sectionTitles'
-          ] as Record<string, string>)
-        : {}
+    const translations: Translations<''> = createTranslator({
+      locale,
+      messages,
+    })
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const sectionTitles: ResumeSectionTitleTranslations = translations.raw(
+      'contact.sectionTitles'
+    )
 
     // Build complete resume data
     const resumeData: ResumeData = {
@@ -82,7 +84,7 @@ void (async (): Promise<void> => {
 
     const element: React.ReactElement = React.createElement(ResumePDFDocument, {
       data: resumeData,
-      titles: sectionTitles,
+      translations: sectionTitles,
     })
 
     // @ts-expect-error - React PDF type mismatch
