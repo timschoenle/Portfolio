@@ -9,7 +9,7 @@ import { ProjectsSection } from '@/components/sections/projects-section'
 import { SkillsSection } from '@/components/sections/skills-section'
 import { TestimonialsSection } from '@/components/sections/testimonials-section'
 import { siteConfig } from '@/lib/config'
-import { type GitHubData } from '@/lib/github'
+import { type GitHubData } from '@/lib/github/client'
 
 interface DeferredSectionsProperties {
   dataPromise: Promise<GitHubData>
