@@ -26,8 +26,6 @@ const withSerwist: ReturnType<typeof withSerwistInit> = withSerwistInit({
     { revision: null, url: '/de/imprint' },
     { revision: null, url: '/en/privacy' },
     { revision: null, url: '/de/privacy' },
-    { revision: null, url: '/en/offline' },
-    { revision: null, url: '/de/offline' },
   ],
   swDest: 'public/sw.js',
   swSrc: 'src/app/sw.ts',
