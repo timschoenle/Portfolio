@@ -1,3 +1,8 @@
+export interface Skill {
+  readonly confidence: number
+  readonly name: string
+}
+
 export interface SiteConfig {
   readonly description: string
   readonly email: string
@@ -14,9 +19,10 @@ export interface SiteConfig {
     readonly keywords: readonly string[]
   }
   readonly skills: {
-    readonly expertise: readonly string[]
-    readonly learning: readonly string[]
-    readonly tools: readonly string[]
+    readonly expertise: readonly Skill[]
+    readonly learning: readonly Skill[]
+    readonly platforms: readonly Skill[]
+    readonly tools: readonly Skill[]
   }
   readonly title: string
   readonly twitter: string
@@ -58,9 +64,26 @@ export const siteConfig: SiteConfig = {
   },
 
   skills: {
-    expertise: ['Java', 'Spring Boot', 'Maven', 'Gradle'],
-    learning: ['Rust', 'Next.js', 'React', 'TypeScript'],
-    tools: ['Git', 'GitHub', 'Docker', 'Linux'],
+    expertise: [
+      { confidence: 0.9, name: 'Java' },
+      { confidence: 0.85, name: 'Spring Boot' },
+      { confidence: 0.8, name: 'Maven' },
+      { confidence: 0.8, name: 'Gradle' },
+    ],
+    learning: [
+      { confidence: 0.6, name: 'Rust' },
+      { confidence: 0.7, name: 'Next.js' },
+      { confidence: 0.75, name: 'React' },
+      { confidence: 0.65, name: 'TypeScript' },
+    ],
+    platforms: [
+      { confidence: 0.8, name: 'Docker' },
+      { confidence: 0.75, name: 'Linux' },
+    ],
+    tools: [
+      { confidence: 0.85, name: 'Git' },
+      { confidence: 0.8, name: 'GitHub' },
+    ],
   },
   title: 'Tim - Software Developer',
 

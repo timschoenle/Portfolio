@@ -1,15 +1,17 @@
+/* eslint-disable react/jsx-no-literals, @typescript-eslint/typedef */
 'use server'
 
 import { type JSX } from 'react'
 
 import { type Locale } from 'next-intl'
 
+import { type LucideIcon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { getSkillIcon } from '@/components/sections/skill-icons'
+import { TechRadar } from '@/components/sections/tech-radar'
 import { Heading } from '@/components/ui/heading'
-import { siteConfig } from '@/lib/config'
+import { siteConfig, type Skill } from '@/lib/config'
 import type { AsyncPageFC, FCStrict } from '@/types/fc'
 import type { Translations } from '@/types/i18n'
 
@@ -19,47 +21,31 @@ interface SkillsSectionProperties {
   readonly locale: Locale
 }
 
-type BadgeVariant = 'default' | 'outline' | 'secondary'
+/* ────────────────────── subcomponents ────────────────────── */
 
-interface SkillCardProperties {
-  readonly items: readonly string[]
+const SkillList: FCStrict<{
+  readonly items: readonly Skill[]
   readonly title: string
-  readonly variant: BadgeVariant
-}
-
-/* ────────────────────── subcomponent ─────────────────────── */
-
-const SkillCard: FCStrict<SkillCardProperties> = ({
-  items,
-  title,
-  variant,
-}: SkillCardProperties): JSX.Element => {
+   
+}> = ({ items, title }): JSX.Element => {
   return (
-    <Card className="group border-2 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-foreground">
-          <div className="h-2 w-2 rounded-full bg-primary" />
-          {title}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-wrap gap-2">
-          {items.map((skill: string, index: number): JSX.Element => {
-            const delay: string = String(index * 50) + 'ms'
-            return (
-              <Badge
-                className="transition-all hover:scale-105 hover:shadow-md"
-                key={skill}
-                style={{ animationDelay: delay }}
-                variant={variant}
-              >
-                {skill}
-              </Badge>
-            )
-          })}
-        </div>
-      </CardContent>
-    </Card>
+    <div className="space-y-4">
+      <h3 className="text-xl font-semibold text-foreground">{title}</h3>
+      <div className="flex flex-wrap gap-2">
+        {items.map((skill: Skill): JSX.Element => {
+          const Icon: LucideIcon = getSkillIcon(skill.name)
+          return (
+            <div
+              className="flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-sm transition-colors hover:border-primary/50 hover:bg-accent/50"
+              key={skill.name}
+            >
+              <Icon className="h-3.5 w-3.5 text-muted-foreground" />
+              <span>{skill.name}</span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 }
 
@@ -73,38 +59,56 @@ export const SkillsSection: AsyncPageFC<SkillsSectionProperties> = async ({
     namespace: 'skills',
   })
 
-  const expertise: readonly string[] = siteConfig.skills.expertise
-  const learning: readonly string[] = siteConfig.skills.learning
-  const tools: readonly string[] = siteConfig.skills.tools
+  const expertise: readonly Skill[] = siteConfig.skills.expertise
+  const learning: readonly Skill[] = siteConfig.skills.learning
+  const tools: readonly Skill[] = siteConfig.skills.tools
+  const platforms: readonly Skill[] = siteConfig.skills.platforms
 
   return (
-    <section className="relative bg-muted/30 px-4 py-20" id="skills">
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]" />
+    <section
+      className="relative overflow-hidden bg-muted/30 px-4 py-24"
+      id="skills"
+    >
+      {/* Background Pattern */}
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px]" />
+      <div className="absolute top-0 left-0 -z-10 h-full w-full bg-[radial-gradient(circle_800px_at_100%_200px,#8080800a,transparent)]" />
 
       <div className="mx-auto w-full max-w-6xl">
-        <div className="mb-12 text-center">
-          <Heading as="h2" className="mb-3 text-4xl font-bold text-foreground">
+        <div className="mb-12 text-center md:mb-16">
+          <Heading
+            as="h2"
+            className="mb-4 text-4xl font-bold tracking-tight text-foreground md:text-5xl"
+          >
             {translations('title')}
           </Heading>
-          <div className="mx-auto h-1 w-20 rounded-full bg-gradient-to-r from-primary to-primary/60" />
+          <div className="mx-auto h-1.5 w-24 rounded-full bg-gradient-to-r from-primary to-primary/40" />
+          <p className="mt-4 text-muted-foreground">
+            {translations('expertise')} & {translations('learning')}
+          </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          <SkillCard
-            items={expertise}
-            title={translations('expertise')}
-            variant="default"
-          />
-          <SkillCard
-            items={learning}
-            title={translations('learning')}
-            variant="default"
-          />
-          <SkillCard
-            items={tools}
-            title={translations('tools')}
-            variant="default"
-          />
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-8">
+          {/* Tech Radar (Hidden on mobile, visible on large screens) */}
+          <div className="hidden lg:block">
+            <TechRadar
+              expertise={expertise}
+              learning={learning}
+              platforms={platforms}
+              tools={tools}
+            />
+          </div>
+
+          {/* Skill Lists (Visible on all screens, but styled differently on desktop) */}
+          <div className="space-y-8 lg:pl-8">
+            <div className="lg:hidden">
+              {/* Mobile only intro or alternative view could go here, but the lists below are fine */}
+            </div>
+
+            <SkillList items={expertise} title={translations('expertise')} />
+            <SkillList items={tools} title={translations('tools')} />
+            <SkillList items={learning} title={translations('learning')} />
+            <SkillList items={platforms} title={translations('platforms')} />
+          </div>
         </div>
       </div>
     </section>

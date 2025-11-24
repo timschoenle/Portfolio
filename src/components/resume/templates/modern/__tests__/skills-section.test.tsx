@@ -3,13 +3,24 @@ import { describe, expect, it, vi } from 'vitest'
 import { SkillsSection } from '@/components/resume/templates/modern/skills-section'
 import type { ResumeTranslations } from '@/types/resume'
 
-// Mock site config
 vi.mock('@/lib/config', () => ({
   siteConfig: {
     skills: {
-      expertise: ['JavaScript', 'TypeScript', 'React'],
-      learning: ['Rust', 'Go'],
-      tools: ['Git', 'Docker', 'VS Code'],
+      expertise: [
+        { name: 'JavaScript', confidence: 0.9 },
+        { name: 'TypeScript', confidence: 0.85 },
+        { name: 'React', confidence: 0.8 },
+      ],
+      learning: [
+        { name: 'Rust', confidence: 0.6 },
+        { name: 'Go', confidence: 0.5 },
+      ],
+      tools: [
+        { name: 'Git', confidence: 0.85 },
+        { name: 'Docker', confidence: 0.7 },
+        { name: 'VS Code', confidence: 0.9 },
+      ],
+      platforms: [{ name: 'Linux', confidence: 0.8 }],
     },
   },
 }))
@@ -21,6 +32,7 @@ describe('SkillsSection', () => {
       'resume.sectionTitles.skillsSubTypes.expertise': 'Expertise',
       'resume.sectionTitles.skillsSubTypes.learning': 'Currently Learning',
       'resume.sectionTitles.skillsSubTypes.tools': 'Tools & Platforms',
+      'resume.sectionTitles.skillsSubTypes.platforms': 'Platforms',
     }
     return translations[key] ?? key
   }) as unknown as ResumeTranslations
@@ -103,5 +115,15 @@ describe('SkillsSection', () => {
     expect(resultString.includes('JavaScript')).toBe(true)
     expect(resultString.includes('Rust')).toBe(true)
     expect(resultString.includes('Docker')).toBe(true)
+  })
+
+  it('renders all platforms', () => {
+    const result = SkillsSection({
+      translations: mockTranslations,
+    })
+
+    const resultString = JSON.stringify(result)
+    expect(resultString.includes('Platforms')).toBe(true)
+    expect(resultString.includes('Linux')).toBe(true)
   })
 })

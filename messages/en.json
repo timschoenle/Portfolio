@@ -40,7 +40,8 @@
     "title": "Skills & Technologies",
     "expertise": "Expertise",
     "learning": "Currently Learning",
-    "tools": "Tools & Platforms"
+    "tools": "Tools & Platforms",
+    "platforms": "Platforms"
   },
   "experience": {
     "title": "Experience",
@@ -98,7 +99,8 @@
       "skillsSubTypes": {
         "expertise": "Expertise",
         "learning": "Currently Learning",
-        "tools": "Tools & Platforms"
+        "tools": "Tools & Platforms",
+        "platforms": "Platforms"
       },
       "projects": "Projects",
       "education": "Education",

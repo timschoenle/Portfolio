@@ -40,7 +40,8 @@
     "title": "Fähigkeiten & Technologien",
     "expertise": "Expertise",
     "learning": "Derzeit lerne ich",
-    "tools": "Tools & Plattformen"
+    "tools": "Tools & Plattformen",
+    "platforms": "Plattformen"
   },
   "experience": {
     "title": "Berufserfahrung",
@@ -98,7 +99,8 @@
       "skillsSubTypes": {
         "expertise": "Expertise",
         "learning": "Derzeit lerne ich",
-        "tools": "Tools & Plattformen"
+        "tools": "Tools & Plattformen",
+        "platforms": "Plattformen"
       },
       "projects": "Projekte",
       "education": "Ausbildung",
