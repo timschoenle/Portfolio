@@ -1,3 +1,5 @@
+import { execSync } from 'node:child_process'
+
 import type { NextConfig } from 'next'
 
 import bundleAnalyzer from '@next/bundle-analyzer'
@@ -18,15 +20,24 @@ const withBundleAnalyzer: ReturnType<typeof bundleAnalyzer> = bundleAnalyzer({
   enabled: process.env['ANALYZE'] === 'true',
 })
 
+// Use git commit hash as cache version
+// eslint-disable-next-line sonarjs/no-os-command-from-path
+const revision: string = execSync('git rev-parse HEAD', { encoding: 'utf8' })
+  .trim()
+  .slice(0, 7)
+
 const withSerwist: ReturnType<typeof withSerwistInit> = withSerwistInit({
   additionalPrecacheEntries: [
-    { revision: null, url: '/en' },
-    { revision: null, url: '/de' },
-    { revision: null, url: '/en/imprint' },
-    { revision: null, url: '/de/imprint' },
-    { revision: null, url: '/en/privacy' },
-    { revision: null, url: '/de/privacy' },
+    { revision: revision, url: '/en' },
+    { revision: revision, url: '/de' },
+    { revision: revision, url: '/en/imprint' },
+    { revision: revision, url: '/de/imprint' },
+    { revision: revision, url: '/en/privacy' },
+    { revision: revision, url: '/de/privacy' },
   ],
+  cacheOnNavigation: true,
+  disable: process.env.NODE_ENV === 'development',
+  reloadOnOnline: true,
   swDest: 'public/sw.js',
   swSrc: 'src/app/sw.ts',
 })
