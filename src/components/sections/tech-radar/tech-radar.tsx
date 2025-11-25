@@ -1,19 +1,36 @@
-import React, { type JSX } from 'react'
+import { type JSX } from 'react'
 
-import { TechRadarClient } from '@/components/sections/tech-radar/tech-radar-client'
+import type { Locale } from 'next-intl'
+
+import { getTranslations } from 'next-intl/server'
+
 import { type Skill } from '@/lib/config'
 import { calculateBlipPosition } from '@/lib/tech-radar-utilities'
+import type { AsyncPageFC } from '@/types/fc'
+import type { Translations } from '@/types/i18n'
 import type {
   Blip,
   CalculateBlipPositionResult,
   TechRadarQuadrant,
 } from '@/types/tech-radar'
 
+import { HoverProvider } from './hover-context'
+import {
+  LABEL_PATHS,
+  QUADRANT_ANGLES,
+  QUADRANT_STYLES,
+  RADAR_CONFIG,
+} from './radar-config'
+import { TechRadarInteractive } from './tech-radar-interactive'
+import styles from './tech-radar.module.css'
+import { TechRadarTooltip } from './tech-radar-tooltip'
+
 interface TechRadarProperties {
   readonly buildTools: readonly Skill[]
   readonly frameworks: readonly Skill[]
   readonly infrastructure: readonly Skill[]
   readonly languages: readonly Skill[]
+  readonly locale: Locale
 }
 
 interface QuadrantConfig {
@@ -30,44 +47,51 @@ const generateBlipsForCategory: (
   quadrantKey: Blip['quadrant'],
   config: QuadrantConfig
 ): Blip[] => {
-    return items.map((skill: Skill, index: number): Blip => {
-      const {
-        angle,
-        radius,
-        xCoordinate,
-        yCoordinate,
-      }: CalculateBlipPositionResult = calculateBlipPosition({
-        confidence: skill.confidence,
-        endAngle: config.end,
-        index,
-        skillName: skill.name,
-        startAngle: config.start,
-        total: items.length,
-      })
-      return {
-        angle,
-        iconName: skill.name,
-        id: `${quadrantKey}-${skill.name}`,
-        name: skill.name,
-        quadrant: quadrantKey,
-        radius,
-        xCoordinate,
-        yCoordinate,
-      }
+  return items.map((skill: Skill, index: number): Blip => {
+    const {
+      angle,
+      radius,
+      xCoordinate,
+      yCoordinate,
+    }: CalculateBlipPositionResult = calculateBlipPosition({
+      confidence: skill.confidence,
+      endAngle: config.end,
+      index,
+      skillName: skill.name,
+      startAngle: config.start,
+      total: items.length,
     })
-  }
+    return {
+      angle,
+      iconName: skill.name,
+      id: `${quadrantKey} -${skill.name} `,
+      name: skill.name,
+      quadrant: quadrantKey,
+      radius,
+      xCoordinate,
+      yCoordinate,
+    }
+  })
+}
 
-export const TechRadar: React.FC<TechRadarProperties> = ({
+export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
   buildTools,
   frameworks,
   infrastructure,
   languages,
-}: TechRadarProperties): JSX.Element => {
+  locale,
+}: TechRadarProperties): Promise<JSX.Element> => {
+  // Fetch translations on server
+  const translations: Translations<'skills'> = await getTranslations({
+    locale,
+    namespace: 'skills',
+  })
+
   const quadrants: Record<TechRadarQuadrant, QuadrantConfig> = {
-    buildTools: { end: Math.PI, start: Math.PI / 2 }, // bottom-left
-    frameworks: { end: 2 * Math.PI, start: (3 * Math.PI) / 2 }, // top-right
-    infrastructure: { end: Math.PI / 2, start: 0 }, // bottom-right
-    languages: { end: (3 * Math.PI) / 2, start: Math.PI }, // top-left
+    buildTools: QUADRANT_ANGLES.buildTools,
+    frameworks: QUADRANT_ANGLES.frameworks,
+    infrastructure: QUADRANT_ANGLES.infrastructure,
+    languages: QUADRANT_ANGLES.languages,
   }
 
   const allBlips: Blip[] = [
@@ -81,5 +105,138 @@ export const TechRadar: React.FC<TechRadarProperties> = ({
     ),
   ]
 
-  return <TechRadarClient blips={allBlips} />
+  const { circles, labels, viewBox }: typeof RADAR_CONFIG = RADAR_CONFIG
+
+  return (
+    <HoverProvider blips={allBlips}>
+      <div className="relative mx-auto aspect-square w-full max-w-2xl">
+        <svg
+          className="h-full w-full overflow-visible"
+          viewBox={`${String(viewBox.min)} ${String(viewBox.min)} ${String(viewBox.width)} ${String(viewBox.height)} `}
+        >
+          {/* Clip path for axes */}
+          <defs>
+            <clipPath id="radarClip">
+              <circle cx="0" cy="0" r={circles.outer} />
+            </clipPath>
+
+            {/* Curved text paths for quadrant labels */}
+            <path d={LABEL_PATHS.languages} fill="none" id="languagesPath" />
+            <path d={LABEL_PATHS.frameworks} fill="none" id="frameworksPath" />
+            <path d={LABEL_PATHS.buildTools} fill="none" id="buildToolsPath" />
+            <path
+              d={LABEL_PATHS.infrastructure}
+              fill="none"
+              id="infrastructurePath"
+            />
+          </defs>
+
+          {/* Background circles */}
+          <circle
+            className="fill-muted/20 stroke-border stroke-1"
+            cx="0"
+            cy="0"
+            r={circles.inner}
+          />
+          <circle
+            className="fill-muted/10 stroke-border stroke-1"
+            cx="0"
+            cy="0"
+            r={circles.middle}
+          />
+          <circle
+            className="fill-transparent stroke-border stroke-1"
+            cx="0"
+            cy="0"
+            r={circles.outer}
+          />
+
+          {/* Sonar sweep animation */}
+          <g className={styles['radarSpin']}>
+            <path
+              className="fill-primary/20"
+              d="M 0 0 L 100 0 A 100 100 0 0 1 70.7 70.7 Z"
+            />
+          </g>
+
+          {/* Axes - clipped to circle */}
+          <g clipPath="url(#radarClip)">
+            <line
+              className="stroke-border/50 stroke-1"
+              x1="-100"
+              x2="100"
+              y1="0"
+              y2="0"
+            />
+            <line
+              className="stroke-border/50 stroke-1"
+              x1="0"
+              x2="0"
+              y1="-100"
+              y2="100"
+            />
+          </g>
+
+          {/* Curved Quadrant Labels - Top quadrants */}
+          <text
+            className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.languages.labelColor}`}
+          >
+            <textPath
+              href="#languagesPath"
+              startOffset="50%"
+              textAnchor="middle"
+            >
+              {translations('languages')}
+            </textPath>
+          </text>
+          <text
+            className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.frameworks.labelColor}`}
+          >
+            <textPath
+              href="#frameworksPath"
+              startOffset="50%"
+              textAnchor="middle"
+            >
+              {translations('frameworks')}
+            </textPath>
+          </text>
+
+          {/* Curved Quadrant Labels - Bottom quadrants */}
+          <text
+            className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.buildTools.labelColor}`}
+          >
+            <textPath
+              href="#buildToolsPath"
+              startOffset="50%"
+              textAnchor="middle"
+            >
+              {translations('buildTools')}
+            </textPath>
+          </text>
+          <text
+            className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.infrastructure.labelColor}`}
+          >
+            <textPath
+              href="#infrastructurePath"
+              startOffset="50%"
+              textAnchor="middle"
+            >
+              {translations('infrastructure')}
+            </textPath>
+          </text>
+
+          {/* Interactive blips - client component */}
+          <TechRadarInteractive blips={allBlips} />
+        </svg>
+
+        {/* Tooltip - rendered outside SVG for proper positioning */}
+        <TechRadarTooltip blips={allBlips} />
+
+        {/* Center hub */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+        </div>
+      </div>
+    </HoverProvider>
+  )
 }

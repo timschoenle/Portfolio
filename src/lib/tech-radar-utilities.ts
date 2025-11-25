@@ -1,3 +1,4 @@
+import { RADAR_CONFIG } from '@/components/sections/tech-radar/radar-config'
 import type {
   CalculateBlipPositionParameters,
   CalculateBlipPositionResult,
@@ -42,25 +43,28 @@ export const calculateBlipPosition: (
   startAngle,
   total,
 }: CalculateBlipPositionParameters): CalculateBlipPositionResult => {
-    // Generate deterministic seeds from skill name
-    const baseSeed: number = hashString(skillName)
-    const angleSeed: number = baseSeed
-    const radiusSeed: number = baseSeed + 100
+  // Generate deterministic seeds from skill name
+  const baseSeed: number = hashString(skillName)
+  const angleSeed: number = baseSeed
+  const radiusSeed: number = baseSeed + 100
 
-    const angleStep: number = (endAngle - startAngle) / (total + 1)
-    const angleJitter: number = (seededRandom(angleSeed) - 0.5) * 0.2
-    const angle: number = startAngle + (index + 1) * angleStep + angleJitter
+  const angleStep: number = (endAngle - startAngle) / (total + 1)
+  const angleJitter: number =
+    (seededRandom(angleSeed) - 0.5) * RADAR_CONFIG.jitter.angle
+  const angle: number = startAngle + (index + 1) * angleStep + angleJitter
 
-    // Map confidence (0-1) to radius (inner to outer)
-    // High confidence -> closer to center
-    // Low confidence -> closer to edge
-    const minRadius: number = 25
-    const maxRadius: number = 85
-    const radiusJitter: number = (seededRandom(radiusSeed) - 0.5) * 5
-    const radius: number =
-      minRadius + (1 - confidence) * (maxRadius - minRadius) + radiusJitter
+  // Map confidence (0-1) to radius (inner to outer)
+  // High confidence -> closer to center
+  // Low confidence -> closer to edge
+  const radiusJitter: number =
+    (seededRandom(radiusSeed) - 0.5) * RADAR_CONFIG.jitter.radius
+  const radius: number =
+    RADAR_CONFIG.blips.minRadius +
+    (1 - confidence) *
+      (RADAR_CONFIG.blips.maxRadius - RADAR_CONFIG.blips.minRadius) +
+    radiusJitter
 
-    const xCoordinate: number = Math.cos(angle) * radius
-    const yCoordinate: number = Math.sin(angle) * radius
-    return { angle, radius, xCoordinate, yCoordinate }
-  }
+  const xCoordinate: number = Math.cos(angle) * radius
+  const yCoordinate: number = Math.sin(angle) * radius
+  return { angle, radius, xCoordinate, yCoordinate }
+}

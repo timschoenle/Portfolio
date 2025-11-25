@@ -26,17 +26,6 @@ import {
   Wrench,
 } from 'lucide-react'
 
-// Using simple-icons for GitHub as recommended, or just GitBranch if not available.
-// Since I cannot add new dependencies without permission, I will use GitBranch as a fallback or keep it if it was just a deprecation warning but still works.
-// The warning said: "Brand icons have been deprecated... We recommend using https://simpleicons.org/?q=github instead."
-// I will use GitBranch for GitHub to avoid the deprecation warning if I can't import simple-icons.
-// However, the user might want the actual GitHub icon.
-// Let's check if I can use a different icon or just suppress if I must.
-// But the goal is to fix lint issues.
-// I will use `GitBranch` for now as a safe replacement or `Code2`?
-// Actually, `lucide-react` might still have `Github` but it's deprecated.
-// I'll use `GitBranch` for GitHub to be safe and avoid the lint error.
-
 export const SkillIcons: Record<string, LucideIcon> = {
   AWS: Cloud,
   Azure: Cloud,
@@ -48,7 +37,7 @@ export const SkillIcons: Record<string, LucideIcon> = {
   GCP: Cloud,
   // Tools & Platforms
   Git: GitBranch,
-  GitHub: GitBranch, // Replaced deprecated Github icon
+  GitHub: GitBranch,
   Go: Box,
 
   Gradle: Workflow,
@@ -92,7 +81,7 @@ export const getSkillIcon = (skill: string): LucideIcon => {
   const found: string | undefined = Object.keys(SkillIcons).find(
     (key: string): boolean => key.toLowerCase() === lowerSkill
   )
-  if (found && SkillIcons[found]) {
+  if (found != null && SkillIcons[found]) {
     return SkillIcons[found]
   }
 

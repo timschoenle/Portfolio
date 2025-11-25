@@ -92,6 +92,7 @@ export const SkillsSection: AsyncPageFC<SkillsSectionProperties> = async ({
               frameworks={frameworks}
               infrastructure={infrastructure}
               languages={languages}
+              locale={locale}
             />
           </div>
 
