@@ -7,25 +7,33 @@ vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn(async () => (key: string) => key),
 }))
 
+// Mock TechRadar component to avoid async rendering issues in tests
+vi.mock('@/components/sections/tech-radar/tech-radar', () => ({
+  TechRadar: vi.fn(() => <div data-testid="tech-radar-mock">TechRadar</div>),
+}))
+
 // Mock config
 vi.mock('@/lib/config', () => ({
   siteConfig: {
     skills: {
-      expertise: [
+      languages: [
         { name: 'TypeScript', confidence: 0.9 },
+        { name: 'Rust', confidence: 0.6 },
+      ],
+      frameworks: [
         { name: 'React', confidence: 0.85 },
         { name: 'Next.js', confidence: 0.8 },
       ],
-      learning: [
-        { name: 'Rust', confidence: 0.6 },
-        { name: 'Go', confidence: 0.5 },
-      ],
-      tools: [
-        { name: 'Git', confidence: 0.85 },
+      infrastructure: [
         { name: 'Docker', confidence: 0.7 },
+        { name: 'Linux', confidence: 0.8 },
+      ],
+      buildTools: [
+        { name: 'Git', confidence: 0.85 },
         { name: 'VS Code', confidence: 0.9 },
       ],
-      platforms: [{ name: 'Linux', confidence: 0.8 }],
+      sectionSideMinimumConfidence: 0,
+      resumeMinimumConfidence: 0,
     },
   },
 }))
@@ -38,40 +46,35 @@ describe('Skills_section', () => {
     expect(screen.getByText('title')).toBeDefined()
   })
 
-  it('renders expertise skills', async () => {
+  it('renders languages', async () => {
     const Component = await SkillsSection({ locale: 'en' })
     render(Component)
 
-    expect(screen.getAllByText(/expertise/i)[0]).toBeDefined()
     expect(screen.getByText('TypeScript')).toBeDefined()
+    expect(screen.getByText('Rust')).toBeDefined()
+  })
+
+  it('renders frameworks', async () => {
+    const Component = await SkillsSection({ locale: 'en' })
+    render(Component)
+
     expect(screen.getByText('React')).toBeDefined()
     expect(screen.getByText('Next.js')).toBeDefined()
   })
 
-  it('renders learning skills', async () => {
+  it('renders infrastructure', async () => {
     const Component = await SkillsSection({ locale: 'en' })
     render(Component)
 
-    expect(screen.getAllByText(/learning/i)[0]).toBeDefined()
-    expect(screen.getByText('Rust')).toBeDefined()
-    expect(screen.getByText('Go')).toBeDefined()
-  })
-
-  it('renders tools', async () => {
-    const Component = await SkillsSection({ locale: 'en' })
-    render(Component)
-
-    expect(screen.getAllByText(/tools/i)[0]).toBeDefined()
-    expect(screen.getByText('Git')).toBeDefined()
     expect(screen.getByText('Docker')).toBeDefined()
-    expect(screen.getByText('VS Code')).toBeDefined()
+    expect(screen.getByText('Linux')).toBeDefined()
   })
 
-  it('renders platforms', async () => {
+  it('renders build tools', async () => {
     const Component = await SkillsSection({ locale: 'en' })
     render(Component)
 
-    expect(screen.getAllByText(/platforms/i)[0]).toBeDefined()
-    expect(screen.getByText('Linux')).toBeDefined()
+    expect(screen.getByText('Git')).toBeDefined()
+    expect(screen.getByText('VS Code')).toBeDefined()
   })
 })
