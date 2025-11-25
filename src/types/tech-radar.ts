@@ -1,3 +1,5 @@
+import type { Skill, SkillRenderArea } from '@/lib/config'
+
 export type TechRadarQuadrant =
   | 'buildTools'
   | 'frameworks'
@@ -112,4 +114,9 @@ export interface LabelPathsType {
   readonly frameworks: string
   readonly infrastructure: string
   readonly languages: string
+}
+
+export interface ShouldShowSkillParameter {
+  readonly renderArea: SkillRenderArea
+  readonly skill: Skill
 }

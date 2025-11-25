@@ -2,7 +2,8 @@ import { type ReactElement } from 'react'
 
 import { Text, View } from '@react-pdf/renderer'
 
-import { siteConfig, type Skill } from '@/lib/config'
+import { siteConfig, type Skill, SKILL_RENDER_AREAS } from '@/lib/config'
+import { shouldShowSkill } from '@/lib/tech-radar-utilities'
 import type { FCStrict } from '@/types/fc'
 import type { ResumeTranslations } from '@/types/resume'
 
@@ -21,9 +22,8 @@ const SkillSection: FCStrict<SkillSectionProperties> = ({
     <Text style={styles.contactLabel}>{title}</Text>
     <View style={styles.skillsContainer}>
       {skills
-        .filter(
-          (skill: Skill): boolean =>
-            skill.confidence >= siteConfig.skills.resumeMinimumConfidence
+        .filter((skill: Skill): boolean =>
+          shouldShowSkill({ renderArea: SKILL_RENDER_AREAS.RESUME, skill })
         )
         .toSorted(
           (skillOne: Skill, skillTwo: Skill): number =>

@@ -10,7 +10,8 @@ import { getTranslations } from 'next-intl/server'
 import { getSkillIcon } from '@/components/sections/skill-icons'
 import { TechRadar } from '@/components/sections/tech-radar/tech-radar'
 import { Heading } from '@/components/ui/heading'
-import { siteConfig, type Skill } from '@/lib/config'
+import { siteConfig, type Skill, SKILL_RENDER_AREAS } from '@/lib/config'
+import { shouldShowSkill } from '@/lib/tech-radar-utilities'
 import type { AsyncPageFC, FCStrict } from '@/types/fc'
 import type { Translations } from '@/types/i18n'
 
@@ -35,9 +36,8 @@ const SkillList: FCStrict<SkillListProperties> = ({
       <h3 className="text-xl font-semibold text-foreground">{title}</h3>
       <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
         {items
-          .filter(
-            (skill: Skill): boolean =>
-              skill.confidence >= siteConfig.skills.sectionSideMinimumConfidence
+          .filter((skill: Skill): boolean =>
+            shouldShowSkill({ renderArea: SKILL_RENDER_AREAS.SECTION, skill })
           )
           .toSorted(
             (skillOne: Skill, skillTwo: Skill): number =>

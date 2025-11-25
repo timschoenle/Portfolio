@@ -1,6 +1,20 @@
+export const SKILL_RENDER_AREAS: {
+  readonly RESUME: 'resume'
+  readonly SECTION: 'section'
+  readonly TECH_RADAR: 'tech-radar'
+} = {
+  RESUME: 'resume',
+  SECTION: 'section',
+  TECH_RADAR: 'tech-radar',
+} as const
+
+export type SkillRenderArea =
+  (typeof SKILL_RENDER_AREAS)[keyof typeof SKILL_RENDER_AREAS]
+
 export interface Skill {
   readonly confidence: number
   readonly name: string
+  readonly renderAreas?: SkillRenderArea[]
 }
 
 export interface SiteConfig {
@@ -64,14 +78,27 @@ export const siteConfig: SiteConfig = {
       'Germany',
     ],
   },
-
   skills: {
     buildTools: [
       { confidence: 0.8, name: 'Maven' },
       { confidence: 0.9, name: 'Gradle' },
       { confidence: 0.9, name: 'Git' },
       { confidence: 0.9, name: 'GitHub Actions' },
-      { confidence: 0.85, name: 'pnpm' },
+      {
+        confidence: 0.85,
+        name: 'pnpm',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      { confidence: 0.8, name: 'ESLint' },
+      { confidence: 0.8, name: 'Prettier' },
+      { confidence: 0.7, name: 'Playwright' },
+      { confidence: 0.75, name: 'Renovate' },
+      { confidence: 0.65, name: 'release-please' },
+      { confidence: 0.7, name: 'commitlint' },
+      { confidence: 0.6, name: 'Knip' },
+      { confidence: 0.7, name: 'Checkstyle' },
+      { confidence: 0.85, name: 'JUnit' },
+      { confidence: 0.85, name: 'Mockito' },
     ],
     frameworks: [
       { confidence: 0.8, name: 'Spring Boot' },
@@ -79,6 +106,15 @@ export const siteConfig: SiteConfig = {
       { confidence: 0.8, name: 'React' },
       { confidence: 0.8, name: 'Tailwind CSS' },
       { confidence: 0.75, name: 'gRPC' },
+      { confidence: 0.8, name: 'Spring Framework' },
+      { confidence: 0.8, name: 'Node.js' },
+      { confidence: 0.85, name: 'PaperMC' },
+      { confidence: 0.7, name: 'shadcn/ui' },
+      {
+        confidence: 0.6,
+        name: 'Serwist',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
     ],
     infrastructure: [
       { confidence: 0.85, name: 'Docker' },
@@ -89,14 +125,69 @@ export const siteConfig: SiteConfig = {
       { confidence: 0.75, name: 'TimescaleDB' },
       { confidence: 0.65, name: 'MongoDB' },
       { confidence: 0.6, name: 'Redis' },
+      { confidence: 0.8, name: 'Helm' },
+      { confidence: 0.8, name: 'Docker Compose' },
+      { confidence: 0.7, name: 'MariaDB' },
+      {
+        confidence: 0.7,
+        name: 'MySQL',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      {
+        confidence: 0.7,
+        name: 'SQLite',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      {
+        confidence: 0.7,
+        name: 'Prometheus',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      {
+        confidence: 0.7,
+        name: 'Sentry',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      {
+        confidence: 0.65,
+        name: 'Codecov',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
     ],
     languages: [
       { confidence: 0.95, name: 'Java' },
-      { confidence: 0.8, name: 'TypeScript' },
-      { confidence: 0.7, name: 'JavaScript' },
+      { confidence: 0.7, name: 'TypeScript' },
+      { confidence: 0.6, name: 'JavaScript' },
       { confidence: 0.7, name: 'Rust' },
       { confidence: 0.3, name: 'Python' },
       { confidence: 0.25, name: 'Lua' },
+      { confidence: 0.85, name: 'SQL' },
+      {
+        confidence: 0.8,
+        name: 'CSS',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      {
+        confidence: 0.9,
+        name: 'Markdown',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      {
+        confidence: 0.5,
+        name: 'Bash / Shell',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      {
+        confidence: 0.75,
+        name: 'YAML',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      {
+        confidence: 0.8,
+        name: 'JSON',
+        renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+      },
+      { confidence: 0.25, name: 'Kotlin' },
     ],
     resumeMinimumConfidence: 0.6,
     sectionSideMinimumConfidence: 0.6,

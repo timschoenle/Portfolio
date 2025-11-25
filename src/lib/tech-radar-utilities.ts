@@ -1,7 +1,13 @@
+import {
+  siteConfig,
+  SKILL_RENDER_AREAS,
+  type SkillRenderArea,
+} from '@/lib/config'
 import { RADAR_CONFIG } from '@/lib/radar-config'
 import type {
   CalculateBlipPositionParameters,
   CalculateBlipPositionResult,
+  ShouldShowSkillParameter,
 } from '@/types/tech-radar'
 
 /**
@@ -231,4 +237,50 @@ export const resolveBlipCollisions: (
   }
 
   return resolvedBlips
+}
+
+const getSkillRenderAreaMinimumConfidence: (
+  skillRenderArea: SkillRenderArea
+) => number = (skillRenderArea: SkillRenderArea): number => {
+  switch (skillRenderArea) {
+    case SKILL_RENDER_AREAS.RESUME: {
+      return siteConfig.skills.resumeMinimumConfidence
+    }
+    case SKILL_RENDER_AREAS.SECTION: {
+      return siteConfig.skills.sectionSideMinimumConfidence
+    }
+    case SKILL_RENDER_AREAS.TECH_RADAR: {
+      return 1
+    }
+    default: {
+      throw new Error(
+        `Invalid skill render area: ${JSON.stringify(skillRenderArea)}`
+      )
+    }
+  }
+}
+
+export const shouldShowSkill: (
+  parameter: ShouldShowSkillParameter
+) => boolean = ({ renderArea, skill }: ShouldShowSkillParameter): boolean => {
+  const minConfidence: number = getSkillRenderAreaMinimumConfidence(renderArea)
+
+  // Verify that the skill is not hidden by the minimum confidence level
+  if (minConfidence > skill.confidence) {
+    return false
+  }
+
+  // Check if the skill is marked for specific render areas
+  // Undefined render areas are considered visible by default
+  if (skill.renderAreas !== undefined && skill.renderAreas.length > 0) {
+    for (const area of skill.renderAreas) {
+      if (area === renderArea) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  return true
 }
