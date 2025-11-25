@@ -22,7 +22,7 @@ const withBundleAnalyzer: ReturnType<typeof bundleAnalyzer> = bundleAnalyzer({
 
 // Use git commit hash as cache version
 const revision: string = (
-  process.env.GIT_SHA ??
+  process.env['GIT_SHA'] ??
   ((): string => {
     try {
       // eslint-disable-next-line sonarjs/no-os-command-from-path
