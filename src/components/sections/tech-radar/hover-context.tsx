@@ -1,15 +1,22 @@
 'use client'
 
-import React, { createContext, type JSX, useContext, useState } from 'react'
+import React, {
+  type Context,
+  createContext,
+  type JSX,
+  useContext,
+  useState,
+} from 'react'
 
 import type { Blip } from '@/types/tech-radar'
 
-interface HoverContextValue {
+export interface HoverContextValue {
   hoveredBlip: string | null
   setHoveredBlip: (blipId: string | null) => void
 }
 
-const HoverContext = createContext<HoverContextValue | null>(null)
+const HoverContext: Context<HoverContextValue | null> =
+  createContext<HoverContextValue | null>(null)
 
 export const useHover: () => HoverContextValue = (): HoverContextValue => {
   const context: HoverContextValue | null = useContext(HoverContext)

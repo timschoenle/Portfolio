@@ -11,7 +11,7 @@ interface TechRadarInteractiveProperties {
 }
 
 /**
- * Client-side component for rendering interactive blips inside SVG.
+ * Client-side component for rendering interactive blips inside SVG
  */
 export const TechRadarInteractive: React.FC<TechRadarInteractiveProperties> = ({
   blips,

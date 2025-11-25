@@ -1,3 +1,5 @@
+'use server'
+
 import { type JSX } from 'react'
 
 import type { Locale } from 'next-intl'
@@ -22,8 +24,8 @@ import {
   RADAR_CONFIG,
 } from './radar-config'
 import { TechRadarInteractive } from './tech-radar-interactive'
-import styles from './tech-radar.module.css'
 import { TechRadarTooltip } from './tech-radar-tooltip'
+import styles from './tech-radar.module.css'
 
 interface TechRadarProperties {
   readonly buildTools: readonly Skill[]
@@ -74,6 +76,7 @@ const generateBlipsForCategory: (
   })
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
   buildTools,
   frameworks,

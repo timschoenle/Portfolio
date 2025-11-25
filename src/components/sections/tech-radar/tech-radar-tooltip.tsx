@@ -5,7 +5,7 @@ import React, { type JSX } from 'react'
 import { getSkillIcon } from '@/components/sections/skill-icons'
 import type { Blip } from '@/types/tech-radar'
 
-import { useHover } from './hover-context'
+import { type HoverContextValue, useHover } from './hover-context'
 
 import type { LucideIcon } from 'lucide-react'
 
@@ -16,7 +16,7 @@ interface TechRadarTooltipProperties {
 export const TechRadarTooltip: React.FC<TechRadarTooltipProperties> = ({
   blips,
 }: TechRadarTooltipProperties): JSX.Element | null => {
-  const { hoveredBlip } = useHover()
+  const { hoveredBlip }: HoverContextValue = useHover()
 
   if (hoveredBlip === null) {
     return null

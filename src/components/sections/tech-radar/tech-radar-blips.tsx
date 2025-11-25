@@ -5,7 +5,7 @@ import React, { type JSX } from 'react'
 import { cn } from '@/lib/utilities'
 import type { Blip } from '@/types/tech-radar'
 
-import { useHover } from './hover-context'
+import { type HoverContextValue, useHover } from './hover-context'
 import { QUADRANT_STYLES, RADAR_CONFIG } from './radar-config'
 
 interface TechRadarBlipsProperties {
@@ -15,7 +15,7 @@ interface TechRadarBlipsProperties {
 export const TechRadarBlips: React.FC<TechRadarBlipsProperties> = ({
   blips,
 }: TechRadarBlipsProperties): JSX.Element => {
-  const { hoveredBlip, setHoveredBlip } = useHover()
+  const { hoveredBlip, setHoveredBlip }: HoverContextValue = useHover()
 
   return (
     <>

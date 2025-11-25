@@ -38,7 +38,7 @@ export const RADAR_CONFIG = {
   /** Quadrant label positioning */
   labels: {
     bottomRadius: 114, // Increased for visual distance matching
-    fontSize: 8,
+    fontSize: 12,
     topRadius: 105,
   },
 
