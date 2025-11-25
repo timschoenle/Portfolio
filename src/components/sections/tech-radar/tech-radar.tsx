@@ -80,12 +80,21 @@ const generateBlipsForCategory: (
 }
 
 interface RadarBackgroundProperties {
+  readonly animation: RadarConfigType['animation']
   readonly circles: RadarConfigType['circles']
+  readonly viewBox: RadarConfigType['viewBox']
 }
 
 const RadarBackground: FCStrict<RadarBackgroundProperties> = ({
+  animation,
   circles,
+  viewBox,
 }: RadarBackgroundProperties): JSX.Element => {
+  const sweepRadius: number = animation.sonarSweepRadius
+  const sweepAngle: number = (animation.sonarSweepAngle * Math.PI) / 180
+  const sweepEndX: number = Math.cos(sweepAngle) * sweepRadius
+  const sweepEndY: number = Math.sin(sweepAngle) * sweepRadius
+
   return (
     <>
       {/* Background circles */}
@@ -112,7 +121,7 @@ const RadarBackground: FCStrict<RadarBackgroundProperties> = ({
       <g className={styles['radarSpin']}>
         <path
           className="fill-primary/20"
-          d="M 0 0 L 100 0 A 100 100 0 0 1 70.7 70.7 Z"
+          d={`M 0 0 L ${String(sweepRadius)} 0 A ${String(sweepRadius)} ${String(sweepRadius)} 0 0 1 ${String(sweepEndX)} ${String(sweepEndY)} Z`}
         />
       </g>
 
@@ -120,8 +129,8 @@ const RadarBackground: FCStrict<RadarBackgroundProperties> = ({
       <g clipPath="url(#radarClip)">
         <line
           className="stroke-border/50 stroke-1"
-          x1="-100"
-          x2="100"
+          x1={String(viewBox.min)}
+          x2={String(viewBox.max)}
           y1="0"
           y2="0"
         />
@@ -129,8 +138,8 @@ const RadarBackground: FCStrict<RadarBackgroundProperties> = ({
           className="stroke-border/50 stroke-1"
           x1="0"
           x2="0"
-          y1="-100"
-          y2="100"
+          y1={String(viewBox.min)}
+          y2={String(viewBox.max)}
         />
       </g>
     </>
@@ -246,6 +255,7 @@ const RadarLabels: FCStrict<RadarLabelsProperties> = ({
   )
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
   buildTools,
   frameworks,
@@ -276,7 +286,8 @@ export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
     ),
   ]
 
-  const { circles, labels, viewBox }: typeof RADAR_CONFIG = RADAR_CONFIG
+  const { animation, circles, labels, viewBox }: typeof RADAR_CONFIG =
+    RADAR_CONFIG
 
   return (
     <HoverProvider blips={allBlips}>
@@ -286,7 +297,11 @@ export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
           viewBox={`${String(viewBox.min)} ${String(viewBox.min)} ${String(viewBox.width)} ${String(viewBox.height)}`}
         >
           <RadarDefs circles={circles} />
-          <RadarBackground circles={circles} />
+          <RadarBackground
+            animation={animation}
+            circles={circles}
+            viewBox={viewBox}
+          />
           <RadarLabels labels={labels} translations={translations} />
 
           {/* Interactive blips - client component */}
