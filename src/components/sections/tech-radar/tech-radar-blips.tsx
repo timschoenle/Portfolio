@@ -3,7 +3,7 @@
 import React, { type JSX } from 'react'
 
 import { cn } from '@/lib/utilities'
-import type { Blip } from '@/types/tech-radar'
+import type { Blip, QuadrantStyleType } from '@/types/tech-radar'
 
 import { type HoverContextValue, useHover } from './hover-context'
 import { QUADRANT_STYLES, RADAR_CONFIG } from './radar-config'
@@ -21,7 +21,7 @@ export const TechRadarBlips: React.FC<TechRadarBlipsProperties> = ({
     <>
       {blips.map((blipItem: Blip): JSX.Element => {
         const isHovered: boolean = hoveredBlip === blipItem.id
-        const quadrantStyle =
+        const quadrantStyle: QuadrantStyleType =
           QUADRANT_STYLES[blipItem.quadrant] ?? QUADRANT_STYLES.languages
 
         return (

@@ -6,13 +6,16 @@ import type { Locale } from 'next-intl'
 
 import { getTranslations } from 'next-intl/server'
 
+import styles from '@/components/sections/tech-radar/tech-radar.module.css'
 import { type Skill } from '@/lib/config'
 import { calculateBlipPosition } from '@/lib/tech-radar-utilities'
-import type { AsyncPageFC } from '@/types/fc'
+import type { AsyncPageFC, FCStrict } from '@/types/fc'
 import type { Translations } from '@/types/i18n'
 import type {
   Blip,
   CalculateBlipPositionResult,
+  QuadrantAngleType,
+  RadarConfigType,
   TechRadarQuadrant,
 } from '@/types/tech-radar'
 
@@ -25,7 +28,6 @@ import {
 } from './radar-config'
 import { TechRadarInteractive } from './tech-radar-interactive'
 import { TechRadarTooltip } from './tech-radar-tooltip'
-import styles from './tech-radar.module.css'
 
 interface TechRadarProperties {
   readonly buildTools: readonly Skill[]
@@ -35,19 +37,14 @@ interface TechRadarProperties {
   readonly locale: Locale
 }
 
-interface QuadrantConfig {
-  readonly end: number
-  readonly start: number
-}
-
 const generateBlipsForCategory: (
   items: readonly Skill[],
-  quadrantKey: Blip['quadrant'],
-  config: QuadrantConfig
+  quadrantKey: TechRadarQuadrant,
+  config: QuadrantAngleType
 ) => Blip[] = (
   items: readonly Skill[],
-  quadrantKey: Blip['quadrant'],
-  config: QuadrantConfig
+  quadrantKey: TechRadarQuadrant,
+  config: QuadrantAngleType
 ): Blip[] => {
   return items.map((skill: Skill, index: number): Blip => {
     const {
@@ -66,7 +63,7 @@ const generateBlipsForCategory: (
     return {
       angle,
       iconName: skill.name,
-      id: `${quadrantKey} -${skill.name} `,
+      id: `${quadrantKey}-${skill.name}`,
       name: skill.name,
       quadrant: quadrantKey,
       radius,
@@ -76,7 +73,149 @@ const generateBlipsForCategory: (
   })
 }
 
-// eslint-disable-next-line max-lines-per-function
+interface RadarBackgroundProperties {
+  readonly circles: RadarConfigType['circles']
+}
+
+/**
+ * Server component rendering the static background circles
+ */
+const RadarBackground: FCStrict<RadarBackgroundProperties> = ({
+  circles,
+}: RadarBackgroundProperties): JSX.Element => {
+  return (
+    <>
+      {/* Background circles */}
+      <circle
+        className="fill-muted/20 stroke-border stroke-1"
+        cx="0"
+        cy="0"
+        r={circles.inner}
+      />
+      <circle
+        className="fill-muted/10 stroke-border stroke-1"
+        cx="0"
+        cy="0"
+        r={circles.middle}
+      />
+      <circle
+        className="fill-transparent stroke-border stroke-1"
+        cx="0"
+        cy="0"
+        r={circles.outer}
+      />
+
+      {/* Sonar sweep animation */}
+      <g className={styles['radarSpin']}>
+        <path
+          className="fill-primary/20"
+          d="M 0 0 L 100 0 A 100 100 0 0 1 70.7 70.7 Z"
+        />
+      </g>
+
+      {/* Axes - clipped to circle */}
+      <g clipPath="url(#radarClip)">
+        <line
+          className="stroke-border/50 stroke-1"
+          x1="-100"
+          x2="100"
+          y1="0"
+          y2="0"
+        />
+        <line
+          className="stroke-border/50 stroke-1"
+          x1="0"
+          x2="0"
+          y1="-100"
+          y2="100"
+        />
+      </g>
+    </>
+  )
+}
+
+interface RadarDefsProperties {
+  readonly circles: RadarConfigType['circles']
+}
+
+/**
+ * Server component rendering SVG definitions (clip paths and text paths)
+ */
+const RadarDefs: FCStrict<RadarDefsProperties> = ({
+  circles,
+}: RadarDefsProperties): JSX.Element => {
+  return (
+    <defs>
+      <clipPath id="radarClip">
+        <circle cx="0" cy="0" r={circles.outer} />
+      </clipPath>
+
+      {/* Curved text paths for quadrant labels */}
+      <path d={LABEL_PATHS.languages} fill="none" id="languagesPath" />
+      <path d={LABEL_PATHS.frameworks} fill="none" id="frameworksPath" />
+      <path d={LABEL_PATHS.buildTools} fill="none" id="buildToolsPath" />
+      <path
+        d={LABEL_PATHS.infrastructure}
+        fill="none"
+        id="infrastructurePath"
+      />
+    </defs>
+  )
+}
+
+interface RadarLabelsProperties {
+  readonly labels: RadarConfigType['labels']
+  readonly translations: Translations<'skills'>
+}
+
+/**
+ * Server component rendering curved quadrant labels
+ */
+const RadarLabels: FCStrict<RadarLabelsProperties> = ({
+  labels,
+  translations,
+}: RadarLabelsProperties): JSX.Element => {
+  return (
+    <>
+      {/* Curved Quadrant Labels - Top quadrants */}
+      <text
+        className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.languages.labelColor}`}
+      >
+        <textPath href="#languagesPath" startOffset="50%" textAnchor="middle">
+          {translations('languages')}
+        </textPath>
+      </text>
+      <text
+        className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.frameworks.labelColor}`}
+      >
+        <textPath href="#frameworksPath" startOffset="50%" textAnchor="middle">
+          {translations('frameworks')}
+        </textPath>
+      </text>
+
+      {/* Curved Quadrant Labels - Bottom quadrants */}
+      <text
+        className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.buildTools.labelColor}`}
+      >
+        <textPath href="#buildToolsPath" startOffset="50%" textAnchor="middle">
+          {translations('buildTools')}
+        </textPath>
+      </text>
+      <text
+        className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.infrastructure.labelColor}`}
+      >
+        <textPath
+          href="#infrastructurePath"
+          startOffset="50%"
+          textAnchor="middle"
+        >
+          {translations('infrastructure')}
+        </textPath>
+      </text>
+    </>
+  )
+}
+
 export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
   buildTools,
   frameworks,
@@ -90,7 +229,7 @@ export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
     namespace: 'skills',
   })
 
-  const quadrants: Record<TechRadarQuadrant, QuadrantConfig> = {
+  const quadrants: Record<TechRadarQuadrant, QuadrantAngleType> = {
     buildTools: QUADRANT_ANGLES.buildTools,
     frameworks: QUADRANT_ANGLES.frameworks,
     infrastructure: QUADRANT_ANGLES.infrastructure,
@@ -115,118 +254,11 @@ export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
       <div className="relative mx-auto aspect-square w-full max-w-2xl">
         <svg
           className="h-full w-full overflow-visible"
-          viewBox={`${String(viewBox.min)} ${String(viewBox.min)} ${String(viewBox.width)} ${String(viewBox.height)} `}
+          viewBox={`${String(viewBox.min)} ${String(viewBox.min)} ${String(viewBox.width)} ${String(viewBox.height)}`}
         >
-          {/* Clip path for axes */}
-          <defs>
-            <clipPath id="radarClip">
-              <circle cx="0" cy="0" r={circles.outer} />
-            </clipPath>
-
-            {/* Curved text paths for quadrant labels */}
-            <path d={LABEL_PATHS.languages} fill="none" id="languagesPath" />
-            <path d={LABEL_PATHS.frameworks} fill="none" id="frameworksPath" />
-            <path d={LABEL_PATHS.buildTools} fill="none" id="buildToolsPath" />
-            <path
-              d={LABEL_PATHS.infrastructure}
-              fill="none"
-              id="infrastructurePath"
-            />
-          </defs>
-
-          {/* Background circles */}
-          <circle
-            className="fill-muted/20 stroke-border stroke-1"
-            cx="0"
-            cy="0"
-            r={circles.inner}
-          />
-          <circle
-            className="fill-muted/10 stroke-border stroke-1"
-            cx="0"
-            cy="0"
-            r={circles.middle}
-          />
-          <circle
-            className="fill-transparent stroke-border stroke-1"
-            cx="0"
-            cy="0"
-            r={circles.outer}
-          />
-
-          {/* Sonar sweep animation */}
-          <g className={styles['radarSpin']}>
-            <path
-              className="fill-primary/20"
-              d="M 0 0 L 100 0 A 100 100 0 0 1 70.7 70.7 Z"
-            />
-          </g>
-
-          {/* Axes - clipped to circle */}
-          <g clipPath="url(#radarClip)">
-            <line
-              className="stroke-border/50 stroke-1"
-              x1="-100"
-              x2="100"
-              y1="0"
-              y2="0"
-            />
-            <line
-              className="stroke-border/50 stroke-1"
-              x1="0"
-              x2="0"
-              y1="-100"
-              y2="100"
-            />
-          </g>
-
-          {/* Curved Quadrant Labels - Top quadrants */}
-          <text
-            className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.languages.labelColor}`}
-          >
-            <textPath
-              href="#languagesPath"
-              startOffset="50%"
-              textAnchor="middle"
-            >
-              {translations('languages')}
-            </textPath>
-          </text>
-          <text
-            className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.frameworks.labelColor}`}
-          >
-            <textPath
-              href="#frameworksPath"
-              startOffset="50%"
-              textAnchor="middle"
-            >
-              {translations('frameworks')}
-            </textPath>
-          </text>
-
-          {/* Curved Quadrant Labels - Bottom quadrants */}
-          <text
-            className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.buildTools.labelColor}`}
-          >
-            <textPath
-              href="#buildToolsPath"
-              startOffset="50%"
-              textAnchor="middle"
-            >
-              {translations('buildTools')}
-            </textPath>
-          </text>
-          <text
-            className={`text-[${String(labels.fontSize)}px] font-bold tracking-wider uppercase ${QUADRANT_STYLES.infrastructure.labelColor}`}
-          >
-            <textPath
-              href="#infrastructurePath"
-              startOffset="50%"
-              textAnchor="middle"
-            >
-              {translations('infrastructure')}
-            </textPath>
-          </text>
+          <RadarDefs circles={circles} />
+          <RadarBackground circles={circles} />
+          <RadarLabels labels={labels} translations={translations} />
 
           {/* Interactive blips - client component */}
           <TechRadarInteractive blips={allBlips} />

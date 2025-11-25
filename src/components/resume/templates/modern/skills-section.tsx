@@ -11,6 +11,7 @@ interface SkillsSectionProperties {
   readonly translations: ResumeTranslations
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const SkillsSection: FC<SkillsSectionProperties> = ({
   translations,
 }: SkillsSectionProperties): ReactElement => (

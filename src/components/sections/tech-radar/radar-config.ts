@@ -3,10 +3,17 @@
  * All dimensions, radii, and visual constants for easy customization
  */
 
+import type {
+  LabelPathsType,
+  QuadrantAnglesType,
+  QuadrantStylesType,
+  RadarConfigType,
+} from '@/types/tech-radar'
+
 /**
  * Radar dimensions and layout
  */
-export const RADAR_CONFIG = {
+export const RADAR_CONFIG: RadarConfigType = {
   /** Animation settings */
   animation: {
     sonarSweepAngle: 45, // degrees
@@ -37,7 +44,7 @@ export const RADAR_CONFIG = {
 
   /** Quadrant label positioning */
   labels: {
-    bottomRadius: 114, // Increased for visual distance matching
+    bottomRadius: 114,
     fontSize: 12,
     topRadius: 105,
   },
@@ -54,7 +61,7 @@ export const RADAR_CONFIG = {
 /**
  * Quadrant angle definitions (in radians)
  */
-export const QUADRANT_ANGLES = {
+export const QUADRANT_ANGLES: QuadrantAnglesType = {
   buildTools: {
     end: Math.PI,
     start: Math.PI / 2,
@@ -76,7 +83,7 @@ export const QUADRANT_ANGLES = {
 /**
  * Quadrant visual styling
  */
-export const QUADRANT_STYLES = {
+export const QUADRANT_STYLES: QuadrantStylesType = {
   buildTools: {
     blipColor: 'fill-slate-500 stroke-slate-100',
     labelColor: 'fill-slate-500',
@@ -98,9 +105,11 @@ export const QUADRANT_STYLES = {
 /**
  * SVG path definitions for curved text
  */
-export const LABEL_PATHS = {
-  buildTools: `M -${RADAR_CONFIG.labels.bottomRadius},0 A ${RADAR_CONFIG.labels.bottomRadius},${RADAR_CONFIG.labels.bottomRadius} 0 0,0 0,${RADAR_CONFIG.labels.bottomRadius}`,
-  frameworks: `M 0,-${RADAR_CONFIG.labels.topRadius} A ${RADAR_CONFIG.labels.topRadius},${RADAR_CONFIG.labels.topRadius} 0 0,1 ${RADAR_CONFIG.labels.topRadius},0`,
-  infrastructure: `M 0,${RADAR_CONFIG.labels.bottomRadius} A ${RADAR_CONFIG.labels.bottomRadius},${RADAR_CONFIG.labels.bottomRadius} 0 0,0 ${RADAR_CONFIG.labels.bottomRadius},0`,
-  languages: `M -${RADAR_CONFIG.labels.topRadius},0 A ${RADAR_CONFIG.labels.topRadius},${RADAR_CONFIG.labels.topRadius} 0 0,1 0,-${RADAR_CONFIG.labels.topRadius}`,
+const numberToString: (number: number) => string = String
+
+export const LABEL_PATHS: LabelPathsType = {
+  buildTools: `M -${numberToString(RADAR_CONFIG.labels.bottomRadius)},0 A ${numberToString(RADAR_CONFIG.labels.bottomRadius)},${numberToString(RADAR_CONFIG.labels.bottomRadius)} 0 0,0 0,${numberToString(RADAR_CONFIG.labels.bottomRadius)}`,
+  frameworks: `M 0,-${numberToString(RADAR_CONFIG.labels.topRadius)} A ${numberToString(RADAR_CONFIG.labels.topRadius)},${numberToString(RADAR_CONFIG.labels.topRadius)} 0 0,1 ${numberToString(RADAR_CONFIG.labels.topRadius)},0`,
+  infrastructure: `M 0,${numberToString(RADAR_CONFIG.labels.bottomRadius)} A ${numberToString(RADAR_CONFIG.labels.bottomRadius)},${numberToString(RADAR_CONFIG.labels.bottomRadius)} 0 0,0 ${numberToString(RADAR_CONFIG.labels.bottomRadius)},0`,
+  languages: `M -${numberToString(RADAR_CONFIG.labels.topRadius)},0 A ${numberToString(RADAR_CONFIG.labels.topRadius)},${numberToString(RADAR_CONFIG.labels.topRadius)} 0 0,1 0,-${numberToString(RADAR_CONFIG.labels.topRadius)}`,
 } as const

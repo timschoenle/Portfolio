@@ -69,8 +69,10 @@ export const SkillIcons: Record<string, LucideIcon> = {
 }
 
 // Helper to get icon with fallback
-// eslint-disable-next-line complexity
-export const getSkillIcon = (skill: string): LucideIcon => {
+export const getSkillIcon: (skill: string) => LucideIcon = (
+  skill: string
+  // eslint-disable-next-line complexity
+): LucideIcon => {
   // Try exact match
   if (SkillIcons[skill]) {
     return SkillIcons[skill]
@@ -81,6 +83,8 @@ export const getSkillIcon = (skill: string): LucideIcon => {
   const found: string | undefined = Object.keys(SkillIcons).find(
     (key: string): boolean => key.toLowerCase() === lowerSkill
   )
+
+  // eslint-disable-next-line eqeqeq
   if (found != null && SkillIcons[found]) {
     return SkillIcons[found]
   }
