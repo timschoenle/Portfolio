@@ -29,6 +29,12 @@ import {
 import { TechRadarInteractive } from './tech-radar-interactive'
 import { TechRadarTooltip } from './tech-radar-tooltip'
 
+const quadrantToPathId: (quadrant: TechRadarQuadrant) => string = (
+  quadrant: TechRadarQuadrant
+): string => {
+  return `${quadrant}Path`
+}
+
 interface TechRadarProperties {
   readonly buildTools: readonly Skill[]
   readonly frameworks: readonly Skill[]
@@ -77,9 +83,6 @@ interface RadarBackgroundProperties {
   readonly circles: RadarConfigType['circles']
 }
 
-/**
- * Server component rendering the static background circles
- */
 const RadarBackground: FCStrict<RadarBackgroundProperties> = ({
   circles,
 }: RadarBackgroundProperties): JSX.Element => {
@@ -138,9 +141,6 @@ interface RadarDefsProperties {
   readonly circles: RadarConfigType['circles']
 }
 
-/**
- * Server component rendering SVG definitions (clip paths and text paths)
- */
 const RadarDefs: FCStrict<RadarDefsProperties> = ({
   circles,
 }: RadarDefsProperties): JSX.Element => {
@@ -151,15 +151,56 @@ const RadarDefs: FCStrict<RadarDefsProperties> = ({
       </clipPath>
 
       {/* Curved text paths for quadrant labels */}
-      <path d={LABEL_PATHS.languages} fill="none" id="languagesPath" />
-      <path d={LABEL_PATHS.frameworks} fill="none" id="frameworksPath" />
-      <path d={LABEL_PATHS.buildTools} fill="none" id="buildToolsPath" />
+      <path
+        d={LABEL_PATHS.languages}
+        fill="none"
+        id={quadrantToPathId('languages')}
+      />
+      <path
+        d={LABEL_PATHS.frameworks}
+        fill="none"
+        id={quadrantToPathId('frameworks')}
+      />
+      <path
+        d={LABEL_PATHS.buildTools}
+        fill="none"
+        id={quadrantToPathId('buildTools')}
+      />
       <path
         d={LABEL_PATHS.infrastructure}
         fill="none"
-        id="infrastructurePath"
+        id={quadrantToPathId('infrastructure')}
       />
     </defs>
+  )
+}
+
+interface RadarLabelProperties {
+  readonly color: string
+  readonly fontSize: number
+  readonly label: string
+  readonly quadrant: TechRadarQuadrant
+}
+
+const RadarLabel: FCStrict<RadarLabelProperties> = ({
+  color,
+  fontSize,
+  label,
+  quadrant,
+}: RadarLabelProperties): JSX.Element => {
+  return (
+    <text
+      className={`font-bold tracking-wider uppercase ${color}`}
+      style={{ fontSize: `${String(fontSize)}px` }}
+    >
+      <textPath
+        href={`#${quadrantToPathId(quadrant)}`}
+        startOffset="50%"
+        textAnchor="middle"
+      >
+        {label}
+      </textPath>
+    </text>
   )
 }
 
@@ -168,9 +209,6 @@ interface RadarLabelsProperties {
   readonly translations: Translations<'skills'>
 }
 
-/**
- * Server component rendering curved quadrant labels
- */
 const RadarLabels: FCStrict<RadarLabelsProperties> = ({
   labels,
   translations,
@@ -178,44 +216,32 @@ const RadarLabels: FCStrict<RadarLabelsProperties> = ({
   return (
     <>
       {/* Curved Quadrant Labels - Top quadrants */}
-      <text
-        className={`font-bold tracking-wider uppercase ${QUADRANT_STYLES.languages.labelColor}`}
-        style={{ fontSize: `${String(labels.fontSize)}px` }}
-      >
-        <textPath href="#languagesPath" startOffset="50%" textAnchor="middle">
-          {translations('languages')}
-        </textPath>
-      </text>
-      <text
-        className={`font-bold tracking-wider uppercase ${QUADRANT_STYLES.frameworks.labelColor}`}
-        style={{ fontSize: `${String(labels.fontSize)}px` }}
-      >
-        <textPath href="#frameworksPath" startOffset="50%" textAnchor="middle">
-          {translations('frameworks')}
-        </textPath>
-      </text>
+      <RadarLabel
+        color={QUADRANT_STYLES.languages.labelColor}
+        fontSize={labels.fontSize}
+        label={translations('languages')}
+        quadrant="languages"
+      />
+      <RadarLabel
+        color={QUADRANT_STYLES.frameworks.labelColor}
+        fontSize={labels.fontSize}
+        label={translations('frameworks')}
+        quadrant="frameworks"
+      />
 
       {/* Curved Quadrant Labels - Bottom quadrants */}
-      <text
-        className={`font-bold tracking-wider uppercase ${QUADRANT_STYLES.buildTools.labelColor}`}
-        style={{ fontSize: `${String(labels.fontSize)}px` }}
-      >
-        <textPath href="#buildToolsPath" startOffset="50%" textAnchor="middle">
-          {translations('buildTools')}
-        </textPath>
-      </text>
-      <text
-        className={`font-bold tracking-wider uppercase ${QUADRANT_STYLES.infrastructure.labelColor}`}
-        style={{ fontSize: `${String(labels.fontSize)}px` }}
-      >
-        <textPath
-          href="#infrastructurePath"
-          startOffset="50%"
-          textAnchor="middle"
-        >
-          {translations('infrastructure')}
-        </textPath>
-      </text>
+      <RadarLabel
+        color={QUADRANT_STYLES.buildTools.labelColor}
+        fontSize={labels.fontSize}
+        label={translations('buildTools')}
+        quadrant="buildTools"
+      />
+      <RadarLabel
+        color={QUADRANT_STYLES.infrastructure.labelColor}
+        fontSize={labels.fontSize}
+        label={translations('infrastructure')}
+        quadrant="infrastructure"
+      />
     </>
   )
 }
@@ -227,7 +253,6 @@ export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
   languages,
   locale,
 }: TechRadarProperties): Promise<JSX.Element> => {
-  // Fetch translations on server
   const translations: Translations<'skills'> = await getTranslations({
     locale,
     namespace: 'skills',

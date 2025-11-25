@@ -1,8 +1,3 @@
-/**
- * Tech Radar Configuration
- * All dimensions, radii, and visual constants for easy customization
- */
-
 import type {
   LabelPathsType,
   QuadrantAnglesType,
