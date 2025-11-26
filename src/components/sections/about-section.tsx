@@ -80,13 +80,13 @@ const AboutSection: AsyncPageFC<AboutSectionProperties> = async ({
         <Card className="border-border/50 bg-card/50 shadow-lg backdrop-blur-sm">
           <CardContent className="space-y-8 p-8 md:p-12">
             {/* Summary Text */}
-            <div className="text-center text-lg leading-relaxed text-muted-foreground md:text-xl">
+            <div className="text-center text-lg leading-relaxed md:text-xl">
               {summary}
             </div>
 
             {/* Key Competencies */}
             <div className="mx-auto max-w-lg">
-              <h3 className="mb-4 text-center text-sm font-semibold tracking-wider text-muted-foreground uppercase">
+              <h3 className="mb-4 text-center text-sm font-semibold tracking-wider uppercase">
                 {translations('competenciesLabel')}
               </h3>
               <div className="flex flex-wrap justify-center gap-x-2 gap-y-1.5 md:gap-x-2.5 md:gap-y-2">
