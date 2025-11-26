@@ -4,41 +4,60 @@ import { Text, View } from '@react-pdf/renderer'
 
 import { siteConfig, type Skill, SKILL_RENDER_AREAS } from '@/lib/config'
 import { shouldShowSkill } from '@/lib/tech-radar-utilities'
-import type { FCStrict } from '@/types/fc'
+import type { FCNullable, FCStrict } from '@/types/fc'
 import type { ResumeTranslations } from '@/types/resume'
 
 import { styles } from './modern.styles'
 
 interface SkillSectionProperties {
+  readonly isCompact?: boolean
+  readonly limit?: number
   readonly skills: readonly Skill[]
   readonly title: string
 }
 
-const SkillSection: FCStrict<SkillSectionProperties> = ({
+const SkillSection: FCNullable<SkillSectionProperties> = ({
+  isCompact = false,
+  limit = 12,
   skills,
   title,
-}: SkillSectionProperties): ReactElement => (
-  <>
-    <Text style={styles.contactLabel}>{title}</Text>
-    <View style={styles.skillsContainer}>
-      {skills
-        .filter((skill: Skill): boolean =>
-          shouldShowSkill({ renderArea: SKILL_RENDER_AREAS.RESUME, skill })
-        )
-        .toSorted(
-          (skillOne: Skill, skillTwo: Skill): number =>
-            skillTwo.confidence - skillOne.confidence
-        )
-        .map(
+}: SkillSectionProperties): ReactElement | null => {
+  const visibleSkills: Skill[] = skills
+    .filter((skill: Skill): boolean =>
+      shouldShowSkill({ renderArea: SKILL_RENDER_AREAS.RESUME, skill })
+    )
+    .toSorted(
+      (skillOne: Skill, skillTwo: Skill): number =>
+        skillTwo.confidence - skillOne.confidence
+    )
+    .slice(0, limit)
+
+  if (visibleSkills.length === 0) {
+    return null
+  }
+
+  return (
+    <>
+      <Text style={styles.contactLabel}>{title}</Text>
+      <View
+        style={
+          isCompact ? styles.skillsContainerCompact : styles.skillsContainer
+        }
+      >
+        {visibleSkills.map(
           (skill: Skill): ReactElement => (
-            <Text key={skill.name} style={styles.skillTag}>
+            <Text
+              key={skill.name}
+              style={isCompact ? styles.skillTagCompact : styles.skillTag}
+            >
               {skill.name}
             </Text>
           )
         )}
-    </View>
-  </>
-)
+      </View>
+    </>
+  )
+}
 
 interface SkillsSectionProperties {
   readonly translations: ResumeTranslations
@@ -46,31 +65,59 @@ interface SkillsSectionProperties {
 
 export const SkillsSection: FCStrict<SkillsSectionProperties> = ({
   translations,
-}: SkillsSectionProperties): ReactElement => (
-  <>
-    <Text style={styles.sectionTitle}>
-      {translations('resume.sectionTitles.skills')}
-    </Text>
-    <View style={styles.sectionDivider} />
+}: SkillsSectionProperties): ReactElement => {
+  // Check total skill count to decide on compactness
+  const allSkills: Skill[] = [
+    ...siteConfig.skills.languages,
+    ...siteConfig.skills.frameworks,
+    ...siteConfig.skills.buildTools,
+    ...siteConfig.skills.infrastructure,
+  ]
+  const totalSkills: number = allSkills.filter((skill: Skill): boolean =>
+    shouldShowSkill({ renderArea: SKILL_RENDER_AREAS.RESUME, skill: skill })
+  ).length
 
-    <SkillSection
-      skills={siteConfig.skills.languages}
-      title={translations('resume.sectionTitles.skillsSubTypes.languages')}
-    />
+  // Enable compact mode if we have a lot of skills (> 20)
+  const isCompact: boolean = totalSkills > 20
+  // Tighter limit per category if we have many categories populated
+  const categoryLimit: number = isCompact ? 15 : 10
 
-    <SkillSection
-      skills={siteConfig.skills.frameworks}
-      title={translations('resume.sectionTitles.skillsSubTypes.frameworks')}
-    />
+  return (
+    <>
+      <Text style={styles.sectionTitle}>
+        {translations('resume.sectionTitles.skills')}
+      </Text>
+      <View style={styles.sectionDivider} />
 
-    <SkillSection
-      skills={siteConfig.skills.buildTools}
-      title={translations('resume.sectionTitles.skillsSubTypes.buildTools')}
-    />
+      <SkillSection
+        isCompact={isCompact}
+        limit={categoryLimit}
+        skills={siteConfig.skills.languages}
+        title={translations('resume.sectionTitles.skillsSubTypes.languages')}
+      />
 
-    <SkillSection
-      skills={siteConfig.skills.infrastructure}
-      title={translations('resume.sectionTitles.skillsSubTypes.infrastructure')}
-    />
-  </>
-)
+      <SkillSection
+        isCompact={isCompact}
+        limit={categoryLimit}
+        skills={siteConfig.skills.frameworks}
+        title={translations('resume.sectionTitles.skillsSubTypes.frameworks')}
+      />
+
+      <SkillSection
+        isCompact={isCompact}
+        limit={categoryLimit}
+        skills={siteConfig.skills.buildTools}
+        title={translations('resume.sectionTitles.skillsSubTypes.buildTools')}
+      />
+
+      <SkillSection
+        isCompact={isCompact}
+        limit={categoryLimit}
+        skills={siteConfig.skills.infrastructure}
+        title={translations(
+          'resume.sectionTitles.skillsSubTypes.infrastructure'
+        )}
+      />
+    </>
+  )
+}
