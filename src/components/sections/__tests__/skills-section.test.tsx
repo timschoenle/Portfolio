@@ -14,6 +14,11 @@ vi.mock('@/components/sections/tech-radar/tech-radar', () => ({
 
 // Mock config
 vi.mock('@/lib/config', () => ({
+  SKILL_RENDER_AREAS: {
+    RESUME: 'resume',
+    SECTION: 'section',
+    TECH_RADAR: 'tech-radar',
+  },
   siteConfig: {
     skills: {
       languages: [

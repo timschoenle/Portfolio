@@ -44,6 +44,17 @@ export const RADAR_CONFIG: RadarConfigType = {
     topRadius: 105,
   },
 
+  /** Physics engine settings for blip distribution */
+  physics: {
+    iterations: 200,
+    maxSpeed: 4,
+    noiseAmount: 0.8,
+    repulsionStrength: 2.5,
+    springStrength: 0.15,
+    tangentForce: 0.05,
+    wallRepulsionStrength: 2,
+  },
+
   /** Size of the SVG viewBox */
   viewBox: {
     height: 200,

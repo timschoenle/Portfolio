@@ -27,10 +27,10 @@ export interface CalculateBlipPositionParameters {
 }
 
 export interface CalculateBlipPositionResult {
-  readonly angle: number
-  readonly radius: number
-  readonly xCoordinate: number
-  readonly yCoordinate: number
+  angle: number
+  radius: number
+  xCoordinate: number
+  yCoordinate: number
 }
 
 /**
@@ -61,6 +61,15 @@ export interface RadarConfigType {
     readonly bottomRadius: number
     readonly fontSize: number
     readonly topRadius: number
+  }
+  readonly physics: {
+    readonly iterations: number
+    readonly maxSpeed: number
+    readonly noiseAmount: number
+    readonly repulsionStrength: number
+    readonly springStrength: number
+    readonly tangentForce: number
+    readonly wallRepulsionStrength: number
   }
   readonly viewBox: {
     readonly height: number
@@ -119,4 +128,61 @@ export interface LabelPathsType {
 export interface ShouldShowSkillParameter {
   readonly renderArea: SkillRenderArea
   readonly skill: Skill
+}
+
+export type MutableBlip = {
+  -readonly [K in keyof CalculateBlipPositionResult]: CalculateBlipPositionResult[K]
+}
+
+export interface ForceResult {
+  readonly forceX: number
+  readonly forceY: number
+}
+
+export interface CalculatePhysicsForceParameters {
+  readonly allBlips: readonly MutableBlip[]
+  readonly blip: MutableBlip
+  readonly blipIndex: number
+  readonly endAngle: number
+  readonly minSeparation: number
+  readonly startAngle: number
+  readonly targetRadius: number
+  readonly temperature: number
+}
+
+export interface CalculatePhysicsForceResult {
+  readonly forceX: number
+  readonly forceY: number
+}
+
+export interface ConstrainBlipsParameters {
+  readonly blips: MutableBlip[]
+  readonly blipSize: number
+  readonly endAngle: number
+  readonly startAngle: number
+}
+
+export interface ResolveBlipCollisionsParameters {
+  readonly blips: readonly CalculateBlipPositionResult[]
+  readonly endAngle: number
+  readonly startAngle: number
+}
+
+export interface CalculateBlipRepulsionParameters {
+  readonly allBlips: readonly MutableBlip[]
+  readonly blip: MutableBlip
+  readonly blipIndex: number
+  readonly minSeparation: number
+}
+
+export interface CalculateTangentForceParameters {
+  readonly blip: MutableBlip
+  readonly blipIndex: number
+  readonly temperature: number
+}
+
+export interface CalculateWallRepulsionParameters {
+  readonly blip: MutableBlip
+  readonly endAngle: number
+  readonly startAngle: number
 }

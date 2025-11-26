@@ -82,7 +82,11 @@ const generateBlipsForCategory: (
 
   // 2. Resolve collisions
   const resolvedPositions: CalculateBlipPositionResult[] =
-    resolveBlipCollisions(initialBlips, config.start, config.end)
+    resolveBlipCollisions({
+      blips: initialBlips,
+      endAngle: config.end,
+      startAngle: config.start,
+    })
 
   // 3. Merge resolved positions back into blips
   return initialBlips.map((blip: Blip, index: number): Blip => {
