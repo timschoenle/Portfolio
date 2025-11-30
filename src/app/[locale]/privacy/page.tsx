@@ -1,6 +1,6 @@
 'use server'
 
-import type { JSX } from 'react'
+import type { JSX, ReactNode } from 'react'
 
 import type { Metadata } from 'next'
 import { type Locale } from 'next-intl'
@@ -8,12 +8,13 @@ import { type Locale } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { LegalPageLayout } from '@/components/layout/legal-page-layout'
-import { Heading } from '@/components/ui/heading'
+import LastUpdateNotice from '@/components/ui/last-update-notice'
 import {
   ensureLocaleFromParameters,
   maybeLocaleFromParameters,
 } from '@/i18n/locale'
-import type { FCStrict } from '@/types/fc'
+import { siteConfig } from '@/lib/config'
+import { legalPageComponentMappings } from '@/lib/i18n-legal-components'
 import type { Translations, UnparsedLocalePageProperties } from '@/types/i18n'
 import type {
   GenerateMetadataFC,
@@ -21,7 +22,8 @@ import type {
   RoutePageFC,
 } from '@/types/page'
 
-/* --------------------------------- metadata -------------------------------- */
+/* --------------------------------- meta --------------------------------- */
+
 export const generateMetadata: GenerateMetadataFC<
   UnparsedLocalePageProperties
 > = async ({
@@ -42,126 +44,10 @@ export const generateMetadata: GenerateMetadataFC<
   }
 }
 
-/* ----------------------------- small components ---------------------------- */
-
-interface ControllerBlockProperties {
-  readonly address: string
-  readonly addressLabel: string
-  readonly email: string
-  readonly emailLabel: string
-  readonly name: string
-  readonly nameLabel: string
-  readonly title: string
-}
-
-const ControllerBlock: FCStrict<ControllerBlockProperties> = ({
-  address,
-  addressLabel,
-  email,
-  emailLabel,
-  name,
-  nameLabel,
-  title,
-}: ControllerBlockProperties): JSX.Element => {
-  return (
-    <div>
-      <Heading as="h2" className="mb-2 text-xl font-semibold">
-        {title}
-      </Heading>
-      <p className="text-muted-foreground">
-        <strong>{nameLabel}</strong> {name}
-        <br />
-        <strong>{addressLabel}</strong> {address}
-        <br />
-        <strong>{emailLabel}</strong>{' '}
-        <a className="text-primary hover:underline" href={`mailto:${email}`}>
-          {email}
-        </a>
-      </p>
-    </div>
-  )
-}
-
-interface CloudflareBlockProperties {
-  readonly policyLink: string
-  readonly post: string
-  readonly pre: string
-  readonly provider: string
-  readonly strong: string
-  readonly text: string
-  readonly title: string
-}
-
-const CloudflareBlock: FCStrict<CloudflareBlockProperties> = ({
-  policyLink,
-  post,
-  pre,
-  provider,
-  strong,
-  text,
-  title,
-}: CloudflareBlockProperties): JSX.Element => {
-  return (
-    <div>
-      <Heading as="h2" className="mb-2 text-xl font-semibold">
-        {title}
-      </Heading>
-      <p className="text-sm leading-relaxed text-muted-foreground">
-        {pre} <strong>{strong}</strong> {post}
-      </p>
-      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-        {provider}
-      </p>
-      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-        <a
-          className="text-primary hover:underline"
-          href={policyLink}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {policyLink}
-        </a>
-      </p>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        {text}
-      </p>
-    </div>
-  )
-}
-
-interface SectionData {
-  readonly text: string
-  readonly title: string
-}
-
-interface SectionsProperties {
-  readonly sections: Record<string, SectionData>
-}
-
-const Sections: (properties: SectionsProperties) => JSX.Element[] = ({
-  sections,
-}: SectionsProperties): JSX.Element[] => {
-  const nodes: JSX.Element[] = []
-  for (const [key, section] of Object.entries(sections)) {
-    nodes.push(
-      <div key={key}>
-        <Heading as="h2" className="mb-2 text-xl font-semibold">
-          {section.title}
-        </Heading>
-        <p className="text-sm leading-relaxed text-muted-foreground">
-          {section.text}
-        </p>
-      </div>
-    )
-  }
-  return nodes
-}
-
-/* ----------------------------------- page ---------------------------------- */
+/* ---------------------------------- page ---------------------------------- */
 
 type PrivacyPageProperties = UnparsedLocalePageProperties
 
-// eslint-disable-next-line max-lines-per-function
 const PrivacyPolicyPage: RoutePageFC<PrivacyPageProperties> = async ({
   params,
 }: PageParameters<PrivacyPageProperties>): Promise<JSX.Element> => {
@@ -174,75 +60,29 @@ const PrivacyPolicyPage: RoutePageFC<PrivacyPageProperties> = async ({
     namespace: 'privacy',
   })
 
-  // eslint-disable-next-line @typescript-eslint/typedef
-  const nameLabel = 'Name:'
-  // eslint-disable-next-line @typescript-eslint/typedef
-  const addressLabel = 'Address:'
-  // eslint-disable-next-line @typescript-eslint/typedef
-  const emailLabel = 'Email:'
+  const lastUpdated: Date = new Date(siteConfig.legals.privacyPolicyLastChange)
 
-  const controller: Readonly<{
-    title: string
-    name: string
-    address: string
-    email: string
-  }> = {
-    address: translations('controller.address'),
-    email: translations('controller.email'),
-    name: translations('controller.name'),
-    title: translations('controller.title'),
-  }
+  // Render the content using rich text with component mappings
+  const content: ReactNode = translations.rich('content', {
+    // Variables for placeholder replacement
+    cloudflarePolicyUrl: siteConfig.legals.cloudflare.policyUrl,
+    cloudflareProvider: siteConfig.legals.cloudflare.address,
+    controllerAddress: siteConfig.legals.address,
+    controllerEmail: siteConfig.email,
+    controllerName: siteConfig.fullName,
+    logRetentionDays: siteConfig.legals.logRetentionDays,
+    serverLocation: siteConfig.legals.serverLocationCountry,
 
-  const cloudflare: CloudflareBlockProperties = {
-    policyLink: translations('cloudflare.policyLink'),
-    post: translations('cloudflare.post'),
-    pre: translations('cloudflare.pre'),
-    provider: translations('cloudflare.provider'),
-    strong: translations('cloudflare.strong'),
-    text: translations('cloudflare.text'),
-    title: translations('cloudflare.title'),
-  }
-
-  const sections: Record<string, SectionData> = {
-    changes: {
-      text: translations('changes.text'),
-      title: translations('changes.title'),
-    },
-    contact: {
-      text: translations('contact.text'),
-      title: translations('contact.title'),
-    },
-    general: {
-      text: translations('general.text'),
-      title: translations('general.title'),
-    },
-    logs: {
-      text: translations('logs.text'),
-      title: translations('logs.title'),
-    },
-    nocookies: {
-      text: translations('nocookies.text'),
-      title: translations('nocookies.title'),
-    },
-    rights: {
-      text: translations('rights.text'),
-      title: translations('rights.title'),
-    },
-  }
+    // Use shared component mappings
+    ...legalPageComponentMappings,
+  })
 
   return (
     <LegalPageLayout locale={locale} title={translations('title')}>
-      <ControllerBlock
-        address={controller.address}
-        addressLabel={addressLabel}
-        email={controller.email}
-        emailLabel={emailLabel}
-        name={controller.name}
-        nameLabel={nameLabel}
-        title={controller.title}
-      />
-      <CloudflareBlock {...cloudflare} />
-      <Sections sections={sections} />
+      <div className="space-y-6">
+        {content}
+        <LastUpdateNotice lastUpdate={lastUpdated} locale={locale} />
+      </div>
     </LegalPageLayout>
   )
 }

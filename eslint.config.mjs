@@ -41,6 +41,7 @@ export default tseslint.config(
       '**/test/',
       '**/*.test.ts',
       '**/*.test.tsx',
+      'messages/**.d.json.ts',
     ],
   },
 

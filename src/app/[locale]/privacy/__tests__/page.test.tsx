@@ -4,7 +4,34 @@ import PrivacyPage from '../page'
 
 // Mock next-intl
 vi.mock('next-intl/server', () => ({
-  getTranslations: vi.fn(async () => (key: string) => key),
+  getTranslations: vi.fn(async () => {
+    const mockTranslation = (key: string) => {
+      if (key === 'content') {
+        return 'Privacy policy content'
+      }
+      if (key === 'lastUpdated') {
+        return '2025-11-29'
+      }
+      if (key === 'title') {
+        return 'Privacy Policy'
+      }
+      return key
+    }
+    // Add rich method that returns React elements
+    mockTranslation.rich = (key: string, _values: any) => {
+      if (key === 'content') {
+        return <div>Privacy policy content rendered</div>
+      }
+      if (key === 'lastUpdated') {
+        return 'Last updated: 2025-11-29'
+      }
+      return key
+    }
+    return mockTranslation
+  }),
+  getFormatter: vi.fn(async () => ({
+    dateTime: (_date: Date) => '11/29/2025',
+  })),
   setRequestLocale: vi.fn(),
 }))
 
