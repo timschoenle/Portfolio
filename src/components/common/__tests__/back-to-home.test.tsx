@@ -4,7 +4,10 @@ import { BackToHome } from '../back-to-home'
 
 // Mock next-intl
 vi.mock('next-intl/server', () => ({
-  getTranslations: vi.fn(async () => (key: string) => key),
+  getTranslations: vi.fn(async () => (key: string) => {
+    if (key === 'backToHome') return 'backToHome'
+    return key
+  }),
 }))
 
 // Mock routing Link
@@ -26,7 +29,7 @@ describe('BackToHome', () => {
     const Component = await BackToHome({ locale: 'en' })
     render(Component)
 
-    expect(screen.getByText('backHome')).toBeDefined()
+    expect(screen.getByText('backToHome')).toBeDefined()
   })
 
   it('renders arrow icon', async () => {

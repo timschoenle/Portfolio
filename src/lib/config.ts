@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+
 export const SKILL_RENDER_AREAS: {
   readonly RESUME: 'resume'
   readonly SECTION: 'section'
@@ -26,6 +27,18 @@ export interface SiteConfig {
   readonly github: string
   readonly githubUsername: string
   readonly jobTitle: string
+  readonly legals: {
+    readonly vatId: string
+    readonly address: string
+    readonly logRetentionDays: number
+    readonly serverLocationCountry: string
+    readonly imprintLastChange: Date
+    readonly privacyPolicyLastChange: Date
+    readonly cloudflare: {
+      readonly address: string
+      readonly policyUrl: string
+    }
+  }
   readonly linkedin?: string
   readonly location: string
   readonly name: string
@@ -60,8 +73,20 @@ export const siteConfig: SiteConfig = {
   fullName: 'Tim',
   github: 'https://github.com/Timmi6790',
   githubUsername: 'Timmi6790',
-
   jobTitle: 'Software Developer',
+  legals: {
+    address: '#TODO IMPLEMENT ME',
+    cloudflare: {
+      address:
+        'Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA',
+      policyUrl: 'https://www.cloudflare.com/privacypolicy/',
+    },
+    imprintLastChange: new Date('2025-11-30'),
+    logRetentionDays: 30,
+    privacyPolicyLastChange: new Date('2025-11-30'),
+    serverLocationCountry: 'Germany',
+    vatId: '#TODO ADD ME',
+  },
   linkedin: '',
   location: 'Germany',
   name: 'Tim',

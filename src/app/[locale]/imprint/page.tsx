@@ -1,6 +1,6 @@
 'use server'
 
-import type { JSX } from 'react'
+import type { JSX, ReactNode } from 'react'
 
 import type { Metadata } from 'next'
 import { type Locale } from 'next-intl'
@@ -8,19 +8,20 @@ import { type Locale } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { LegalPageLayout } from '@/components/layout/legal-page-layout'
-import { Heading } from '@/components/ui/heading'
+import LastUpdateNotice from '@/components/ui/last-update-notice'
 import {
   ensureLocaleFromParameters,
   maybeLocaleFromParameters,
 } from '@/i18n/locale'
 import { siteConfig } from '@/lib/config'
-import type { FCStrict } from '@/types/fc'
+import { legalPageComponentMappings } from '@/lib/i18n-legal-components'
 import type { Translations, UnparsedLocalePageProperties } from '@/types/i18n'
 import type {
   GenerateMetadataFC,
   PageParameters,
   RoutePageFC,
 } from '@/types/page'
+
 /* --------------------------------- meta --------------------------------- */
 
 export const generateMetadata: GenerateMetadataFC<
@@ -43,65 +44,6 @@ export const generateMetadata: GenerateMetadataFC<
   }
 }
 
-/* ----------------------------- small components ----------------------------- */
-
-interface AddressProperties {
-  readonly country: string
-  readonly name: string
-}
-
-const Address: FCStrict<AddressProperties> = ({
-  country,
-  name,
-}: AddressProperties): JSX.Element => {
-  return (
-    <p className="text-muted-foreground">
-      {name}
-      <br />
-      {country}
-    </p>
-  )
-}
-
-interface EmailLineProperties {
-  readonly email: string
-  readonly label: string
-}
-
-const EmailLine: FCStrict<EmailLineProperties> = ({
-  email,
-  label,
-}: EmailLineProperties): JSX.Element => {
-  return (
-    <p className="text-muted-foreground">
-      {label}
-      {': '}
-      <a className="text-primary hover:underline" href={`mailto:${email}`}>
-        {email}
-      </a>
-    </p>
-  )
-}
-
-interface SectionProperties {
-  readonly body: string
-  readonly title: string
-}
-
-const Section: FCStrict<SectionProperties> = ({
-  body,
-  title,
-}: SectionProperties): JSX.Element => {
-  return (
-    <div>
-      <Heading as="h2" className="mb-2 text-xl font-semibold">
-        {title}
-      </Heading>
-      <p className="text-sm leading-relaxed text-muted-foreground">{body}</p>
-    </div>
-  )
-}
-
 /* ---------------------------------- page ---------------------------------- */
 
 type ImprintPageProperties = UnparsedLocalePageProperties
@@ -117,52 +59,28 @@ const ImprintPage: RoutePageFC<ImprintPageProperties> = async ({
     locale,
     namespace: 'imprint',
   })
-  const translationsContact: Translations<'contact'> = await getTranslations({
-    locale,
-    namespace: 'contact',
-  })
 
-  const ownerName: string = siteConfig.fullName
-  const ownerCountry: string = 'Germany'
+  const lastUpdated: Date = new Date(siteConfig.legals.imprintLastChange)
+
+  // Render the content using rich text with component mappings
+  const content: ReactNode = translations.rich('content', {
+    // Variables for placeholder replacement
+    address: siteConfig.legals.address,
+    country: siteConfig.legals.serverLocationCountry,
+    email: siteConfig.email,
+    name: siteConfig.fullName,
+    vatId: siteConfig.legals.vatId,
+
+    // Use shared component mappings
+    ...legalPageComponentMappings,
+  })
 
   return (
     <LegalPageLayout locale={locale} title={translations('title')}>
-      <div>
-        <Heading as="h2" className="mb-2 text-xl font-semibold">
-          {translations('infoTitle')}
-        </Heading>
-        <Address country={ownerCountry} name={ownerName} />
+      <div className="space-y-6">
+        {content}
+        <LastUpdateNotice lastUpdate={lastUpdated} locale={locale} />
       </div>
-
-      <div>
-        <Heading as="h2" className="mb-2 text-xl font-semibold">
-          {translations('contactTitle')}
-        </Heading>
-        <EmailLine
-          email={siteConfig.email}
-          label={translationsContact('email')}
-        />
-      </div>
-
-      <div>
-        <Heading as="h2" className="mb-2 text-xl font-semibold">
-          {translations('responsibleTitle')}
-        </Heading>
-        <Address country={ownerCountry} name={ownerName} />
-      </div>
-
-      <Section
-        body={translations('liabilityContent')}
-        title={translations('liabilityContentTitle')}
-      />
-      <Section
-        body={translations('liabilityLinks')}
-        title={translations('liabilityLinksTitle')}
-      />
-      <Section
-        body={translations('copyright')}
-        title={translations('copyrightTitle')}
-      />
     </LegalPageLayout>
   )
 }

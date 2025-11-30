@@ -15,16 +15,16 @@ type BackToHomeProperties = LocalePageProperties
 export const BackToHome: AsyncPageFC<BackToHomeProperties> = async ({
   locale,
 }: BackToHomeProperties): Promise<JSX.Element> => {
-  const translations: Translations<'imprint'> = await getTranslations({
+  const translations: Translations<'common'> = await getTranslations({
     locale,
-    namespace: 'imprint',
+    namespace: 'common',
   })
 
   return (
     <Link href="/">
       <Button className="mb-8" variant="ghost">
         <ArrowLeft className="mr-2 h-4 w-4" />
-        {translations('backHome')}
+        {translations('backToHome')}
       </Button>
     </Link>
   )
