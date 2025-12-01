@@ -2,18 +2,9 @@ import { execSync } from 'node:child_process'
 
 import type { NextConfig } from 'next'
 
-import withSerwistInit from '@serwist/next'
-import createNextIntlPlugin from 'next-intl/plugin'
+import { PHASE_PRODUCTION_SERVER } from 'next/constants'
 
 import type { Header } from 'next/dist/lib/load-custom-routes'
-
-// Typedef via ReturnType to avoid unused param identifiers
-const withNextIntl: ReturnType<typeof createNextIntlPlugin> =
-  createNextIntlPlugin({
-    experimental: {
-      createMessagesDeclaration: './messages/en.json',
-    },
-  })
 
 // Use git commit hash as cache version
 const revision: string = (
@@ -29,22 +20,6 @@ const revision: string = (
 )
   .trim()
   .slice(0, 7)
-
-const withSerwist: ReturnType<typeof withSerwistInit> = withSerwistInit({
-  additionalPrecacheEntries: [
-    { revision: revision, url: '/en' },
-    { revision: revision, url: '/de' },
-    { revision: revision, url: '/en/imprint' },
-    { revision: revision, url: '/de/imprint' },
-    { revision: revision, url: '/en/privacy' },
-    { revision: revision, url: '/de/privacy' },
-  ],
-  cacheOnNavigation: true,
-  disable: process.env.NODE_ENV === 'development',
-  reloadOnOnline: true,
-  swDest: 'public/sw.js',
-  swSrc: 'src/app/sw.ts',
-})
 
 type HeaderValues = Header['headers'][0]['value']
 
@@ -160,9 +135,46 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
 }
 
-let config: NextConfig = withNextIntl(nextConfig)
+async function applySerwist(config: NextConfig): Promise<NextConfig> {
+  // eslint-disable-next-line @typescript-eslint/typedef
+  const serwistModule = await import('@serwist/next')
+  const withSerwist: (config: NextConfig) => NextConfig = serwistModule.default(
+    {
+      additionalPrecacheEntries: [
+        { revision: revision, url: '/en' },
+        { revision: revision, url: '/de' },
+        { revision: revision, url: '/en/imprint' },
+        { revision: revision, url: '/de/imprint' },
+        { revision: revision, url: '/en/privacy' },
+        { revision: revision, url: '/de/privacy' },
+      ],
+      cacheOnNavigation: true,
+      disable: process.env.NODE_ENV === 'development',
+      reloadOnOnline: true,
+      swDest: 'public/sw.js',
+      swSrc: 'src/app/sw.ts',
+    }
+  )
+  return withSerwist(config)
+}
 
-if (process.env['ANALYZE'] === 'true') {
+async function applyNextIntl(config: NextConfig): Promise<NextConfig> {
+  // eslint-disable-next-line @typescript-eslint/typedef
+  const nextIntlModule = await import('next-intl/plugin')
+  const withNextIntl: (config: NextConfig) => NextConfig =
+    nextIntlModule.default({
+      experimental: {
+        createMessagesDeclaration: './messages/en.json',
+      },
+    })
+  return withNextIntl(config)
+}
+
+function applyBundleAnalyzer(config: NextConfig): NextConfig {
+  if (process.env['ANALYZE'] !== 'true') {
+    return config
+  }
+
   const bundleAnalyzer: (options: {
     enabled: boolean
   }) => (config: NextConfig) => NextConfig =
@@ -176,7 +188,21 @@ if (process.env['ANALYZE'] === 'true') {
       enabled: true,
     }
   )
-  config = withBundleAnalyzer(config)
+  return withBundleAnalyzer(config)
 }
 
-export default withSerwist(config)
+async function buildConfig(phase: string): Promise<NextConfig> {
+  if (phase === PHASE_PRODUCTION_SERVER) {
+    return nextConfig
+  }
+
+  let config: NextConfig = nextConfig
+
+  config = await applySerwist(config)
+  config = await applyNextIntl(config)
+  config = applyBundleAnalyzer(config)
+
+  return config
+}
+
+export default buildConfig
