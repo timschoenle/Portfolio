@@ -21,6 +21,16 @@ const revision: string = (
   .trim()
   .slice(0, 7)
 
+function createStandaloneOutputExclusions(dependency: string[]): string[] {
+  return dependency.map((element: string): string =>
+    createStandaloneOutputExclusion(element)
+  )
+}
+
+function createStandaloneOutputExclusion(dependency: string): string {
+  return `node_modules/.pnpm/${dependency}`
+}
+
 type HeaderValues = Header['headers'][0]['value']
 
 const DEV_CSP: HeaderValues = [
@@ -121,6 +131,73 @@ const nextConfig: NextConfig = {
   },
 
   output: 'standalone',
+
+  // Exclude build-time dependencies from the output bundle (.next/standalone/.node_modules/.pnpm)
+  // https://nextjs.org/docs/advanced-features/output-file-tracing
+  // The tracing itself is sadly not catching all our dev only dependencies,
+  // this causes the docker build to increase in size and trigger our vulnerability scanner.
+  // This list needs to be updated whenever a new dependency is added.
+  outputFileTracingExcludes: {
+    '*': [
+      ...createStandaloneOutputExclusions([
+        // Babel + AST / source-map tooling
+        '@babel+*',
+        '@jridgewell+*',
+        '@webassemblyjs+*',
+        '@xtuc+*',
+
+        // SWC (compiler) – only needed at build time
+        '@swc+core@*',
+        '@swc+core-*@*',
+        // Required during docker image runtime
+        // '@swc+helpers@*',
+
+        // Parser / validator / misc build tooling
+        'acorn@*',
+        'acorn-import-phases@*',
+        'ajv@*',
+        'ajv-formats@*',
+        'ajv-keywords@*',
+        'babel-plugin-react-compiler@*',
+        'chrome-trace-event@*',
+        'es-module-lexer@*',
+        'eslint-scope@*',
+        'esrecurse@*',
+        'estraverse@*',
+        'jest-worker@*',
+        'schema-utils@*',
+        'serialize-javascript@*',
+
+        // esbuild (bundler/minifier)
+        'esbuild@*',
+
+        // webpack & friends
+        'webpack@*',
+        'webpack-sources@*',
+        'loader-runner@*',
+        'tapable@*',
+        'watchpack@*',
+        'terser@*',
+        'terser-webpack-plugin@*',
+
+        // Browserslist / caniuse / node-releases (build-time env targeting)
+        'baseline-browser-mapping@*',
+        'browserslist@*',
+        'caniuse-lite@*',
+        'electron-to-chromium@*',
+        'node-releases@*',
+
+        // PostCSS + tiny helpers – build-time only (Tailwind / CSS pipeline)
+        'postcss@*',
+        'nanoid@*',
+        'picocolors@*',
+        'source-map-js@*',
+
+        // TypeScript – compile-time only
+        'typescript@*',
+      ]),
+    ],
+  },
 
   poweredByHeader: false,
 
