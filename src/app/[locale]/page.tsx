@@ -35,8 +35,8 @@ const Home: RoutePageFC<HomeProperties> = async ({
         itemScope={true}
         itemType="https://schema.org/Person"
       >
-        <AboutSection locale={locale} />
-        <SkillsSection locale={locale} />
+        <AboutSection locale={locale} performance={true} />
+        <SkillsSection locale={locale} performance={true} />
         <ProjectsSection locale={locale} performance={true} />
         <ExperienceSection locale={locale} performance={true} />
         <TestimonialsSection locale={locale} performance={true} />
