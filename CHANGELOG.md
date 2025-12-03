@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/Timmi6790/Portfolio/compare/v1.2.0...v1.3.0) (2025-12-03)
+
+
+### Features
+
+* reduce LCP times ([#182](https://github.com/Timmi6790/Portfolio/issues/182)) ([ee4f3a6](https://github.com/Timmi6790/Portfolio/commit/ee4f3a6de2711bcd5d6b4aa89fa2a193eb1edfef))
+
 ## [1.2.0](https://github.com/Timmi6790/Portfolio/compare/v1.1.0...v1.2.0) (2025-12-01)
 
 
