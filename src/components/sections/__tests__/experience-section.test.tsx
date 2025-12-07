@@ -7,7 +7,7 @@ import { ExperienceSection } from '../experience-section'
 // Mock next-intl
 vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn(async () => {
-    const t = (key: string) => {
+    const t: any = (key: string) => {
       if (key === 'sectionTitles.experience') return 'Experience'
       return key
     }
@@ -26,6 +26,9 @@ vi.mock('next-intl/server', () => ({
       }
       return key
     }
+    t.rich = (key: string) => key
+    t.markup = (key: string) => key
+    t.has = () => true
     return t
   }),
 }))
@@ -65,5 +68,25 @@ describe('Experience_section', () => {
     render(Component)
 
     expect(screen.getByTestId('briefcase-icon')).toBeDefined()
+  })
+  it('returns empty section when experiences are empty', async () => {
+    // Override translation returning empty array
+    vi.mocked(
+      await import('next-intl/server')
+    ).getTranslations.mockImplementationOnce(async () => {
+      const t: any = (key: string) => key
+      t.raw = (_key: string) => []
+      t.rich = (key: string) => key
+      t.markup = (key: string) => key
+      t.has = () => true
+      return t
+    })
+
+    const Component = await ExperienceSection({ locale: 'en' })
+    const { container } = render(Component)
+
+    const section = container.querySelector('#experience')
+    expect(section).toBeDefined()
+    expect(section?.children.length).toBe(0)
   })
 })

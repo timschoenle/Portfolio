@@ -5,22 +5,25 @@ import { TestimonialsSection } from '../testimonials-section'
 // Mock next-intl
 vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn(async () => {
-    return Object.assign((key: string) => key, {
-      raw: (key: string) => {
-        if (key === 'items') {
-          return [
-            {
-              name: 'John Doe',
-              role: 'CEO',
-              company: 'Tech Corp',
-              image: '/avatar.jpg',
-              quote: 'Great work!',
-            },
-          ]
-        }
-        return key
-      },
-    })
+    const t: any = (key: string) => key
+    t.raw = (key: string) => {
+      if (key === 'items') {
+        return [
+          {
+            name: 'John Doe',
+            role: 'CEO',
+            company: 'Tech Corp',
+            image: '/avatar.jpg',
+            quote: 'Great work!',
+          },
+        ]
+      }
+      return key
+    }
+    t.rich = (key: string) => key
+    t.markup = (key: string) => key
+    t.has = () => true
+    return t
   }),
 }))
 
@@ -49,5 +52,25 @@ describe('TestimonialsSection', () => {
     expect(screen.getByText('John Doe')).toBeDefined()
     expect(screen.getByText('CEO')).toBeDefined()
     expect(screen.getByText('Tech Corp')).toBeDefined()
+  })
+  it('returns empty section when testimonials are empty', async () => {
+    // Override translation returning empty array
+    vi.mocked(
+      await import('next-intl/server')
+    ).getTranslations.mockImplementationOnce(async () => {
+      const t: any = (key: string) => key
+      t.raw = (_key: string) => []
+      t.rich = (key: string) => key
+      t.markup = (key: string) => key
+      t.has = () => true
+      return t
+    })
+
+    const Component = await TestimonialsSection({ locale: 'en' })
+    const { container } = render(Component)
+
+    const section = container.querySelector('#testimonials')
+    expect(section).toBeDefined()
+    expect(section?.children.length).toBe(0)
   })
 })

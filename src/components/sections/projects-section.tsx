@@ -23,7 +23,6 @@ import {
 } from '@/components/ui/card'
 import { GridPattern } from '@/components/ui/grid-pattern'
 import { Heading } from '@/components/ui/heading'
-import { RadialGradient } from '@/components/ui/radial-gradient'
 import { Section, SECTION_BACKGROUNDS } from '@/components/ui/section'
 import { SectionContainer } from '@/components/ui/section-container'
 import { SectionHeader } from '@/components/ui/section-header'
@@ -32,6 +31,13 @@ import { getGithubUser, type GitHubData } from '@/lib/github/client'
 import type { FCAsync, FCStrict } from '@/types/fc'
 import type { GitHubProject } from '@/types/github'
 import type { Translations } from '@/types/i18n'
+
+/* --------------------------------- Constants -------------------------------- */
+
+const VISIBLE_PROJECTS_LIMIT: number = 3
+const BG_GRID_SIZE: number = 32
+const BG_PATTERN_SIZE: number = 16
+const BG_PATTERN_OPACITY: number = 50
 
 /* --------------------------------- pieces --------------------------------- */
 
@@ -87,7 +93,13 @@ const ProjectCard: FCStrict<ProjectCardProperties> = ({
     >
       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/30 via-primary/20 to-primary/10">
         {/* Animated background pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:16px_16px] opacity-50" />
+        <div
+          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)]"
+          style={{
+            backgroundSize: `${BG_PATTERN_SIZE.toString()}px ${BG_PATTERN_SIZE.toString()}px`,
+            opacity: BG_PATTERN_OPACITY / 100,
+          }}
+        />
 
         {/* Code icon with better animation */}
         <div className="absolute inset-0 flex items-center justify-center">
@@ -191,8 +203,11 @@ const ProjectsGrid: FCStrict<ProjectsGridProperties> = ({
   projects,
   translations,
 }: ProjectsGridProperties): JSX.Element => {
-  const hasManyProjects: boolean = projects.length > 3
-  const mobileProjects: readonly GitHubProject[] = projects.slice(0, 3)
+  const hasManyProjects: boolean = projects.length > VISIBLE_PROJECTS_LIMIT
+  const mobileProjects: readonly GitHubProject[] = projects.slice(
+    0,
+    VISIBLE_PROJECTS_LIMIT
+  )
 
   const renderProject: (
     project: GitHubProject,
@@ -326,17 +341,19 @@ export const ProjectsSection: FCAsync<ProjectsSectionProperties> = async ({
     namespace: 'projects',
   })
 
+  // Contribution graph logic
+  const hasContributions: boolean = contributionData.length > 0
+
   return (
     <Section
       background={SECTION_BACKGROUNDS.GRADIENT}
       className="min-h-screen"
       id="projects"
+      isEmpty={projects.length === 0}
       performance={performance ?? false}
     >
       {/* Background patterns */}
-      <GridPattern size={32} />
-      <RadialGradient position="top-right" size={600} />
-      <RadialGradient position="bottom-left" size={600} />
+      <GridPattern size={BG_GRID_SIZE} />
 
       <SectionContainer className="relative" size="xl">
         <SectionHeader
@@ -351,9 +368,11 @@ export const ProjectsSection: FCAsync<ProjectsSectionProperties> = async ({
         {/* Featured Projects */}
         <ProjectsGrid projects={projects} translations={translations} />
 
-        {/* GitHub Contribution Graph - Hidden in reader mode/print */}
+        {/* GitHub Contribution Graph - Hidden in reader mode/print, or if no data */}
         <aside aria-hidden="true" className="mt-16 print:hidden">
-          <ContributionGraph data={contributionData} locale={locale} />
+          {hasContributions ? (
+            <ContributionGraph data={contributionData} locale={locale} />
+          ) : null}
         </aside>
 
         <SectionFooter

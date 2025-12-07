@@ -82,4 +82,24 @@ describe('Skills_section', () => {
     expect(screen.getByText('Git')).toBeDefined()
     expect(screen.getByText('VS Code')).toBeDefined()
   })
+  it('returns empty section when skills are empty', async () => {
+    // Override siteConfig mock for this test
+    vi.mocked(await import('@/lib/config')).siteConfig = {
+      skills: {
+        languages: [],
+        frameworks: [],
+        infrastructure: [],
+        buildTools: [],
+        sectionSideMinimumConfidence: 0,
+        resumeMinimumConfidence: 0,
+      },
+    } as any
+
+    const Component = await SkillsSection({ locale: 'en' })
+    const { container } = render(Component)
+
+    const section = container.querySelector('#skills')
+    expect(section).toBeDefined()
+    expect(section?.children.length).toBe(0)
+  })
 })
