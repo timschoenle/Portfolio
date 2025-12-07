@@ -8,6 +8,7 @@
   ],
   "dependencyDashboard": true,
   "semanticCommits": "enabled",
+  "semanticCommitType": "fix",
   "labels": ["dependencies"],
   "rebaseWhen": "auto",
   "timezone": "Europe/Berlin",
