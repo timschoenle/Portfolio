@@ -5,22 +5,25 @@ import { TestimonialsSection } from '../testimonials-section'
 // Mock next-intl
 vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn(async () => {
-    return Object.assign((key: string) => key, {
-      raw: (key: string) => {
-        if (key === 'items') {
-          return [
-            {
-              name: 'John Doe',
-              role: 'CEO',
-              company: 'Tech Corp',
-              image: '/avatar.jpg',
-              quote: 'Great work!',
-            },
-          ]
-        }
-        return key
-      },
-    })
+    const t: any = (key: string) => key
+    t.raw = (key: string) => {
+      if (key === 'items') {
+        return [
+          {
+            name: 'John Doe',
+            role: 'CEO',
+            company: 'Tech Corp',
+            image: '/avatar.jpg',
+            quote: 'Great work!',
+          },
+        ]
+      }
+      return key
+    }
+    t.rich = (key: string) => key
+    t.markup = (key: string) => key
+    t.has = () => true
+    return t
   }),
 }))
 
@@ -55,9 +58,12 @@ describe('TestimonialsSection', () => {
     vi.mocked(
       await import('next-intl/server')
     ).getTranslations.mockImplementationOnce(async () => {
-      return Object.assign((key: string) => key, {
-        raw: (key: string) => [],
-      })
+      const t: any = (key: string) => key
+      t.raw = (_key: string) => []
+      t.rich = (key: string) => key
+      t.markup = (key: string) => key
+      t.has = () => true
+      return t
     })
 
     const Component = await TestimonialsSection({ locale: 'en' })

@@ -105,15 +105,12 @@ export const SkillsSection: AsyncPageFC<SkillsSectionProperties> = async ({
     buildTools.length > 0 ||
     infrastructure.length > 0
 
-  if (!hasSkills) {
-    return <section id="skills" />
-  }
-
   return (
     <Section
       background={SECTION_BACKGROUNDS.MUTED}
       className="py-24"
       id="skills"
+      isEmpty={!hasSkills}
     >
       {/* Background Pattern */}
       <GridPattern size={24} />

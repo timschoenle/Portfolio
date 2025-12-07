@@ -137,14 +137,12 @@ export const TestimonialsSection: AsyncPageFC<
   const titleText: string = translations('title')
   const subtitleText: string = translations('subtitle')
 
-  if (testimonials.length === 0) {
-    return <section id="testimonials" />
-  }
-
   return (
     <Section
       background={SECTION_BACKGROUNDS.GRADIENT}
       className="min-h-screen"
+      id="testimonials"
+      isEmpty={testimonials.length === 0}
       performance={performance ?? false}
     >
       <SectionContainer size="xl">

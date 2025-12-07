@@ -1,14 +1,17 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { ProjectsSection } from '../projects-section'
-import { GitHubProject } from '@/types/github'
+import type { GitHubProject } from '@/types/github'
 
 // Mock next-intl
 vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn(async () => {
-    return Object.assign((key: string) => key, {
-      raw: (key: string) => key,
-    })
+    const t = (key: string) => key
+    t.rich = (key: string) => key
+    t.markup = (key: string) => key
+    t.raw = (key: string) => key
+    t.has = () => true
+    return t
   }),
 }))
 

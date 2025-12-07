@@ -113,12 +113,12 @@ export const ExperienceSection: (
   ) as ResumeExperience[]
   const sectionTitle: string = translations('sectionTitles.experience')
 
-  if (experiences.length === 0) {
-    return <section id="experience" />
-  }
-
   return (
-    <Section performance={performance ?? false}>
+    <Section
+      id="experience"
+      isEmpty={experiences.length === 0}
+      performance={performance ?? false}
+    >
       <SectionContainer size="sm">
         <SectionHeader title={sectionTitle} underline={true} />
 

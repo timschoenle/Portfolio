@@ -15,6 +15,7 @@ export const SECTION_BACKGROUNDS: {
 
 type SectionProperties = ComponentProps<'section'> & {
   readonly background?: (typeof SECTION_BACKGROUNDS)[keyof typeof SECTION_BACKGROUNDS]
+  readonly isEmpty?: boolean
   readonly performance?: boolean
 }
 
@@ -22,9 +23,14 @@ export const Section: FCWithChildren<SectionProperties> = ({
   background = SECTION_BACKGROUNDS.DEFAULT,
   children,
   className,
+  isEmpty,
   performance = false,
   ...properties
 }: SectionProperties): JSX.Element => {
+  if (isEmpty === true) {
+    return <section {...properties} />
+  }
+
   return (
     <section
       className={cn(
