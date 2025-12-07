@@ -96,7 +96,11 @@ jobs:
     needs: label-old-prs
     if: |
       always() && 
-      (needs.label-old-prs.result == 'success' || needs.label-old-prs.result == 'skipped')
+      (needs.label-old-prs.result == 'success' || needs.label-old-prs.result == 'skipped') &&
+      (
+        github.event_name != 'pull_request' || 
+        contains(github.event.pull_request.labels.*.name, 'ready-to-merge')
+      )
     runs-on: ubuntu-latest
     steps:
       - name: Auto-approve
