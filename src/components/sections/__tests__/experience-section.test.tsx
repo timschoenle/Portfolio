@@ -66,4 +66,21 @@ describe('Experience_section', () => {
 
     expect(screen.getByTestId('briefcase-icon')).toBeDefined()
   })
+  it('returns empty section when experiences are empty', async () => {
+    // Override translation returning empty array
+    vi.mocked(
+      await import('next-intl/server')
+    ).getTranslations.mockImplementationOnce(async () => {
+      const t = (key: string) => key
+      t.raw = (key: string) => []
+      return t
+    })
+
+    const Component = await ExperienceSection({ locale: 'en' })
+    const { container } = render(Component)
+
+    const section = container.querySelector('#experience')
+    expect(section).toBeDefined()
+    expect(section?.children.length).toBe(0)
+  })
 })

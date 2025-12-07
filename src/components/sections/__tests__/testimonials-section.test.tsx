@@ -50,4 +50,21 @@ describe('TestimonialsSection', () => {
     expect(screen.getByText('CEO')).toBeDefined()
     expect(screen.getByText('Tech Corp')).toBeDefined()
   })
+  it('returns empty section when testimonials are empty', async () => {
+    // Override translation returning empty array
+    vi.mocked(
+      await import('next-intl/server')
+    ).getTranslations.mockImplementationOnce(async () => {
+      return Object.assign((key: string) => key, {
+        raw: (key: string) => [],
+      })
+    })
+
+    const Component = await TestimonialsSection({ locale: 'en' })
+    const { container } = render(Component)
+
+    const section = container.querySelector('#testimonials')
+    expect(section).toBeDefined()
+    expect(section?.children.length).toBe(0)
+  })
 })

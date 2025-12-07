@@ -321,6 +321,10 @@ export const ProjectsSection: FCAsync<ProjectsSectionProperties> = async ({
   const { contributionData, projects, stats }: GitHubData =
     await getGithubUser()
 
+  if (projects.length === 0) {
+    return <section id="projects" />
+  }
+
   const translations: Translations<'projects'> = await getTranslations({
     locale,
     namespace: 'projects',
@@ -351,9 +355,11 @@ export const ProjectsSection: FCAsync<ProjectsSectionProperties> = async ({
         {/* Featured Projects */}
         <ProjectsGrid projects={projects} translations={translations} />
 
-        {/* GitHub Contribution Graph - Hidden in reader mode/print */}
+        {/* GitHub Contribution Graph - Hidden in reader mode/print, or if no data */}
         <aside aria-hidden="true" className="mt-16 print:hidden">
-          <ContributionGraph data={contributionData} locale={locale} />
+          {contributionData.length > 0 ? (
+            <ContributionGraph data={contributionData} locale={locale} />
+          ) : null}
         </aside>
 
         <SectionFooter

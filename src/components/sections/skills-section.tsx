@@ -85,6 +85,7 @@ const SkillList: FCStrict<SkillListProperties> = ({
 
 /* ─────────────────────── main section ────────────────────── */
 
+// eslint-disable-next-line max-lines-per-function
 export const SkillsSection: AsyncPageFC<SkillsSectionProperties> = async ({
   locale,
 }: SkillsSectionProperties): Promise<JSX.Element> => {
@@ -97,6 +98,16 @@ export const SkillsSection: AsyncPageFC<SkillsSectionProperties> = async ({
   const frameworks: readonly Skill[] = siteConfig.skills.frameworks
   const buildTools: readonly Skill[] = siteConfig.skills.buildTools
   const infrastructure: readonly Skill[] = siteConfig.skills.infrastructure
+
+  const hasSkills: boolean =
+    languages.length > 0 ||
+    frameworks.length > 0 ||
+    buildTools.length > 0 ||
+    infrastructure.length > 0
+
+  if (!hasSkills) {
+    return <section id="skills" />
+  }
 
   return (
     <Section
