@@ -3,6 +3,7 @@
 
 import { useEffect } from 'react'
 
+import { environment } from '@/environment'
 import type { FCNullable } from '@/types/fc'
 
 /**
@@ -14,7 +15,7 @@ import type { FCNullable } from '@/types/fc'
 export const DevelopmentServiceWorkerGuard: FCNullable = (): null => {
   useEffect((): void => {
     if (
-      process.env.NODE_ENV === 'development' &&
+      environment.NODE_ENV === 'development' &&
       'serviceWorker' in navigator
     ) {
       void cleanupServiceWorkers()

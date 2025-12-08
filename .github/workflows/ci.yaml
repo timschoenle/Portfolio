@@ -255,6 +255,25 @@ jobs:
       - name: Run Knip
         run: pnpm run lint:deps
 
+  architecture-check:
+    name: Architecture Check
+    runs-on: ubuntu-latest
+    needs: install-deps
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Setup with cache
+        uses: ./.github/actions/setup-pnpm-node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          mode: 'cache'
+          cache-key: *cache_key
+
+      - name: Run Dependency Cruiser
+        run: pnpm run dep-cruise
+
   # Unit and component tests
   test:
     name: Unit & Component Tests
@@ -298,6 +317,7 @@ jobs:
         type-check,
         i18n-check,
         knip-check,
+        architecture-check,
       ]
     if: needs.changes.outputs.source == 'true'
     timeout-minutes: 15
@@ -551,6 +571,25 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Run Trivy vulnerability scanner (filesystem)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          trivy-config: trivy.yaml
+          format: 'table'
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Run Trivy config scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          trivy-config: trivy.yaml
+          format: 'table'
           severity: 'CRITICAL,HIGH'
 
   # Cleanup build artifacts after all consuming jobs complete

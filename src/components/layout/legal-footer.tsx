@@ -4,6 +4,7 @@ import { type JSX } from 'react'
 
 import { getTranslations } from 'next-intl/server'
 
+import { environment } from '@/environment'
 import { Link } from '@/i18n/routing'
 import { siteConfig } from '@/lib/config'
 import type { AsyncPageFC } from '@/types/fc'
@@ -16,7 +17,7 @@ export const LegalFooter: AsyncPageFC<LegalFooterProperties> = async ({
 }: LegalFooterProperties): Promise<JSX.Element> => {
   const translations: Translations<''> = await getTranslations({ locale })
   const currentYear: number = new Date().getFullYear()
-  const revision: string | undefined = process.env['NEXT_PUBLIC_REVISION']
+  const revision: string | undefined = environment.NEXT_PUBLIC_REVISION
 
   return (
     <footer className="mt-8 flex flex-col items-center gap-2 pb-8 text-center text-sm text-muted-foreground">
