@@ -17,6 +17,13 @@ vi.mock('@/i18n/routing', () => ({
   ),
 }))
 
+// Mock environment
+vi.mock('@/environment', () => ({
+  environment: {
+    NEXT_PUBLIC_REVISION: 'abc1234',
+  },
+}))
+
 describe('LegalFooter', () => {
   it('renders footer', async () => {
     const Component = await LegalFooter({ locale: 'en' })
@@ -41,7 +48,6 @@ describe('LegalFooter', () => {
   })
 
   it('renders copyright and version', async () => {
-    process.env['NEXT_PUBLIC_REVISION'] = 'abc1234'
     const Component = await LegalFooter({ locale: 'en' })
     render(Component)
 
