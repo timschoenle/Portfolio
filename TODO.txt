@@ -4,9 +4,6 @@
 * Improve dark reader support for the hero title
 * Reset github token
 * Replace resume test data with real data
-* Add propper icons
 * Ensure resume stays on one page
-* Ensure radar blips confidence level is correct
 * DPA's
 * Verify imprint and privacy policy
-* Docker/Helm seems to have issues with caching/file access
