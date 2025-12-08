@@ -42,6 +42,10 @@ function getImageDimension(iconId: IconType): IconDimension {
     case IconIds.FAV_ICONS: {
       return { height: 32, width: 32 }
     }
+    default: {
+      // Exhaustive check: if we ever get here, iconId is not handled
+      throw new Error(`Unhandled iconId: ${String(iconId)}`)
+    }
   }
 }
 
