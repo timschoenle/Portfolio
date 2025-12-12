@@ -22,7 +22,7 @@ export const ModernTemplate: FC<ModernTemplateProperties> = ({
   return (
     <Page size="A4" style={styles.page}>
       <View style={styles.topHeader}>
-        <Text style={styles.name}>{siteConfig.name}</Text>
+        <Text style={styles.name}>{siteConfig.fullName}</Text>
         <Text style={styles.title}>
           {translations('personalInfo.jobTitle')}
         </Text>
