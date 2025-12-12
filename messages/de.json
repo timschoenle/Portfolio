@@ -114,13 +114,7 @@
       "viewProject": "Projekt ansehen"
     },
     "summary": "Erfahrener Software-Ingenieur mit über 5 Jahren Expertise in der Entwicklung skalierbarer Webanwendungen. Leidenschaftlich für sauberen Code, moderne Technologien und das Lösen komplexer Probleme.",
-    "education": [
-      {
-        "degree": "B.S. Computer Science",
-        "institution": "University of California, Berkeley",
-        "year": "2019"
-      }
-    ],
+    "education": [],
     "experience": [
       {
         "achievements": [
@@ -171,19 +165,7 @@
         "title": "Senior Software Engineer"
       }
     ],
-    "projects": [
-      {
-        "description": "Full-Stack-Online-Shop mit Zahlungsintegration und Echtzeit-Bestandsverwaltung",
-        "name": "E-Commerce Platform",
-        "technologies": ["React", "Node.js", "MongoDB", "Stripe"],
-        "url": "https://github.com/johndoe/ecommerce"
-      },
-      {
-        "description": "Kollaboratives Projektmanagement-Tool mit Echtzeit-Updates und Teamfunktionen",
-        "name": "Task Management App",
-        "technologies": ["Next.js", "TypeScript", "PostgreSQL", "Prisma"]
-      }
-    ]
+    "projects": []
   },
   "imprint": {
     "title": "Impressum",
