@@ -86,7 +86,7 @@ export const siteConfig: SiteConfig = {
       policyUrl: 'https://www.cloudflare.com/privacypolicy/',
     },
     imprintLastChange: new Date('2025-12-11'),
-    logRetentionDays: 30,
+    logRetentionDays: 7,
     privacyPolicyLastChange: new Date('2025-12-11'),
     secondContact:
       'https://mein.online-impressum.de/tim-schoenle-de/#Zweiter_Kontaktweg',
