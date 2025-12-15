@@ -181,20 +181,6 @@
     "liabilityLinks": "<heading>Liability for links</heading><text>Our website contains links to external third-party websites over whose content we have no influence. Therefore, we cannot accept any liability for this third-party content. The respective provider or operator of the pages is always responsible for the content of the linked pages.</text>",
     "copyright": "<heading>Copyright</heading><text>The content and works created by the site operators on these pages are subject to German copyright law. The reproduction, editing, distribution and any kind of use outside the limits of copyright require the written consent of the respective author or creator.</text>"
   },
-  "cookies": {
-    "title": "Cookie Consent",
-    "description": "We use cookies to enhance your browsing experience and analyze our traffic. By clicking 'Accept All', you consent to our use of cookies.",
-    "acceptAll": "Accept All",
-    "rejectAll": "Reject All",
-    "customize": "Customize",
-    "essential": "Essential Cookies",
-    "essentialDesc": "Required for the website to function properly. These cannot be disabled.",
-    "analytics": "Analytics Cookies",
-    "analyticsDesc": "Help us understand how visitors interact with our website by collecting and reporting information anonymously.",
-    "save": "Save Preferences",
-    "required": "Required",
-    "back": "Back"
-  },
   "privacy": {
     "title": "Privacy Policy",
     "serverLocation": "Germany",
