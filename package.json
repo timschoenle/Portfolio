@@ -4,10 +4,10 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "pnpm build:prepare && next build --webpack",
-    "build:prepare": "pnpm build:resume",
-    "build:resume": "pnpm dlx tsx scripts/generate-resumes.ts",
-    "dev": "pnpm build:prepare && next dev  --webpack",
+    "build": "bun run build:prepare && next build --webpack",
+    "build:prepare": "bun run build:resume",
+    "build:resume": "bun run scripts/generate-resumes.ts",
+    "dev": "bun run build:prepare && next dev  --webpack",
     "docker:build": "docker build -t portfolio:latest .",
     "docker:prod": "docker-compose up app",
     "docker:run": "docker run -p 3000:3000 portfolio:latest",
@@ -18,13 +18,13 @@
     "lint:deps": "knip",
     "lint:deps:fix": "knip --fix",
     "lint:secrets": "gitleaks detect --redact --report-format json --report-path secrets-report.json",
-    "license-check": "tsx scripts/check-licenses.ts",
-    "generate-resumes": "tsx scripts/generate-resumes.ts",
+    "license-check": "bun scripts/check-licenses.ts",
+    "generate-resumes": "bun scripts/generate-resumes.ts",
     "dep-cruise": "depcruise src --include-only \"src\" --config .dependency-cruiser.js --output-type err-long",
-    "start": "cross-env PORT=3000 HOSTNAME=0.0.0.0 NODE_ENV=production pnpm dlx tsx scripts/start-standalone.ts",
+    "start": "PORT=3000 HOSTNAME=0.0.0.0 NODE_ENV=production bun run scripts/start-standalone.ts",
     "type-check": "tsc --noEmit",
     "i18n-check": "i18n-check --unused src/ -f next-intl --source en --locales messages || echo \"::warning::i18n-check found issues (non-blocking)\"",
-    "analyze": "cross-env NEXT_IGNORE_TURBOPACK=true ANALYZE=true next build --webpack",
+    "analyze": "NEXT_IGNORE_TURBOPACK=true ANALYZE=true next build --webpack",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
@@ -77,7 +77,6 @@
     "@vitejs/plugin-react": "5.1.2",
     "@vitest/coverage-v8": "4.0.15",
     "babel-plugin-react-compiler": "1.0.0",
-    "cross-env": "10.1.0",
     "dependency-cruiser": "17.3.2",
     "eslint": "9.39.2",
     "eslint-import-resolver-typescript": "4.4.4",
@@ -103,7 +102,6 @@
     "prettier-plugin-tailwindcss": "0.7.2",
     "serwist": "9.2.3",
     "tailwindcss": "4.1.18",
-    "tsx": "4.21.0",
     "typescript": "5.9.3",
     "typescript-eslint": "8.49.0",
     "vite-tsconfig-paths": "5.1.4",
@@ -134,16 +132,7 @@
     "alwaysShowGzipDiff": true,
     "skipCommentIfEmpty": false
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@appthreat/sqlite3",
-      "@next/swc",
-      "@parcel/watcher",
-      "esbuild",
-      "husky",
-      "libxmljs2",
-      "playwright",
-      "sharp"
-    ]
+  "resolutions": {
+    "zod-validation-error": "5.0.0"
   }
 }

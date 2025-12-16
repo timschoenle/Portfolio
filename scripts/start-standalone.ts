@@ -185,6 +185,11 @@ function getNextBinPath(): string {
 }
 
 function getNodeBin(): string {
+  // Use current runtime executable if it's Bun
+  // eslint-disable-next-line
+  if (process.versions['bun'] !== null) {
+    return process.execPath
+  }
   const binName: string = isWindows ? 'node.exe' : 'node'
   return process.execPath.includes(binName) ? process.execPath : 'node'
 }

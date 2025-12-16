@@ -1,13 +1,11 @@
-name: 'Setup Node.js & pnpm'
-description: 'Sets up pnpm and Node.js, then either installs dependencies or restores from cache'
+name: 'Setup Bun'
+description: 'Sets up Bun, then either installs dependencies or restores from cache'
 
 inputs:
-  node-version:
-    description: 'Node.js version'
+  bun-version:
+    description: 'Bun version'
     required: true
-  pnpm-version:
-    description: 'pnpm version'
-    required: true
+    default: 'latest'
   mode:
     description: 'Setup mode: "install" to install deps, "cache" to restore from cache'
     required: true
@@ -18,21 +16,15 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup pnpm
-      uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@4bc047ad259df6fc24a6c9b0f9a0cb08cf17fbe5 # v2
       with:
-        version: ${{ inputs.pnpm-version }}
-        run_install: false
-
-    - name: Setup Node.js
-      uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6
-      with:
-        node-version: ${{ inputs.node-version }}
+        bun-version: ${{ inputs.bun-version }}
 
     - name: Install dependencies
       if: ${{ inputs.mode == 'install' }}
       shell: bash
-      run: pnpm install --frozen-lockfile
+      run: bun install --frozen-lockfile
 
     - name: Restore node_modules from cache
       if: ${{ inputs.mode == 'cache' }}

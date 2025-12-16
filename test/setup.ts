@@ -41,6 +41,21 @@ vi.mock('next/link', () => {
   }
 })
 
+// Mock next-intl
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => key,
+  useLocale: () => 'en',
+  NextIntlClientProvider: ({ children }: { children: React.ReactNode }) =>
+    children,
+  hasLocale: (locales: readonly string[], locale: string) =>
+    locales.includes(locale),
+}))
+
+vi.mock('next-intl/server', () => ({
+  getTranslations: async () => (key: string) => key,
+  getMessages: async () => ({}),
+}))
+
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
   observe() {}
