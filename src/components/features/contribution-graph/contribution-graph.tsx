@@ -25,7 +25,10 @@ import {
 import type { AsyncPageFC, FCStrict } from '@/types/fc'
 import type { LocalePageProperties, Translations } from '@/types/i18n'
 
+import { ContributionGraphInteractive } from './contribution-graph-interactive'
 import styles from './contribution-graph.module.css'
+import { ContributionHoverProvider } from './contribution-hover-context'
+import { ContributionTooltip } from './contribution-tooltip'
 
 /* =============================== Types =============================== */
 
@@ -42,15 +45,15 @@ const levelClass: (level: ContributionLevel) => string = (
     return 'bg-muted/40 dark:bg-muted/20 hover:bg-muted/60 dark:hover:bg-muted/40 border border-border/50 dark:border-border/30'
   }
   if (level === 1) {
-    return 'bg-emerald-100 dark:bg-emerald-900/40 hover:bg-emerald-200 dark:hover:bg-emerald-900/60 border border-emerald-200/50 dark:border-emerald-800/30'
+    return 'bg-primary/20 dark:bg-primary/20 hover:bg-primary/30 dark:hover:bg-primary/30 border border-primary/20 dark:border-primary/20'
   }
   if (level === 2) {
-    return 'bg-emerald-300 dark:bg-emerald-700/60 hover:bg-emerald-400 dark:hover:bg-emerald-700/80 border border-emerald-400/50 dark:border-emerald-600/30'
+    return 'bg-primary/40 dark:bg-primary/40 hover:bg-primary/50 dark:hover:bg-primary/50 border border-primary/30 dark:border-primary/30'
   }
   if (level === 3) {
-    return 'bg-emerald-500 dark:bg-emerald-600/80 hover:bg-emerald-600 dark:hover:bg-emerald-600 border border-emerald-600/50 dark:border-emerald-500/30'
+    return 'bg-primary/60 dark:bg-primary/60 hover:bg-primary/70 dark:hover:bg-primary/70 border border-primary/40 dark:border-primary/40'
   }
-  return 'bg-emerald-700 dark:bg-emerald-500 hover:bg-emerald-800 dark:hover:bg-emerald-400 border border-emerald-800/50 dark:border-emerald-400/30'
+  return 'bg-primary/80 dark:bg-primary/80 hover:bg-primary/90 dark:hover:bg-primary/90 border border-primary/50 dark:border-primary/50'
 }
 
 interface LegendSquareProperties {
@@ -180,19 +183,12 @@ const DayCell: FCStrict<DayCellProperties> = ({
   const delayMs: string = String(weekIndex * 7 + dayIndex) + 'ms'
 
   const commitsText: string = day.count.toLocaleString(locale)
-  const dateText: string = new Date(day.date).toLocaleDateString(locale, {
-    day: 'numeric',
-    month: 'short',
-    timeZone: 'UTC',
-    weekday: 'short',
-    year: 'numeric',
-  })
 
   return (
     <div
       className={`h-4 w-4 rounded-sm transition-all duration-200 ${levelClass(day.level)} ${styles['cell'] ?? ''}`}
       data-commits={commitsText}
-      data-date={dateText}
+      data-date={day.date}
       data-row={dayIndex}
       key={day.date}
       style={{ animationDelay: delayMs }}
@@ -273,6 +269,7 @@ const WeeksGrid: FCStrict<WeeksGridProperties> = ({
 }
 
 /* ================================ Main FC ================================ */
+
 export const ContributionGraph: AsyncPageFC<
   ContributionGraphProperties
 > = async ({
@@ -291,32 +288,37 @@ export const ContributionGraph: AsyncPageFC<
 
   return (
     <Card className="w-full overflow-hidden border-2 p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg dark:bg-card/50">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <Heading as="h3" className="text-2xl font-bold">
-            {translations('title')}
-          </Heading>
-          <p className="text-sm text-muted-foreground">
-            {translations('totalAmount', {
-              count: total.toLocaleString(locale),
-            })}
-          </p>
+      <ContributionHoverProvider>
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Heading as="h3" className="text-2xl font-bold">
+              {translations('title')}
+            </Heading>
+            <p className="text-sm text-muted-foreground">
+              {translations('totalAmount', {
+                count: total.toLocaleString(locale),
+              })}
+            </p>
+          </div>
+          <LegendBar less={translations('less')} more={translations('more')} />
         </div>
-        <LegendBar less={translations('less')} more={translations('more')} />
-      </div>
 
-      <div className="relative w-full overflow-x-auto pb-2">
-        <div className="inline-block min-w-full">
-          <MonthLabelsRow labels={calendar.monthLabels} />
-          <WeeksGrid
-            dayFive={labels.dayFive}
-            dayOne={labels.dayOne}
-            dayThree={labels.dayThree}
-            locale={locale}
-            weeks={calendar.weeks}
-          />
+        <div className="relative w-full overflow-x-auto pb-2">
+          <div className="inline-block min-w-full">
+            <MonthLabelsRow labels={calendar.monthLabels} />
+            <ContributionGraphInteractive>
+              <WeeksGrid
+                dayFive={labels.dayFive}
+                dayOne={labels.dayOne}
+                dayThree={labels.dayThree}
+                locale={locale}
+                weeks={calendar.weeks}
+              />
+            </ContributionGraphInteractive>
+          </div>
         </div>
-      </div>
+        <ContributionTooltip data={data} locale={locale} />
+      </ContributionHoverProvider>
     </Card>
   )
 }

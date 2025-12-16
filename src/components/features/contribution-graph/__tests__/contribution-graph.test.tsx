@@ -8,6 +8,10 @@ vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn(() => (key: string) => key),
 }))
 
+vi.mock('next-intl', () => ({
+  useTranslations: vi.fn(() => (key: string) => key),
+}))
+
 describe('ContributionGraph', () => {
   it('renders correctly with data', async () => {
     const data: ContributionPoint[] = [

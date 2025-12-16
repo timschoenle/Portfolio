@@ -64,7 +64,8 @@
       "title": "GitHub Contributions",
       "totalAmount": "{count} contributions in the last year",
       "more": "More",
-      "less": "Less"
+      "less": "Less",
+      "tooltip": "{count, plural, =0 {No contributions} one {# contribution} other {# contributions}}"
     },
     "viewAll": "View All Projects on GitHub",
     "view": "Open project"
