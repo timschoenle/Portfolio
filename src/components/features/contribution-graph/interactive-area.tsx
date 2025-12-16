@@ -1,17 +1,15 @@
-'use client'
-
 import React, { type JSX } from 'react'
 
 import {
   type HoverContextValue,
   useContributionHover,
 } from '@/components/features/contribution-graph/contribution-hover-context'
-import type { FCWithRequiredChildren } from '@/types/fc'
+import { type FCWithRequiredChildren } from '@/types/fc'
 
-export const ContributionGraphInteractive: FCWithRequiredChildren = ({
+export const InteractiveArea: FCWithRequiredChildren = ({
   children,
 }: {
-  readonly children: React.ReactNode
+  children: React.ReactNode
 }): JSX.Element => {
   const { setHoveredDate, setHoverPosition }: HoverContextValue =
     useContributionHover()
@@ -20,15 +18,13 @@ export const ContributionGraphInteractive: FCWithRequiredChildren = ({
     event: React.MouseEvent<HTMLDivElement>
   ): void => {
     const target: HTMLElement = event.target as HTMLElement
-    // eslint-disable-next-line unicorn/prefer-dom-node-dataset -- date is a data attribute but we want to be safe
+    // eslint-disable-next-line unicorn/prefer-dom-node-dataset
     const date: string | null = target.getAttribute('data-date')
 
     if (date === null) {
-      // It's something else (e.g. gap between cells)
       setHoveredDate(null)
       setHoverPosition(null)
     } else {
-      // It's a cell
       setHoveredDate(date)
       setHoverPosition({
         x: event.clientX,
