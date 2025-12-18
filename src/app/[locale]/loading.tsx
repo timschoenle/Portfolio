@@ -11,15 +11,35 @@ const Loading: PageFC = (): JSX.Element => {
   const translations: Translations<'loading'> = useTranslations('loading')
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="space-y-4 text-center">
-        <div className="relative mx-auto h-16 w-16">
-          <div className="absolute inset-0 rounded-full border-4 border-primary/20" />
-          <div className="absolute inset-0 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#0B1021] text-[#E6F1FF]">
+      {/* Blueprint Grid Background */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(#4A90E2 1px, transparent 1px), linear-gradient(90deg, #4A90E2 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
+        }}
+      />
+
+      <div className="relative z-10 flex flex-col items-center gap-6">
+        {/* Technical Loader */}
+        <div className="relative h-24 w-24">
+          <div className="absolute inset-0 animate-spin rounded-full border-2 border-[#4A90E2]/20 border-t-[#4A90E2]" />
+          <div className="animate-spin-slow reverse absolute inset-4 rounded-full border-2 border-[#4A90E2]/20 border-b-[#4A90E2]" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="h-2 w-2 animate-pulse bg-[#4A90E2] shadow-[0_0_10px_#4A90E2]" />
+          </div>
         </div>
-        <p className="animate-pulse text-sm text-muted-foreground">
-          {translations('title')}
-        </p>
+
+        <div className="flex flex-col items-center gap-2">
+          <h1 className="animate-pulse font-mono text-xl font-bold tracking-widest text-[#E6F1FF]">
+            {translations('title').toUpperCase()}...
+          </h1>
+          <div className="h-px w-32 bg-gradient-to-r from-transparent via-[#4A90E2]/50 to-transparent" />
+          <span className="font-mono text-[10px] tracking-[0.2em] text-[#4A90E2]/60 uppercase">
+            SYSTEM_INITIALIZATION
+          </span>
+        </div>
       </div>
     </div>
   )

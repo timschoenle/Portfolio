@@ -17,17 +17,22 @@ import type { ContributionCollection, ContributionPoint } from '@/models/github'
 export interface ContributionGraphClientProperties {
   readonly data: ContributionCollection
   readonly locale: Locale
+  readonly variant?: 'blueprint' | 'default'
 }
 
 export const ContributionGraphClient: React.FC<
   ContributionGraphClientProperties
-> = ({ data, locale }: ContributionGraphClientProperties): JSX.Element => {
+> = ({
+  data,
+  locale,
+  variant = 'default',
+}: ContributionGraphClientProperties): JSX.Element => {
   // Sort years descending
   const years: number[] = useMemo(
     (): number[] =>
       Object.keys(data)
         .map(Number)
-        .toSorted((yearA: number, yearB: number): number => yearB - yearA),
+        .sort((yearA: number, yearB: number): number => yearB - yearA),
     [data]
   )
 
@@ -73,6 +78,7 @@ export const ContributionGraphClient: React.FC<
       locale={locale}
       selectedYear={selectedYear}
       total={total}
+      variant={variant}
       years={years}
       onYearChange={setSelectedYear}
     />

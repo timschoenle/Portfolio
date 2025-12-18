@@ -4,33 +4,8 @@ import { render, screen } from '@testing-library/react'
 
 import { HeroSection } from '../hero-section'
 
-// Mock next-intl
-vi.mock('next-intl/server', () => ({
-  getTranslations: vi.fn(() => (key: string) => {
-    const translations: Record<string, string> = {
-      'common.socials.github': 'GitHub',
-      contact: 'Contact Me',
-      greeting: 'Hi, I am',
-      location: 'Based in {country}',
-      'personalInfo.country': 'Germany',
-      'personalInfo.jobTitle': 'Software Developer',
-      tagline: 'Passionate about coding',
-    }
-    return translations[key] ?? key
-  }),
-}))
-
-// Mock config
-vi.mock('@/lib/config', () => ({
-  siteConfig: {
-    email: 'test@example.com',
-    fullName: 'John Doe',
-    name: 'John',
-    socials: {
-      github: 'https://github.com/test',
-    },
-  },
-}))
+// Mock overrides if necessary
+// (None needed for basic structure, but we might check values)
 
 describe('HeroSection', () => {
   it('renders hero content', async () => {
@@ -38,9 +13,10 @@ describe('HeroSection', () => {
     render(Component)
 
     // Check for actual rendered content
-    expect(screen.getByText('Hi, I am')).toBeDefined()
-    expect(screen.getByText('John')).toBeDefined()
-    expect(screen.getByText('Software Developer')).toBeDefined()
+    // Note: BlueprintTitle transforms title to uppercase in JS or CSS
+    expect(screen.getByText(/test name/i)).toBeDefined()
+    expect(screen.getByText(/personalInfo.jobTitle/i)).toBeDefined()
+    expect(screen.getByText('// MAIN_ENTRY_POINT')).toBeDefined()
 
     // Check for links
     const githubLink = screen.getByRole('link', { name: /github/i })

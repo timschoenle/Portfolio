@@ -1,0 +1,47 @@
+import { type JSX, type ReactNode } from 'react'
+
+import type { FCWithRequiredChildren } from '@/types/fc'
+
+import { MeasurementLine } from './measurement-line'
+
+interface BlueprintCardProperties {
+  readonly children: ReactNode
+  readonly className?: string
+  readonly label?: string
+  readonly noPadding?: boolean
+}
+
+export const BlueprintCard: FCWithRequiredChildren<BlueprintCardProperties> = ({
+  children,
+  className,
+  label,
+  noPadding = false,
+}: BlueprintCardProperties): JSX.Element => (
+  <div
+    className={`relative ${noPadding ? '' : 'p-8 md:p-12'} w-full ${className ?? ''}`}
+  >
+    {/* Technical Frame for Content */}
+    <div className="absolute inset-0 border border-[#4A90E2]/20 bg-[#0F1629]/90 backdrop-blur-md" />
+
+    {/* Corner Markers */}
+    <div className="absolute top-0 left-0 h-3 w-3 border-t-2 border-l-2 border-[#4A90E2]" />
+    <div className="absolute top-0 right-0 h-3 w-3 border-t-2 border-r-2 border-[#4A90E2]" />
+    <div className="absolute bottom-0 left-0 h-3 w-3 border-b-2 border-l-2 border-[#4A90E2]" />
+    <div className="absolute right-0 bottom-0 h-3 w-3 border-r-2 border-b-2 border-[#4A90E2]" />
+
+    {/* Side Decoration */}
+    <div className="absolute top-12 left-0 h-16 w-1 bg-[#4A90E2]/40" />
+    <div className="absolute right-0 bottom-12 h-16 w-1 bg-[#4A90E2]/40" />
+
+    {label && (
+      <div className="absolute -top-3 left-[var(--app-padding)] border border-[#4A90E2]/30 bg-[#0B1021] px-2 font-mono text-xs tracking-widest text-[#4A90E2] uppercase">
+        {label}
+      </div>
+    )}
+
+    <div className="relative z-10 flex h-full flex-col gap-8">{children}</div>
+
+    {/* Bottom Measurement */}
+    <MeasurementLine className="bottom-4 left-0 opacity-30" width="100%" />
+  </div>
+)

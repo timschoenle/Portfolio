@@ -25,6 +25,7 @@ interface ContributionGraphViewProperties {
   readonly onYearChange: (year: number) => void
   readonly selectedYear: number
   readonly total: number
+  readonly variant?: 'blueprint' | 'default'
   readonly years: readonly number[]
 }
 
@@ -38,25 +39,33 @@ export const ContributionGraphView: FCStrict<
   onYearChange,
   selectedYear,
   total,
+  variant = 'default',
   years,
 }: ContributionGraphViewProperties): JSX.Element => {
   const translate: ReturnType<typeof useTranslations> = useTranslations(
     'projects.contributions'
   )
 
+  const Wrapper = variant === 'blueprint' ? 'div' : Card
+  const wrapperClassName =
+    variant === 'blueprint'
+      ? 'w-full overflow-hidden p-6 transition-all duration-300'
+      : 'w-full overflow-hidden border-2 p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg dark:bg-card/50'
+
   return (
-    <Card className="w-full overflow-hidden border-2 p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg dark:bg-card/50">
+    <Wrapper className={wrapperClassName}>
       <ContributionHoverProvider>
         <HeaderSection
           selectedYear={selectedYear}
           total={total}
           translate={translate}
+          variant={variant}
           years={years}
           onYearChange={onYearChange}
         />
         <GraphSection calendar={calendar} labels={labels} locale={locale} />
         <ContributionTooltip data={currentYearData} locale={locale} />
       </ContributionHoverProvider>
-    </Card>
+    </Wrapper>
   )
 }

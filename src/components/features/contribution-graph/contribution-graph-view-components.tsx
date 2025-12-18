@@ -25,6 +25,7 @@ interface HeaderSectionProperties {
   readonly selectedYear: number
   readonly total: number
   readonly translate: ReturnType<typeof useTranslations>
+  readonly variant?: 'blueprint' | 'default'
   readonly years: readonly number[]
 }
 
@@ -33,8 +34,14 @@ export const HeaderSection: FCStrict<HeaderSectionProperties> = ({
   selectedYear,
   total,
   translate,
+  variant = 'default',
   years,
 }: HeaderSectionProperties): JSX.Element => {
+  const selectClassName =
+    variant === 'blueprint'
+      ? 'h-9 w-24 rounded-md border border-[#4A90E2]/30 bg-[#0B1021] px-3 py-1 text-sm text-[#4A90E2] shadow-sm focus-visible:ring-1 focus-visible:ring-[#4A90E2] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+      : 'h-9 w-24 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+
   return (
     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex flex-col gap-2">
@@ -52,7 +59,7 @@ export const HeaderSection: FCStrict<HeaderSectionProperties> = ({
       <div className="flex items-center gap-4">
         <select
           aria-label="Select Year"
-          className="h-9 w-24 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+          className={selectClassName}
           value={selectedYear}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
             onYearChange(Number(event.target.value))
@@ -61,7 +68,7 @@ export const HeaderSection: FCStrict<HeaderSectionProperties> = ({
           {years.map(
             (year: number): JSX.Element => (
               <option
-                className="bg-popover text-popover-foreground"
+                className="bg-[#0B1021] text-[#4A90E2]"
                 key={year}
                 value={year}
               >

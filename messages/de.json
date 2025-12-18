@@ -24,6 +24,12 @@
       "copyright": "© {year} {name}. Alle Rechte vorbehalten"
     }
   },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die angeforderten Koordinaten entsprechen keinem bekannten Sektor in diesem System.",
+    "retry": "Ping wiederholen",
+    "home": "Zur Basis zurückkehren"
+  },
   "hero": {
     "greeting": "Hallo, ich bin",
     "location": "Ansässig in {country}",

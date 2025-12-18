@@ -61,6 +61,7 @@ vi.mock(
 
 // Mock all section components with correct export names
 vi.mock('@/components/sections/about-section', () => ({
+  AboutSection: () => <div data-testid="about-section">About</div>,
   default: () => <div data-testid="about-section">About</div>,
 }))
 

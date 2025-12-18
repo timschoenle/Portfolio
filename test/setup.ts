@@ -22,6 +22,9 @@ vi.mock('next/navigation', () => {
   }
 })
 
+// Mock server-only
+vi.mock('server-only', () => ({}))
+
 // Render <Image> as a plain <img>
 vi.mock('next/image', () => {
   return {
@@ -74,3 +77,72 @@ Object.assign(window.HTMLElement.prototype, {
   releasePointerCapture: vi.fn(),
   hasPointerCapture: vi.fn(),
 })
+
+// Mock next-intl/server
+vi.mock('next-intl/server', () => ({
+  getTranslations: vi.fn(async () => {
+    const t: any = (key: string) => key
+    t.rich = (key: string) => key
+    t.raw = (key: string) => key
+    t.markup = (key: string) => key
+    t.has = () => true
+    return t
+  }),
+  setRequestLocale: vi.fn(),
+}))
+
+// Mock @/lib/config
+vi.mock('@/lib/config', () => ({
+  SKILL_RENDER_AREAS: {
+    RESUME: 'resume',
+    SECTION: 'section',
+    TECH_RADAR: 'tech-radar',
+  },
+  siteConfig: {
+    contribution: { yearsToShow: 5 },
+    description: 'Test Description',
+    email: 'test@example.com',
+    fullName: 'Test Full Name',
+    jobTitle: 'Test Job Title',
+    experience: [
+      {
+        company: 'Test Company',
+        from: '2020',
+        location: 'Test Location',
+        title: 'Test Title',
+        to: 'Present',
+      },
+    ],
+    featuredRepos: [],
+    legals: {
+      address: 'Test Address',
+      cloudflare: { address: '', policyUrl: '' },
+      hosting: { address: '', name: '', policyUrl: '' },
+      imprintLastChange: new Date(),
+      logRetentionDays: 7,
+      privacyPolicyLastChange: new Date(),
+      secondContact: '',
+      vatId: '',
+    },
+    location: 'Test Location',
+    name: 'Test Name',
+    resumeDirectory: 'resume',
+    seo: { keywords: ['Test', 'Keywords'] },
+    skills: {
+      buildTools: [],
+      frameworks: [],
+      infrastructure: [],
+      languages: [],
+      resumeMinimumConfidence: 0.6,
+      sectionSideMinimumConfidence: 0.6,
+    },
+    socials: {
+      github: 'https://github.com/test',
+      githubUsername: 'testuser',
+      linkedin: 'https://linkedin.com/in/testuser',
+    },
+    title: 'Test Title',
+    url: 'https://test.com',
+    username: 'testuser',
+  },
+}))

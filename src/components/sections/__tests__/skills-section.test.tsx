@@ -1,26 +1,19 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { SkillsSection } from '../skills-section'
-
-// Mock next-intl
-vi.mock('next-intl/server', () => ({
-  getTranslations: vi.fn(async () => (key: string) => key),
-}))
 
 // Mock TechRadar component to avoid async rendering issues in tests
 vi.mock('@/components/sections/tech-radar/tech-radar', () => ({
   TechRadar: vi.fn(() => <div data-testid="tech-radar-mock">TechRadar</div>),
 }))
 
-// Mock config
-vi.mock('@/lib/config', () => ({
-  SKILL_RENDER_AREAS: {
-    RESUME: 'resume',
-    SECTION: 'section',
-    TECH_RADAR: 'tech-radar',
-  },
-  siteConfig: {
-    skills: {
+import { siteConfig } from '@/lib/config'
+
+describe('Skills_section', () => {
+  beforeEach(() => {
+    // Reset siteConfig to test values
+    // We can modify the properties of the imported mock object directly
+    Object.assign(siteConfig.skills, {
       languages: [
         { name: 'TypeScript', confidence: 0.9 },
         { name: 'Rust', confidence: 0.6 },
@@ -39,16 +32,13 @@ vi.mock('@/lib/config', () => ({
       ],
       sectionSideMinimumConfidence: 0,
       resumeMinimumConfidence: 0,
-    },
-  },
-}))
-
-describe('Skills_section', () => {
+    })
+  })
   it('renders section with title', async () => {
     const Component = await SkillsSection({ locale: 'en' })
     render(Component)
 
-    expect(screen.getByText('title')).toBeDefined()
+    expect(screen.getByText('TITLE')).toBeDefined()
   })
 
   it('renders languages', async () => {
@@ -100,6 +90,7 @@ describe('Skills_section', () => {
 
     const section = container.querySelector('#skills')
     expect(section).toBeDefined()
-    expect(section?.children.length).toBe(0)
+    // It will still contain the grid layout and empty lists, but no list items
+    expect(container.querySelectorAll('li').length).toBe(0)
   })
 })

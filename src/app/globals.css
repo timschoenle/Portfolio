@@ -45,6 +45,14 @@
   --shadow-spread: 0px;
   --shadow-opacity: 0.05;
   --shadow-color: #000000;
+  /* App Layout Variables */
+  --app-padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --app-padding: 2rem;
+  }
 }
 
 .dark {

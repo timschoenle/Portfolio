@@ -9,6 +9,7 @@ import type { LocalePageProperties } from '@/types/i18n'
 
 interface ContributionGraphProperties extends LocalePageProperties {
   readonly data: ContributionCollection
+  readonly variant?: 'blueprint' | 'default'
 }
 
 /* ================================ Main FC ================================ */
@@ -16,6 +17,9 @@ interface ContributionGraphProperties extends LocalePageProperties {
 export const ContributionGraph: FCStrict<ContributionGraphProperties> = ({
   data,
   locale,
+  variant = 'default',
 }: ContributionGraphProperties): JSX.Element => {
-  return <ContributionGraphClient data={data} locale={locale} />
+  return (
+    <ContributionGraphClient data={data} locale={locale} variant={variant} />
+  )
 }

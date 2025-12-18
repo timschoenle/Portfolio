@@ -24,6 +24,12 @@
       "copyright": "© {year} {name}. All rights reserved"
     }
   },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The requested coordinates do not correspond to any known sector in this system.",
+    "retry": "Retry Ping",
+    "home": "Return to Base"
+  },
   "hero": {
     "greeting": "Hi, I'm",
     "location": "Based in {country}",

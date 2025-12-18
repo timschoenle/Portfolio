@@ -106,6 +106,39 @@ export const getFeaturedProjects: () => Promise<GitHubProject[]> =
     revalidate: 86_400, // 24h
   })
 
+/* ---------------------------- single repository --------------------------- */
+
+const getGithubRepoUncached: (repo: string) => Promise<GitHubProject> = async (
+  repo: string
+): Promise<GitHubProject> => {
+  try {
+    const resp: Awaited<ReturnType<typeof octokit.repos.get>> =
+      await octokit.repos.get({
+        owner: siteConfig.socials.githubUsername,
+        repo,
+      })
+
+    return gitHubProjectSchema.parse({
+      description: resp.data.description ?? '',
+      forks_count: resp.data.forks_count,
+      homepage: resp.data.homepage ?? undefined,
+      html_url: resp.data.html_url,
+      language: resp.data.language ?? 'Unknown',
+      name: resp.data.name,
+      stargazers_count: resp.data.stargazers_count,
+      topics: Array.isArray(resp.data.topics) ? resp.data.topics : [],
+    })
+  } catch (error) {
+    logger.error({ err: error, repo }, 'Failed to fetch GitHub repo')
+    throw error
+  }
+}
+
+export const getGithubRepo: (repo: string) => Promise<GitHubProject> =
+  unstable_cache(getGithubRepoUncached, ['github-repo'], {
+    revalidate: 86_400, // 24h
+  })
+
 /* -------------------------------- user stats -------------------------------- */
 
 const getUserStatsUncached: () => Promise<UserStats> =

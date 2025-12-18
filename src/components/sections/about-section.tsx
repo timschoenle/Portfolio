@@ -4,21 +4,12 @@ import { type Locale } from 'next-intl'
 
 import { getTranslations } from 'next-intl/server'
 
-import {
-  Card,
-  CARD_HOVERS,
-  CARD_VARIANTS,
-  CardContent,
-} from '@/components/ui/card'
-import { Section } from '@/components/ui/section'
-import { SectionContainer } from '@/components/ui/section-container'
-import { SectionHeader } from '@/components/ui/section-header'
+import { BlueprintCard } from '@/components/blueprint/blueprint-card'
+import { BlueprintSection } from '@/components/blueprint/blueprint-section'
 import type { AsyncPageFC, FCStrict } from '@/types/fc'
 import type { LocalePageProperties, Translations } from '@/types/i18n'
 
-type AboutSectionProperties = LocalePageProperties & {
-  readonly performance?: boolean
-}
+type AboutSectionProperties = LocalePageProperties
 
 interface CompetencyBadgeProperties {
   readonly label: string
@@ -33,11 +24,15 @@ interface AboutTranslations {
 const CompetencyBadge: FCStrict<CompetencyBadgeProperties> = ({
   label,
 }: CompetencyBadgeProperties): JSX.Element => (
-  <div
-    className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-medium text-foreground transition-all hover:border-primary/30 hover:bg-primary/10"
-    itemProp="knowsAbout"
-  >
-    {label}
+  <div className="group relative overflow-hidden px-4 py-2 font-mono text-xs tracking-widest text-[#4A90E2] uppercase transition-all hover:text-[#E6F1FF]">
+    <span className="relative z-10 flex items-center gap-2">
+      <span className="text-[#4A90E2]/50">[</span>
+      {label}
+      <span className="text-[#4A90E2]/50">]</span>
+    </span>
+    {/* Hover highlight */}
+    <div className="absolute inset-0 bg-[#4A90E2]/10 opacity-0 transition-opacity group-hover:opacity-100" />
+    <div className="absolute bottom-0 left-0 h-px w-full bg-[#4A90E2]/30" />
   </div>
 )
 
@@ -49,9 +44,12 @@ async function getAboutTranslations(
     namespace: 'about',
   })
 
+  // Technical highlighting
   const summary: ReactNode = translations.rich('summary', {
     highlight: (chunks: ReactNode): JSX.Element => (
-      <span className="font-semibold">{chunks}</span>
+      <span className="border-b border-[#4A90E2]/30 bg-[#4A90E2]/10 px-1 font-bold text-[#E6F1FF]">
+        {chunks}
+      </span>
     ),
   })
 
@@ -62,56 +60,41 @@ async function getAboutTranslations(
   return { competencies, summary, translations }
 }
 
-const AboutSection: AsyncPageFC<AboutSectionProperties> = async ({
+export const AboutSection: AsyncPageFC<AboutSectionProperties> = async ({
   locale,
-  performance,
 }: AboutSectionProperties): Promise<JSX.Element> => {
-  const aboutTranslations: AboutTranslations =
+  const { competencies, summary, translations } =
     await getAboutTranslations(locale)
-  const { competencies, summary, translations }: AboutTranslations =
-    aboutTranslations
 
   return (
-    <Section className="py-24" id="about" performance={performance ?? false}>
-      {/* Background gradient */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-muted/30 via-background to-background" />
+    <BlueprintSection
+      dividerLabel="BIO_DATA_END"
+      id="about"
+      sectionLabel="// PROFILE_CORE"
+      title={translations('title')}
+    >
+      <BlueprintCard className="mt-8" label="BIO_DATA_LOG">
+        <div className="flex flex-col gap-12 text-center">
+          {/* Summary Text */}
+          <div className="font-mono text-sm leading-relaxed tracking-wide text-[#88B0D6] md:text-base">
+            {summary}
+          </div>
 
-      <SectionContainer size="sm">
-        {/* Section Title */}
-        <SectionHeader gradient={true} title={translations('title')} />
+          {/* Competencies */}
+          <div className="flex flex-col items-center gap-6">
+            <h3 className="border border-[#4A90E2]/30 bg-[#4A90E2]/5 px-4 py-1 font-mono text-xs font-bold tracking-[0.2em] text-[#E6F1FF] uppercase">
+              {translations('competenciesLabel')}
+            </h3>
 
-        {/* Main Content Card */}
-        <Card
-          className="p-6"
-          hover={CARD_HOVERS.MODERATE}
-          variant={CARD_VARIANTS.INTERACTIVE}
-        >
-          <CardContent className="space-y-8 p-8 md:p-12">
-            {/* Summary Text */}
-            <div
-              className="text-center text-lg leading-relaxed text-foreground/85 md:text-xl"
-              itemProp="description"
-            >
-              {summary}
+            <div className="flex max-w-3xl flex-wrap justify-center gap-2">
+              {competencies.map((competency) => (
+                <CompetencyBadge key={competency} label={competency} />
+              ))}
             </div>
-
-            {/* Key Competencies */}
-            <div className="mx-auto max-w-lg">
-              <h3 className="mb-4 text-center text-sm font-semibold tracking-wider text-foreground uppercase">
-                {translations('competenciesLabel')}
-              </h3>
-              <div className="flex flex-wrap justify-center gap-x-2 gap-y-1.5 md:gap-x-2.5 md:gap-y-2">
-                {competencies.map(
-                  (competency: string): JSX.Element => (
-                    <CompetencyBadge key={competency} label={competency} />
-                  )
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </SectionContainer>
-    </Section>
+          </div>
+        </div>
+      </BlueprintCard>
+    </BlueprintSection>
   )
 }
 

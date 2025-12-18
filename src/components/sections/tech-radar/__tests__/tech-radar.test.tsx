@@ -57,7 +57,7 @@ describe('TechRadar', () => {
     const { container } = render(Component)
 
     const svg = container.querySelector('svg')
-    expect(svg?.getAttribute('viewBox')).toBe('-100 -100 200 200')
+    expect(svg?.getAttribute('viewBox')).toBe('-220 -220 440 440')
   })
 
   it('renders background circles', async () => {

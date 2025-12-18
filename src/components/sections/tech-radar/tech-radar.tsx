@@ -333,9 +333,10 @@ export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
 
   return (
     <HoverProvider blips={allBlips}>
-      <div className="relative mx-auto aspect-square w-full max-w-2xl">
+      <div className="relative mx-auto flex h-full w-full items-center justify-center">
         <svg
           className="h-full w-full overflow-visible"
+          preserveAspectRatio="xMidYMid meet"
           viewBox={`${String(viewBox.min)} ${String(viewBox.min)} ${String(viewBox.width)} ${String(viewBox.height)}`}
         >
           <RadarDefs circles={circles} />
