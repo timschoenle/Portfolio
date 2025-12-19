@@ -57,7 +57,7 @@ export const BlueprintSectionTitle: FCStrict<
       width="100%"
     />
     <MeasurementLine
-      className="top-0 -right-8"
+      className="top-0 -right-8 hidden lg:flex"
       label="HEIGHT"
       orientation="vertical"
       width="100%"

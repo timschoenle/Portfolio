@@ -7,7 +7,6 @@ import { getTranslations } from 'next-intl/server'
 
 import { BlueprintCard } from '@/components/blueprint/blueprint-card'
 import { BlueprintContainer } from '@/components/blueprint/blueprint-container'
-import { BlueprintLabel } from '@/components/blueprint/blueprint-label'
 import { BlueprintSectionTitle } from '@/components/blueprint/blueprint-section-title'
 import { siteConfig } from '@/lib/config'
 import type { AsyncPageFC, FCStrict } from '@/types/fc'
@@ -132,10 +131,31 @@ export const ContactSection: AsyncPageFC<ContactSectionProperties> = async ({
 
         <ContactColumns locale={locale} translations={translations} />
 
-        <div className="mt-16 text-center">
-          <BlueprintLabel className="inline-block border border-brand/20 bg-blueprint-bg px-4 py-2 font-mono text-xs tracking-[0.2em] text-brand/60 uppercase">
-            {TRANSMISSION_END}
-          </BlueprintLabel>
+        <div className="mt-16 text-center opacity-60 select-none">
+          <svg
+            aria-hidden="true"
+            className="inline-block h-10 w-64 overflow-visible"
+            role="img"
+          >
+            <rect
+              className="fill-blueprint-bg stroke-brand/30"
+              height="100%"
+              rx="2"
+              strokeWidth="1"
+              width="100%"
+              x="0"
+              y="0"
+            />
+            <text
+              className="fill-brand font-mono text-[10px] tracking-[0.2em] uppercase"
+              dominantBaseline="middle"
+              textAnchor="middle"
+              x="50%"
+              y="50%"
+            >
+              {TRANSMISSION_END}
+            </text>
+          </svg>
         </div>
       </div>
     </BlueprintContainer>
