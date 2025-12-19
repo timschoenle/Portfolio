@@ -34,7 +34,7 @@ const ErrorActions: FCStrict<ErrorActionsProperties> = ({
   return (
     <div className="mt-6 flex gap-4">
       <button
-        className="flex items-center gap-2 border border-[#4A90E2] bg-[#4A90E2]/10 px-6 py-3 font-mono text-xs tracking-wider text-[#4A90E2] uppercase transition-all hover:bg-[#4A90E2]/20 hover:text-[#E6F1FF]"
+        className="flex items-center gap-2 border border-brand bg-brand/10 px-6 py-3 font-mono text-xs tracking-wider text-brand uppercase transition-all hover:bg-brand/20 hover:text-[#E6F1FF]"
         onClick={reset}
       >
         <RotateCcw className="h-4 w-4" />
@@ -42,7 +42,7 @@ const ErrorActions: FCStrict<ErrorActionsProperties> = ({
       </button>
 
       <button
-        className="flex items-center gap-2 border border-[#4A90E2]/30 bg-transparent px-6 py-3 font-mono text-xs tracking-wider text-[#4A90E2]/70 uppercase transition-all hover:border-[#4A90E2] hover:bg-[#4A90E2]/5 hover:text-[#E6F1FF]"
+        className="flex items-center gap-2 border border-brand/30 bg-transparent px-6 py-3 font-mono text-xs tracking-wider text-brand/70 uppercase transition-all hover:border-brand hover:bg-brand/5 hover:text-[#E6F1FF]"
         onClick={goHome}
       >
         <Home className="h-4 w-4" />
@@ -69,7 +69,7 @@ const ErrorPage: FCStrict<ErrorPageProperties> = ({
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `linear-gradient(#4A90E2 1px, transparent 1px), linear-gradient(90deg, #4A90E2 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(#60A5FA 1px, transparent 1px), linear-gradient(90deg, #60A5FA 1px, transparent 1px)`,
           backgroundSize: '40px 40px',
         }}
       />

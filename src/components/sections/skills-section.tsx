@@ -40,7 +40,7 @@ const SkillList: FCStrict<SkillListProperties> = ({
 
   return (
     <div className="space-y-4 text-center lg:text-left">
-      <div className="inline-block border-l-2 border-[#4A90E2] pl-3">
+      <div className="inline-block border-l-2 border-brand pl-3">
         <h3 className="font-mono text-sm font-bold tracking-[0.2em] text-[#E6F1FF] uppercase">
           {title}
         </h3>
@@ -54,7 +54,7 @@ const SkillList: FCStrict<SkillListProperties> = ({
           const Icon: LucideIcon = getSkillIcon(skill.name)
           return (
             <li
-              className="flex items-center gap-2 border border-[#4A90E2]/30 bg-[#4A90E2]/5 px-3 py-1.5 font-mono text-xs tracking-wider text-[#88B0D6] uppercase transition-all hover:bg-[#4A90E2]/20 hover:text-[#E6F1FF] hover:shadow-[0_0_10px_rgba(74,144,226,0.2)]"
+              className="hover:shadow-[0_0_10px_color-mix(in srgb, var(--brand), transparent 80%)] flex items-center gap-2 border border-brand/30 bg-brand/5 px-3 py-1.5 font-mono text-xs tracking-wider text-[#88B0D6] uppercase transition-all hover:bg-brand/20 hover:text-[#E6F1FF]"
               key={skill.name}
             >
               <Icon className="h-3 w-3" />

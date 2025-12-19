@@ -31,25 +31,21 @@ const BlueprintStatus: FCStrict<{
   readonly location: string
   readonly tagline: string
 }): JSX.Element => (
-  <div className="mt-16 grid w-full max-w-5xl grid-cols-1 items-center gap-6 font-mono text-xs tracking-widest text-[#4A90E2]/80 uppercase sm:grid-cols-[1fr_auto_1fr] sm:gap-8">
+  <div className="mt-16 grid w-full max-w-5xl grid-cols-1 items-center gap-6 font-mono text-xs tracking-widest text-brand/80 uppercase sm:grid-cols-[1fr_auto_1fr] sm:gap-8">
     {/* Detail Block A - Aligned to End (Right) of Left Column */}
-    <div className="flex w-full flex-col gap-2 justify-self-center border-l-2 border-[#4A90E2] bg-[#4A90E2]/5 py-2 pl-4 text-left shadow-[0_0_10px_rgba(74,144,226,0.1)] sm:max-w-[280px] sm:justify-self-end">
-      <span className="text-[10px] font-bold text-[#4A90E2]">
-        {LOCATION_LABEL}
-      </span>
+    <div className="shadow-[0_0_10px_color-mix(in srgb, var(--brand), transparent 90%)] flex w-full flex-col gap-2 justify-self-center border-l-2 border-brand bg-brand/5 py-2 pl-4 text-left sm:max-w-[280px] sm:justify-self-end">
+      <span className="text-[10px] font-bold text-brand">{LOCATION_LABEL}</span>
       <span className="text-sm font-bold text-[#E6F1FF]">{location}</span>
     </div>
 
     {/* Decorative Hex - Centered in Middle Column */}
-    <div className="mx-auto hidden h-8 w-8 shrink-0 rotate-45 items-center justify-center border border-[#4A90E2] bg-[#0B1021] sm:flex">
-      <div className="h-3 w-3 animate-pulse bg-[#4A90E2] shadow-[0_0_8px_#4A90E2]" />
+    <div className="mx-auto hidden h-8 w-8 shrink-0 rotate-45 items-center justify-center border border-brand bg-[#0B1021] sm:flex">
+      <div className="h-3 w-3 animate-pulse bg-brand shadow-[0_0_8px_#60A5FA]" />
     </div>
 
     {/* Detail Block B - Aligned to Start (Left) of Right Column */}
-    <div className="flex w-full flex-col gap-2 justify-self-center border-r-2 border-[#4A90E2] bg-[#4A90E2]/5 py-2 pr-4 text-right shadow-[0_0_10px_rgba(74,144,226,0.1)] sm:max-w-[280px] sm:justify-self-start">
-      <span className="text-[10px] font-bold text-[#4A90E2]">
-        {MISSION_LABEL}
-      </span>
+    <div className="shadow-[0_0_10px_color-mix(in srgb, var(--brand), transparent 90%)] flex w-full flex-col gap-2 justify-self-center border-r-2 border-brand bg-brand/5 py-2 pr-4 text-right sm:max-w-[280px] sm:justify-self-start">
+      <span className="text-[10px] font-bold text-brand">{MISSION_LABEL}</span>
       <span className="flex items-center justify-end gap-3 text-sm font-bold text-[#E6F1FF]">
         {tagline}
       </span>
@@ -70,7 +66,7 @@ const HeroActionButtons: FCStrict<{
   <div className="mt-16 flex flex-wrap gap-8">
     {/* Custom Technical Button */}
     <a
-      className="group relative px-8 py-3 font-mono text-sm tracking-widest text-[#4A90E2] uppercase transition-colors hover:text-[#E6F1FF]"
+      className="group relative px-8 py-3 font-mono text-sm tracking-widest text-brand uppercase transition-colors hover:text-[#E6F1FF]"
       href={siteConfig.socials.github}
       rel="noreferrer"
       target="_blank"
@@ -80,9 +76,9 @@ const HeroActionButtons: FCStrict<{
         {githubLabel}
       </span>
       {/* Button Frame */}
-      <div className="absolute inset-0 skew-x-[-12deg] border border-[#4A90E2] bg-[#4A90E2]/5 transition-all group-hover:bg-[#4A90E2]/20 group-hover:shadow-[0_0_15px_rgba(74,144,226,0.3)]" />
-      <div className="absolute right-0 bottom-0 h-1 w-1 bg-[#4A90E2]" />
-      <div className="absolute top-0 left-0 h-1 w-1 bg-[#4A90E2]" />
+      <div className="group-hover:shadow-[0_0_15px_color-mix(in srgb, var(--brand), transparent 70%)] absolute inset-0 skew-x-[-12deg] border border-brand bg-brand/5 transition-all group-hover:bg-brand/20" />
+      <div className="absolute right-0 bottom-0 h-1 w-1 bg-brand" />
+      <div className="absolute top-0 left-0 h-1 w-1 bg-brand" />
     </a>
 
     <a
@@ -94,7 +90,7 @@ const HeroActionButtons: FCStrict<{
         {contactText}
       </span>
       {/* Button Frame Filled */}
-      <div className="absolute inset-0 skew-x-[-12deg] border border-[#4A90E2] bg-[#4A90E2] shadow-[0_0_15px_rgba(74,144,226,0.4)] transition-all group-hover:bg-transparent group-hover:text-[#4A90E2]" />
+      <div className="shadow-[0_0_15px_color-mix(in srgb, var(--brand), transparent 60%)] absolute inset-0 skew-x-[-12deg] border border-brand bg-brand transition-all group-hover:bg-transparent group-hover:text-brand" />
     </a>
   </div>
 )
@@ -116,7 +112,7 @@ export const HeroSection: AsyncPageFC<HeroSectionProperties> = async ({
     <BlueprintContainer
       id="hero"
       overlay={
-        <div className="absolute bottom-[calc(var(--app-padding)+1rem)] left-1/2 z-20 -translate-x-1/2 animate-bounce cursor-pointer text-[#4A90E2]/50 transition-colors hover:text-[#4A90E2]">
+        <div className="absolute bottom-[calc(var(--app-padding)+1rem)] left-1/2 z-20 -translate-x-1/2 animate-bounce cursor-pointer text-brand/50 transition-colors hover:text-brand">
           <a aria-label="Scroll to About Section" href="#about">
             <ArrowDown className="h-6 w-6" />
           </a>
@@ -125,7 +121,7 @@ export const HeroSection: AsyncPageFC<HeroSectionProperties> = async ({
     >
       <div className="relative z-10 container flex min-h-[60vh] flex-col items-center justify-center">
         {/* Floating tech markings */}
-        <div className="writing-vertical-rl absolute top-20 left-20 font-mono text-[10px] text-[#4A90E2]/40 select-none">
+        <div className="writing-vertical-rl absolute top-20 left-20 font-mono text-[10px] text-brand/40 select-none">
           {GRID_REF}
         </div>
 

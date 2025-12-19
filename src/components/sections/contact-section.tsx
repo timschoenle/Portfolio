@@ -32,16 +32,16 @@ const ContactItem: FCStrict<ContactItemProperties> = ({
   subLabel,
 }: ContactItemProperties): JSX.Element => (
   <a
-    className="group relative flex items-center gap-4 border border-[#4A90E2]/30 bg-[#4A90E2]/5 p-4 transition-all hover:bg-[#4A90E2]/10 hover:shadow-[0_0_10px_rgba(74,144,226,0.1)]"
+    className="group hover:shadow-[0_0_10px_color-mix(in srgb, var(--brand), transparent 90%)] relative flex items-center gap-4 border border-brand/30 bg-brand/5 p-4 transition-all hover:bg-brand/10"
     href={href}
     rel="noreferrer"
     target="_blank"
   >
-    <div className="flex h-10 w-10 items-center justify-center rounded-none border border-[#4A90E2] bg-[#0B1021] text-[#4A90E2] shadow-[0_0_5px_#4A90E2]">
+    <div className="flex h-10 w-10 items-center justify-center rounded-none border border-brand bg-[#0B1021] text-brand shadow-[0_0_5px_#60A5FA]">
       {icon}
     </div>
     <div className="flex flex-col">
-      <span className="font-mono text-sm font-bold tracking-wide text-[#E6F1FF] transition-colors group-hover:text-[#4A90E2]">
+      <span className="font-mono text-sm font-bold tracking-wide text-[#E6F1FF] transition-colors group-hover:text-brand">
         {label}
       </span>
       {Boolean(subLabel) && (
@@ -52,8 +52,8 @@ const ContactItem: FCStrict<ContactItemProperties> = ({
     </div>
 
     {/* Corner Accents */}
-    <div className="absolute top-0 right-0 h-1.5 w-1.5 border-t border-r border-[#4A90E2]" />
-    <div className="absolute bottom-0 left-0 h-1.5 w-1.5 border-b border-l border-[#4A90E2]" />
+    <div className="absolute top-0 right-0 h-1.5 w-1.5 border-t border-r border-brand" />
+    <div className="absolute bottom-0 left-0 h-1.5 w-1.5 border-b border-l border-brand" />
   </a>
 )
 
@@ -132,7 +132,7 @@ export const ContactSection: AsyncPageFC<ContactSectionProperties> = async ({
         <ContactColumns locale={locale} translations={translations} />
 
         <div className="mt-16 text-center">
-          <div className="inline-block border border-[#4A90E2]/20 bg-[#0B1021] px-4 py-2 font-mono text-xs tracking-[0.2em] text-[#4A90E2]/60 uppercase">
+          <div className="inline-block border border-brand/20 bg-[#0B1021] px-4 py-2 font-mono text-xs tracking-[0.2em] text-brand/60 uppercase">
             {TRANSMISSION_END}
           </div>
         </div>

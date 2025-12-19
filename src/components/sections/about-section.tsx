@@ -27,15 +27,15 @@ const CLOSE_BRACKET: string = ']'
 const CompetencyBadge: FCStrict<CompetencyBadgeProperties> = ({
   label,
 }: CompetencyBadgeProperties): JSX.Element => (
-  <div className="group relative overflow-hidden px-4 py-2 font-mono text-xs tracking-widest text-[#4A90E2] uppercase transition-all hover:text-[#E6F1FF]">
+  <div className="group relative overflow-hidden px-4 py-2 font-mono text-xs tracking-widest text-brand uppercase transition-all hover:text-[#E6F1FF]">
     <span className="relative z-10 flex items-center gap-2">
-      <span className="text-[#4A90E2]/50">{OPEN_BRACKET}</span>
+      <span className="text-brand/50">{OPEN_BRACKET}</span>
       {label}
-      <span className="text-[#4A90E2]/50">{CLOSE_BRACKET}</span>
+      <span className="text-brand/50">{CLOSE_BRACKET}</span>
     </span>
     {/* Hover highlight */}
-    <div className="absolute inset-0 bg-[#4A90E2]/10 opacity-0 transition-opacity group-hover:opacity-100" />
-    <div className="absolute bottom-0 left-0 h-px w-full bg-[#4A90E2]/30" />
+    <div className="absolute inset-0 bg-brand/10 opacity-0 transition-opacity group-hover:opacity-100" />
+    <div className="absolute bottom-0 left-0 h-px w-full bg-brand/30" />
   </div>
 )
 
@@ -50,7 +50,7 @@ async function getAboutTranslations(
   // Technical highlighting
   const summary: ReactNode = translations.rich('summary', {
     highlight: (chunks: ReactNode): JSX.Element => (
-      <span className="border-b border-[#4A90E2]/30 bg-[#4A90E2]/10 px-1 font-bold text-[#E6F1FF]">
+      <span className="border-b border-brand/30 bg-brand/10 px-1 font-bold text-[#E6F1FF]">
         {chunks}
       </span>
     ),
@@ -85,7 +85,7 @@ export const AboutSection: AsyncPageFC<AboutSectionProperties> = async ({
 
           {/* Competencies */}
           <div className="flex flex-col items-center gap-6">
-            <h3 className="border border-[#4A90E2]/30 bg-[#4A90E2]/5 px-4 py-1 font-mono text-xs font-bold tracking-[0.2em] text-[#E6F1FF] uppercase">
+            <h3 className="border border-brand/30 bg-brand/5 px-4 py-1 font-mono text-xs font-bold tracking-[0.2em] text-[#E6F1FF] uppercase">
               {translations('competenciesLabel')}
             </h3>
 

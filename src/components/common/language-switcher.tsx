@@ -23,14 +23,14 @@ export const LanguageSwitcher: FCStrict = (): JSX.Element => {
 
   return (
     <Button
-      className="clip-path-polygon fixed top-[var(--app-padding)] right-[var(--app-padding)] z-50 rounded-none border border-[#4A90E2]/30 bg-[#0B1021]/80 px-4 py-2 font-mono text-xs font-bold tracking-widest text-[#4A90E2] uppercase backdrop-blur-sm transition-all hover:border-[#4A90E2] hover:bg-[#4A90E2]/10 hover:text-[#E6F1FF]"
+      className="clip-path-polygon fixed top-[var(--app-padding)] right-[var(--app-padding)] z-50 rounded-none border border-brand/30 bg-[#0B1021]/80 px-4 py-2 font-mono text-xs font-bold tracking-widest text-brand uppercase backdrop-blur-sm transition-all hover:border-brand hover:bg-brand/10 hover:text-[#E6F1FF]"
       size="sm"
       variant="ghost"
       onClick={switchLanguage}
     >
       {/* Technical Corner Accents */}
-      <span className="absolute top-0 left-0 h-1 w-1 border-t border-l border-[#4A90E2]" />
-      <span className="absolute right-0 bottom-0 h-1 w-1 border-r border-b border-[#4A90E2]" />
+      <span className="absolute top-0 left-0 h-1 w-1 border-t border-l border-brand" />
+      <span className="absolute right-0 bottom-0 h-1 w-1 border-r border-b border-brand" />
       <Globe className="mr-2 h-3 w-3" />
       {locale === 'en' ? '[DE]' : '[EN]'}
     </Button>

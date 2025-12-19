@@ -21,20 +21,20 @@ export const BlueprintCard: FCWithRequiredChildren<BlueprintCardProperties> = ({
     className={`relative ${noPadding ? '' : 'p-8 md:p-12'} w-full ${className ?? ''}`}
   >
     {/* Technical Frame for Content */}
-    <div className="absolute inset-0 border border-[#4A90E2]/20 bg-[#0F1629]/90 backdrop-blur-md" />
+    <div className="absolute inset-0 border border-brand/20 bg-[#0F1629]/90 backdrop-blur-md" />
 
     {/* Corner Markers */}
-    <div className="absolute top-0 left-0 h-3 w-3 border-t-2 border-l-2 border-[#4A90E2]" />
-    <div className="absolute top-0 right-0 h-3 w-3 border-t-2 border-r-2 border-[#4A90E2]" />
-    <div className="absolute bottom-0 left-0 h-3 w-3 border-b-2 border-l-2 border-[#4A90E2]" />
-    <div className="absolute right-0 bottom-0 h-3 w-3 border-r-2 border-b-2 border-[#4A90E2]" />
+    <div className="absolute top-0 left-0 h-3 w-3 border-t-2 border-l-2 border-brand" />
+    <div className="absolute top-0 right-0 h-3 w-3 border-t-2 border-r-2 border-brand" />
+    <div className="absolute bottom-0 left-0 h-3 w-3 border-b-2 border-l-2 border-brand" />
+    <div className="absolute right-0 bottom-0 h-3 w-3 border-r-2 border-b-2 border-brand" />
 
     {/* Side Decoration */}
-    <div className="absolute top-12 left-0 h-16 w-1 bg-[#4A90E2]/40" />
-    <div className="absolute right-0 bottom-12 h-16 w-1 bg-[#4A90E2]/40" />
+    <div className="absolute top-12 left-0 h-16 w-1 bg-brand/40" />
+    <div className="absolute right-0 bottom-12 h-16 w-1 bg-brand/40" />
 
     {Boolean(label) && (
-      <div className="absolute -top-3 left-[var(--app-padding)] border border-[#4A90E2]/30 bg-[#0B1021] px-2 font-mono text-xs tracking-widest text-[#4A90E2] uppercase">
+      <div className="absolute -top-3 left-[var(--app-padding)] border border-brand/30 bg-[#0B1021] px-2 font-mono text-xs tracking-widest text-brand uppercase">
         {label}
       </div>
     )}

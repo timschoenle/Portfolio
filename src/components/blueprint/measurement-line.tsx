@@ -58,16 +58,16 @@ const MeasurementLine: FCStrict<MeasurementLineProperties> = ({
       className={`absolute flex items-center justify-center opacity-60 ${className ?? ''} ${currentStyle.container}`}
       style={style}
     >
-      <div className={`${currentStyle.line} bg-[#4A90E2]`} />
+      <div className={`${currentStyle.line} bg-brand`} />
       {Boolean(label) && (
         <span
-          className={`absolute bg-[#0B1021] px-1 font-mono text-[9px] tracking-wider text-[#4A90E2] uppercase ${currentStyle.labelRotation}`}
+          className={`absolute bg-[#0B1021] px-1 font-mono text-[9px] tracking-wider text-brand uppercase ${currentStyle.labelRotation}`}
         >
           {label}
         </span>
       )}
-      <div className={`absolute border-[#4A90E2] ${currentStyle.startTick}`} />
-      <div className={`absolute border-[#4A90E2] ${currentStyle.endTick}`} />
+      <div className={`absolute border-brand ${currentStyle.startTick}`} />
+      <div className={`absolute border-brand ${currentStyle.endTick}`} />
     </div>
   )
 }

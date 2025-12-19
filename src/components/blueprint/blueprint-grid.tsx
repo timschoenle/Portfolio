@@ -21,8 +21,8 @@ export const BlueprintGrid: FCStrict<BlueprintDecorationProperties> = ({
     <div
       className="absolute inset-0 z-0 opacity-[0.15]"
       style={{
-        backgroundImage: `linear-gradient(to right, #4A90E2 1px, transparent 1px),
-                          linear-gradient(to bottom, #4A90E2 1px, transparent 1px)`,
+        backgroundImage: `linear-gradient(to right, #60A5FA 1px, transparent 1px),
+                          linear-gradient(to bottom, #60A5FA 1px, transparent 1px)`,
         backgroundSize: '100px 100px',
         maskImage:
           'radial-gradient(circle at center, black 40%, transparent 100%)', // Fade out edges
@@ -33,8 +33,8 @@ export const BlueprintGrid: FCStrict<BlueprintDecorationProperties> = ({
     <div
       className="absolute inset-0 z-0 opacity-[0.08]"
       style={{
-        backgroundImage: `linear-gradient(to right, #4A90E2 0.5px, transparent 0.5px),
-                          linear-gradient(to bottom, #4A90E2 0.5px, transparent 0.5px)`,
+        backgroundImage: `linear-gradient(to right, #60A5FA 0.5px, transparent 0.5px),
+                          linear-gradient(to bottom, #60A5FA 0.5px, transparent 0.5px)`,
         backgroundSize: '20px 20px',
       }}
     />

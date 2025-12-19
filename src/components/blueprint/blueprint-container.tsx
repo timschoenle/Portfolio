@@ -33,19 +33,19 @@ export const BlueprintContainer: FCWithRequiredChildren<
     <BlueprintGrid />
 
     {/* Outer Frame with dimensions / ticks */}
-    <div className="pointer-events-none absolute inset-[var(--app-padding)] border-[0.5px] border-[#4A90E2]/30 select-none">
+    <div className="pointer-events-none absolute inset-[var(--app-padding)] border-[0.5px] border-brand/30 select-none">
       {/* Corner Ticks */}
-      <div className="absolute top-0 left-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 border-r border-[#4A90E2]" />
-      <div className="absolute top-0 right-0 h-2 w-2 translate-x-1/2 -translate-y-1/2 border-l border-[#4A90E2]" />
-      <div className="absolute bottom-0 left-0 h-2 w-2 -translate-x-1/2 translate-y-1/2 border-r border-[#4A90E2]" />
-      <div className="absolute right-0 bottom-0 h-2 w-2 translate-x-1/2 translate-y-1/2 border-l border-[#4A90E2]" />
+      <div className="absolute top-0 left-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 border-r border-brand" />
+      <div className="absolute top-0 right-0 h-2 w-2 translate-x-1/2 -translate-y-1/2 border-l border-brand" />
+      <div className="absolute bottom-0 left-0 h-2 w-2 -translate-x-1/2 translate-y-1/2 border-r border-brand" />
+      <div className="absolute right-0 bottom-0 h-2 w-2 translate-x-1/2 translate-y-1/2 border-l border-brand" />
 
       {/* Scale/Ruler markings on edges */}
       <div className="absolute top-0 left-10 flex gap-1">
         {RULER_TICKS.map(
           (tick: { id: string }, index: number): JSX.Element => (
             <div
-              className={`h-${index % 5 === 0 ? '2' : '1'} w-px bg-[#4A90E2]/40`}
+              className={`h-${index % 5 === 0 ? '2' : '1'} w-px bg-brand/40`}
               key={tick.id}
             />
           )
@@ -55,7 +55,7 @@ export const BlueprintContainer: FCWithRequiredChildren<
         {RULER_TICKS.map(
           (tick: { id: string }, index: number): JSX.Element => (
             <div
-              className={`h-${index % 5 === 0 ? '2' : '1'} w-px bg-[#4A90E2]/40`}
+              className={`h-${index % 5 === 0 ? '2' : '1'} w-px bg-brand/40`}
               key={tick.id}
             />
           )

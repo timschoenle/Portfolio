@@ -19,7 +19,7 @@ const Loading: PageFC = (): JSX.Element => {
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `linear-gradient(#4A90E2 1px, transparent 1px), linear-gradient(90deg, #4A90E2 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(#60A5FA 1px, transparent 1px), linear-gradient(90deg, #60A5FA 1px, transparent 1px)`,
           backgroundSize: '40px 40px',
         }}
       />
@@ -27,10 +27,10 @@ const Loading: PageFC = (): JSX.Element => {
       <div className="relative z-10 flex flex-col items-center gap-6">
         {/* Technical Loader */}
         <div className="relative h-24 w-24">
-          <div className="absolute inset-0 animate-spin rounded-full border-2 border-[#4A90E2]/20 border-t-[#4A90E2]" />
-          <div className="animate-spin-slow reverse absolute inset-4 rounded-full border-2 border-[#4A90E2]/20 border-b-[#4A90E2]" />
+          <div className="absolute inset-0 animate-spin rounded-full border-2 border-brand/20 border-t-brand" />
+          <div className="animate-spin-slow reverse absolute inset-4 rounded-full border-2 border-brand/20 border-b-brand" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="h-2 w-2 animate-pulse bg-[#4A90E2] shadow-[0_0_10px_#4A90E2]" />
+            <div className="h-2 w-2 animate-pulse bg-brand shadow-[0_0_10px_#60A5FA]" />
           </div>
         </div>
 
@@ -39,8 +39,8 @@ const Loading: PageFC = (): JSX.Element => {
             {translations('title').toUpperCase()}
             {LOADING_ELLIPSIS}
           </h1>
-          <div className="h-px w-32 bg-gradient-to-r from-transparent via-[#4A90E2]/50 to-transparent" />
-          <span className="font-mono text-[10px] tracking-[0.2em] text-[#4A90E2]/60 uppercase">
+          <div className="h-px w-32 bg-gradient-to-r from-transparent via-brand/50 to-transparent" />
+          <span className="font-mono text-[10px] tracking-[0.2em] text-brand/60 uppercase">
             {SYSTEM_INIT_TEXT}
           </span>
         </div>

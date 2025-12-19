@@ -7,7 +7,7 @@ import type { LocalePageProperties } from '@/types/i18n'
 
 /* =============================== Types =============================== */
 
-interface ContributionGraphProperties extends LocalePageProperties {
+export interface ContributionGraphProperties extends LocalePageProperties {
   readonly data: ContributionCollection
   readonly variant?: 'blueprint' | 'default'
 }
