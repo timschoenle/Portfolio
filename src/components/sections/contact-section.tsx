@@ -122,7 +122,7 @@ export const ContactSection: AsyncPageFC<ContactSectionProperties> = async ({
   })
 
   return (
-    <BlueprintContainer id="contact">
+    <BlueprintContainer className="content-auto" id="contact">
       <div className="mx-auto flex w-full max-w-4xl flex-col items-center">
         <BlueprintSectionTitle
           sectionLabel="// COMMUNICATION_CHANNELS"

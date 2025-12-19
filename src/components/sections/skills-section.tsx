@@ -152,7 +152,7 @@ export const SkillsSection: AsyncPageFC<SkillsSectionProperties> = async ({
   const infrastructure: readonly Skill[] = siteConfig.skills.infrastructure
 
   return (
-    <BlueprintContainer id="skills">
+    <BlueprintContainer className="content-auto" id="skills">
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center">
         <BlueprintSectionTitle
           sectionLabel="// TECH_STACK_ANALYSIS"

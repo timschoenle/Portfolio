@@ -76,7 +76,7 @@ export const AboutSection: AsyncPageFC<AboutSectionProperties> = async ({
       sectionLabel="// PROFILE_CORE"
       title={translations('title')}
     >
-      <BlueprintCard className="mt-8" label="BIO_DATA_LOG">
+      <BlueprintCard className="content-auto mt-8" label="BIO_DATA_LOG">
         <div className="flex flex-col gap-12 text-center">
           {/* Summary Text */}
           <div className="font-mono text-sm leading-relaxed tracking-wide text-blueprint-muted md:text-base">

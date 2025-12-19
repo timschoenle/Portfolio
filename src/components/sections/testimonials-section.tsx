@@ -141,7 +141,7 @@ export const TestimonialsSection: AsyncPageFC<
   return (
     <Section
       background={SECTION_BACKGROUNDS.GRADIENT}
-      className="min-h-screen"
+      className="content-auto min-h-screen"
       id="testimonials"
       isEmpty={testimonials.length === 0}
       performance={performance ?? false}
