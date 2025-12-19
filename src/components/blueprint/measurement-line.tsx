@@ -85,23 +85,25 @@ const MeasurementLabel: FCStrict<
   isVertical,
   label,
 }: SubComponentProperties & { readonly label: string }): JSX.Element => (
-  <foreignObject
-    className="overflow-visible"
-    height="100%"
-    width="100%"
-    x="0"
-    y="0"
+  <text
+    aria-hidden="true"
+    className="fill-brand font-mono text-[9px] tracking-wider uppercase select-none"
+    dominantBaseline="central"
+    style={{
+      paintOrder: 'stroke',
+      stroke: 'var(--blueprint-bg)',
+      strokeLinejoin: 'round',
+      strokeWidth: '10px',
+      transformBox: 'fill-box',
+      transformOrigin: 'center',
+    }}
+    textAnchor="middle"
+    transform={isVertical ? 'rotate(-90)' : undefined}
+    x="50%"
+    y="50%"
   >
-    <div className="flex h-full w-full items-center justify-center">
-      <span
-        className={`bg-blueprint-bg px-1 font-mono text-[9px] tracking-wider text-brand uppercase ${
-          isVertical ? '-rotate-90' : ''
-        }`}
-      >
-        {label}
-      </span>
-    </div>
-  </foreignObject>
+    {label}
+  </text>
 )
 
 /**
@@ -124,6 +126,9 @@ const MeasurementLine: FCStrict<MeasurementLineProperties> = ({
     width: isVertical ? '10px' : width,
   }
 
+  // Remove opacity from container to improve contrast of lines if needed,
+  // but keeping it for now as the goal is to fix text detection.
+  // Actually, adding aria-hidden to the text node explicitly is key.
   return (
     <div
       aria-hidden="true"
