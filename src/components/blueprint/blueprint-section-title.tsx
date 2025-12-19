@@ -25,7 +25,10 @@ export const BlueprintSectionTitle: FCStrict<
     <div className="absolute inset-0 scale-[1.02] border border-brand/10" />
 
     {/* Section Identifier */}
-    <div className="absolute -top-3 left-4 bg-blueprint-bg px-2 font-mono text-[10px] tracking-[0.2em] text-brand uppercase">
+    <div
+      aria-hidden="true"
+      className="absolute -top-3 left-4 bg-blueprint-bg px-2 font-mono text-[10px] tracking-[0.2em] text-brand uppercase"
+    >
       {sectionLabel}
     </div>
 

@@ -2,6 +2,7 @@ import { type JSX, type ReactNode } from 'react'
 
 import type { FCWithRequiredChildren } from '@/types/fc'
 
+import { BlueprintLabel } from './blueprint-label'
 import { MeasurementLine } from './measurement-line'
 
 interface BlueprintCardProperties {
@@ -34,9 +35,9 @@ export const BlueprintCard: FCWithRequiredChildren<BlueprintCardProperties> = ({
     <div className="absolute right-0 bottom-12 h-16 w-1 bg-brand/40" />
 
     {Boolean(label) && (
-      <div className="absolute -top-3 left-[var(--app-padding)] border border-brand/30 bg-blueprint-bg px-2 font-mono text-xs tracking-widest text-brand uppercase">
+      <BlueprintLabel className="absolute -top-3 left-[var(--app-padding)] border border-brand/30 bg-blueprint-bg px-2 font-mono text-xs tracking-widest text-brand uppercase">
         {label}
-      </div>
+      </BlueprintLabel>
     )}
 
     <div className="relative z-10 flex h-full flex-col gap-8">{children}</div>

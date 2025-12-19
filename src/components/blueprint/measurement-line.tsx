@@ -2,6 +2,8 @@ import { type CSSProperties, type JSX } from 'react'
 
 import type { FCStrict } from '@/types/fc'
 
+import { BlueprintLabel } from './blueprint-label'
+
 interface MeasurementLineProperties {
   readonly className?: string
   readonly label?: string
@@ -54,8 +56,8 @@ const MeasurementLine: FCStrict<MeasurementLineProperties> = ({
   }
 
   return (
-    <div
-      aria-hidden="true"
+    <BlueprintLabel
+      as="div"
       className={`absolute flex items-center justify-center opacity-60 ${className ?? ''} ${currentStyle.container}`}
       style={style}
     >
@@ -69,7 +71,7 @@ const MeasurementLine: FCStrict<MeasurementLineProperties> = ({
       )}
       <div className={`absolute border-brand ${currentStyle.startTick}`} />
       <div className={`absolute border-brand ${currentStyle.endTick}`} />
-    </div>
+    </BlueprintLabel>
   )
 }
 
