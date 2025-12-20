@@ -4,6 +4,7 @@ import { type JSX } from 'react'
 
 import { getTranslations } from 'next-intl/server'
 
+import { PerformanceMonitor } from '@/components/features/performance-monitor'
 import { environment } from '@/environment'
 import { Link } from '@/i18n/routing'
 import { siteConfig } from '@/lib/config'
@@ -130,6 +131,11 @@ export const LegalFooter: AsyncPageFC<LegalFooterProperties> = async ({
       <div className="relative z-10 flex flex-col items-center justify-center py-12 md:h-32 md:py-0">
         <FooterContent currentYear={currentYear} revision={revision} />
         <FooterNavigation translations={translations} />
+
+        {/* Performance Monitor (Bottom Right) */}
+        <div className="hidden md:absolute md:right-[var(--app-padding)] md:bottom-8 md:block lg:bottom-auto">
+          <PerformanceMonitor />
+        </div>
       </div>
 
       {/* Decorative Bottom Line */}
