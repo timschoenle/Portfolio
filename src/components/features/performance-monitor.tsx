@@ -132,7 +132,7 @@ export const PerformanceMonitor: FCNullable = (): JSX.Element | null => {
     <div className="flex flex-col gap-1 font-mono text-[10px] tracking-wider text-brand/40 uppercase tabular-nums transition-opacity hover:opacity-100 md:text-right">
       <div className="mb-1 font-bold text-brand/60">{HEADER_TEXT}</div>
 
-      <div className="grid grid-cols-2 gap-x-4 gap-y-0.5 md:flex md:flex-col md:gap-0.5">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-0.5">
         {sortedMetrics.map(
           (metric: Metric): JSX.Element => (
             <div className="flex justify-between gap-4" key={metric.name}>
