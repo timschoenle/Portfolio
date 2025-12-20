@@ -49,7 +49,7 @@ describe('PerformanceMonitor', () => {
     expect(screen.getByText('LCP')).toBeInTheDocument()
     expect(screen.getByText(/1200/)).toBeInTheDocument()
     expect(screen.getByText('CLS')).toBeInTheDocument()
-    expect(screen.getByText(/0.05/)).toBeInTheDocument()
+    expect(screen.getByText('0.0500')).toBeInTheDocument()
   })
 
   it('renders load time if navigation timing is available', () => {

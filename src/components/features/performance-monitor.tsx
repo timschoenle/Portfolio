@@ -103,6 +103,13 @@ const usePerformanceMetrics: () => Record<string, Metric> = (): Record<
   return metrics
 }
 
+const formatValue: (name: string, value: number) => string = (
+  name: string,
+  value: number
+): string => {
+  return name === 'CLS' ? value.toFixed(4) : String(value)
+}
+
 export const PerformanceMonitor: FCNullable = (): JSX.Element | null => {
   const metrics: Record<string, Metric> = usePerformanceMetrics()
   const [mounted, setMounted]: [boolean, Dispatch<SetStateAction<boolean>>] =
@@ -131,7 +138,7 @@ export const PerformanceMonitor: FCNullable = (): JSX.Element | null => {
             <div className="flex justify-between gap-4" key={metric.name}>
               <span>{metric.name}</span>
               <span className={getMetricColor(metric.name, metric.value)}>
-                {metric.value}
+                {formatValue(metric.name, metric.value)}
                 {metric.unit}
               </span>
             </div>
