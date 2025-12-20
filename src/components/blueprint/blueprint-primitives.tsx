@@ -1,4 +1,4 @@
-import { type JSX, type ReactNode } from 'react'
+import { type ElementType, type JSX, type ReactNode } from 'react'
 
 import type { FCStrict, FCWithRequiredChildren } from '@/types/fc'
 
@@ -45,17 +45,20 @@ interface BlueprintHeadingProperties {
 export const BlueprintHeading: FCWithRequiredChildren<
   BlueprintHeadingProperties
 > = ({
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  as: Component = 'h2',
+  as: headingAs = 'h2',
   children,
   className,
-}: BlueprintHeadingProperties): JSX.Element => (
-  <Component
-    className={`[text-shadow:0_0_15px_color-mix(in srgb, var(--brand), transparent 70%)] font-mono text-4xl font-bold tracking-tighter text-blueprint-text sm:text-6xl ${className ?? ''}`}
-  >
-    {children}
-  </Component>
-)
+}: BlueprintHeadingProperties): JSX.Element => {
+  const Component: ElementType = headingAs
+
+  return (
+    <Component
+      className={`[text-shadow:0_0_15px_color-mix(in srgb, var(--brand), transparent 70%)] font-mono text-4xl font-bold tracking-tighter text-blueprint-text sm:text-6xl ${className ?? ''}`}
+    >
+      {children}
+    </Component>
+  )
+}
 
 interface BlueprintSubheadingProperties {
   readonly children: ReactNode
