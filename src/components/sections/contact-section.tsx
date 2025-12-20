@@ -1,289 +1,165 @@
+/* eslint-disable @typescript-eslint/no-deprecated */
+/* eslint-disable sonarjs/deprecation */
 import { type JSX } from 'react'
 
-import { type Locale } from 'next-intl'
-
-import {
-  Download,
-  FileText,
-  GitBranch,
-  // eslint-disable-next-line sonarjs/deprecation
-  Linkedin,
-  Mail,
-  MapPin,
-} from 'lucide-react'
+import { Download, Github, Linkedin, Mail } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CARD_HOVERS,
-  CARD_VARIANTS,
-  CardContent,
-} from '@/components/ui/card'
-import { GridPattern } from '@/components/ui/grid-pattern'
-import { Heading } from '@/components/ui/heading'
-import { Section, SECTION_BACKGROUNDS } from '@/components/ui/section'
-import { SectionContainer } from '@/components/ui/section-container'
-import { SectionHeader } from '@/components/ui/section-header'
+import { BlueprintCard } from '@/components/blueprint/blueprint-card'
+import { BlueprintContainer } from '@/components/blueprint/blueprint-container'
+import { BlueprintSectionTitle } from '@/components/blueprint/blueprint-section-title'
 import { siteConfig } from '@/lib/config'
-import type { FCAsync, FCStrict, NoChildren } from '@/types/fc'
-import type { Translations } from '@/types/i18n'
+import type { AsyncPageFC, FCStrict } from '@/types/fc'
+import type { LocalePageProperties, Translations } from '@/types/i18n'
 
-/* ─────────────────────────────── types ─────────────────────────────── */
+/* ── types ─────────────────────────────────────────────────────────────── */
 
-interface ContactSectionProperties extends NoChildren {
-  readonly locale: Locale
-  readonly performance?: boolean
+const TRANSMISSION_END: string = ':: END_OF_TRANSMISSION ::'
+
+interface ContactItemProperties {
+  readonly href: string
+  readonly icon: JSX.Element
+  readonly label: string
+  readonly subLabel?: string
 }
 
-interface InfoCardProperties {
-  readonly country: string
+/* ── subcomponents ─────────────────────────────────────────────────────── */
+
+const ContactItem: FCStrict<ContactItemProperties> = ({
+  href,
+  icon,
+  label,
+  subLabel,
+}: ContactItemProperties): JSX.Element => (
+  <a
+    className="group hover:shadow-[0_0_10px_color-mix(in srgb, var(--brand), transparent 90%)] relative flex items-center gap-4 border border-brand/30 bg-brand/5 p-4 transition-all hover:bg-brand/10"
+    href={href}
+    rel="noreferrer"
+    target="_blank"
+  >
+    <div className="flex h-10 w-10 items-center justify-center rounded-none border border-brand bg-blueprint-bg text-brand shadow-[0_0_5px_#60A5FA]">
+      {icon}
+    </div>
+    <div className="flex flex-col">
+      <span className="font-mono text-sm font-bold tracking-wide text-blueprint-text transition-colors group-hover:text-brand">
+        {label}
+      </span>
+      {Boolean(subLabel) && (
+        <span className="font-mono text-xs tracking-wider text-blueprint-muted uppercase">
+          {subLabel}
+        </span>
+      )}
+    </div>
+
+    {/* Corner Accents */}
+    <div className="absolute top-0 right-0 h-1.5 w-1.5 border-t border-r border-brand" />
+    <div className="absolute bottom-0 left-0 h-1.5 w-1.5 border-b border-l border-brand" />
+  </a>
+)
+
+interface ContactColumnsProperties {
+  readonly locale: string
   readonly translations: Translations<'contact'>
 }
 
-interface ResumeDetails {
-  readonly languageName: string
-  readonly path: string
-  readonly pdfLabel: string
-}
-
-interface ResumeCardProperties {
-  readonly details: ResumeDetails
-  readonly translations: Translations<'contact'>
-}
-
-/* ───────────────────────────── subviews ───────────────────────────── */
-
-// eslint-disable-next-line max-lines-per-function
-export const InfoCard: FCStrict<InfoCardProperties> = ({
-  country,
-  translations,
-}: InfoCardProperties): JSX.Element => {
-  return (
-    <Card hover={CARD_HOVERS.MODERATE} variant={CARD_VARIANTS.INTERACTIVE}>
-      <CardContent className="p-6">
-        <Heading
-          as="h3"
-          className="mb-4 text-2xl font-semibold text-foreground"
-        >
-          {translations('infoTitle')}
-        </Heading>
-
-        <address className="space-y-4 not-italic">
-          <div className="group flex items-center gap-4 rounded-lg p-3 transition-all hover:bg-muted/50">
-            <div
-              aria-hidden="true"
-              className="rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 p-3 transition-transform duration-300 group-hover:scale-110"
-            >
-              <Mail className="h-6 w-6 text-primary" />
-            </div>
-            <p>
-              <span className="block text-sm text-muted-foreground">
-                {translations('email')}
-              </span>
-              <a
-                className="text-lg font-medium text-foreground transition-colors hover:text-primary"
-                href={`mailto:${siteConfig.email}`}
-              >
-                {siteConfig.email}
-              </a>
-            </p>
-          </div>
-
-          <div className="group flex items-center gap-4 rounded-lg p-3 transition-all hover:bg-muted/50">
-            <div
-              aria-hidden="true"
-              className="rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 p-3 transition-transform duration-300 group-hover:scale-110"
-            >
-              <GitBranch className="h-6 w-6 text-primary" />
-            </div>
-            <p>
-              <span className="block text-sm text-muted-foreground">
-                {translations('github')}
-              </span>
-              <a
-                className="text-lg font-medium text-foreground transition-colors hover:text-primary"
-                href={siteConfig.socials.github}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {`@${siteConfig.socials.githubUsername}`}
-              </a>
-            </p>
-          </div>
-
-          {typeof siteConfig.socials.linkedin === 'string' ? (
-            <div className="group flex items-center gap-4 rounded-lg p-3 transition-all hover:bg-muted/50">
-              <div
-                aria-hidden="true"
-                className="rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 p-3 transition-transform duration-300 group-hover:scale-110"
-              >
-                {/* eslint-disable-next-line @typescript-eslint/no-deprecated, sonarjs/deprecation */}
-                <Linkedin className="h-6 w-6 text-primary" />
-              </div>
-              <p>
-                <span className="block text-sm text-muted-foreground">
-                  {translations('linkedin')}
-                </span>
-                <a
-                  className="text-lg font-medium text-foreground transition-colors hover:text-primary"
-                  href={siteConfig.socials.linkedin}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {siteConfig.fullName}
-                </a>
-              </p>
-            </div>
-          ) : null}
-
-          <div className="group flex items-center gap-4 rounded-lg p-3 transition-all hover:bg-muted/50">
-            <div
-              aria-hidden="true"
-              className="rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 p-3 transition-transform duration-300 group-hover:scale-110"
-            >
-              <MapPin className="h-6 w-6 text-primary" />
-            </div>
-            <p>
-              <span className="block text-sm text-muted-foreground">
-                {translations('location')}
-              </span>
-              <span className="text-lg font-medium text-foreground">
-                {country}
-              </span>
-            </p>
-          </div>
-        </address>
-      </CardContent>
-    </Card>
-  )
-}
-
-const getResumeLanguageName: (locale: Locale) => string = (
-  locale: Locale
-): string => {
-  switch (locale) {
-    case 'de': {
-      return 'Deutsch'
-    }
-    case 'en': {
-      return 'English'
-    }
-    default: {
-      return locale.toUpperCase()
-    }
-  }
-}
-
-const getResumeDetails: (
-  locale: Locale,
-  translations: Translations<'contact'>
-) => ResumeDetails = (
-  locale: Locale,
-  translations: Translations<'contact'>
-): ResumeDetails => {
-  const languageName: string = getResumeLanguageName(locale)
-  const path: string = `/resume/resume-${locale}.pdf`
-  const pdfLabel: string = translations('pdfVersion', {
-    language: languageName,
-  })
-
-  return { languageName, path, pdfLabel }
-}
-
-const ResumeCard: FCStrict<ResumeCardProperties> = ({
-  details,
-  translations,
-}: ResumeCardProperties): JSX.Element => {
-  const { path: resumePath, pdfLabel }: ResumeDetails = details
-
-  return (
-    <Card hover={CARD_HOVERS.MODERATE} variant={CARD_VARIANTS.INTERACTIVE}>
-      <CardContent className="flex items-start gap-4 p-6">
-        <div className="rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 p-3 transition-transform duration-300 group-hover:scale-110">
-          <FileText className="h-6 w-6 text-primary" />
-        </div>
-
-        <div className="flex-1">
-          <Heading
-            as="h3"
-            className="mb-1 text-xl font-semibold text-foreground"
-          >
-            {translations('downloadResume')}
-          </Heading>
-          <p className="mb-4 text-sm text-muted-foreground">{pdfLabel}</p>
-
-          <Button
-            asChild={true}
-            className="group w-full bg-primary shadow-lg transition-all hover:bg-primary/90 hover:shadow-xl"
-            size="lg"
-          >
-            <a download={true} href={resumePath}>
-              <Download className="mr-2 h-5 w-5 transition-transform group-hover:translate-y-0.5 group-hover:scale-110" />
-              {translations('downloadResume')}
-            </a>
-          </Button>
-          {/* Reader Mode / Screen Reader Fallback Link */}
-          <p
-            style={{
-              height: '1px',
-              left: '-10000px',
-              overflow: 'hidden',
-              position: 'absolute',
-              top: 'auto',
-              width: '1px',
-            }}
-          >
-            <a download={true} href={resumePath}>
-              {translations('downloadResume')}
-            </a>
-          </p>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
-/* ───────────────────────────── main FC ────────────────────────────── */
-
-export const ContactSection: FCAsync<ContactSectionProperties> = async ({
+const ContactColumns: FCStrict<ContactColumnsProperties> = ({
   locale,
-  performance,
-}: ContactSectionProperties): Promise<JSX.Element> => {
-  const translation: Translations<''> = await getTranslations({ locale })
+  translations,
+}: ContactColumnsProperties): JSX.Element => (
+  <div className="mt-12 grid w-full grid-cols-1 gap-8 md:grid-cols-2">
+    {/* Direct Comms Column */}
+    <BlueprintCard label="DIRECT_UPLINK" noPadding={true}>
+      <div className="flex flex-col gap-4 p-6">
+        <ContactItem
+          href={`mailto:${siteConfig.email}`}
+          icon={<Mail className="h-5 w-5" />}
+          label={translations('email')}
+          subLabel={siteConfig.email}
+        />
+        <ContactItem
+          href={`/resume-${locale}.pdf`}
+          icon={<Download className="h-5 w-5" />}
+          label={translations('downloadResume')}
+          subLabel={translations('pdfVersion', {
+            language: locale === 'en' ? 'ENGLISH' : 'GERMAN',
+          })}
+        />
+      </div>
+    </BlueprintCard>
 
-  const contactTranslations: Translations<'contact'> = await getTranslations({
+    {/* Network Column */}
+    <BlueprintCard label="NETWORK_NODES" noPadding={true}>
+      <div className="flex flex-col gap-4 p-6">
+        <ContactItem
+          href={siteConfig.socials.github}
+          icon={<Github className="h-5 w-5" />}
+          label={translations('github')}
+          subLabel="SOURCE_CONTROL"
+        />
+        {Boolean(siteConfig.socials.linkedin) && (
+          <ContactItem
+            href={siteConfig.socials.linkedin ?? ''}
+            icon={<Linkedin className="h-5 w-5" />}
+            label={translations('linkedin')}
+            subLabel="PROFESSIONAL_NET"
+          />
+        )}
+      </div>
+    </BlueprintCard>
+  </div>
+)
+
+/* ── main ──────────────────────────────────────────────────── */
+
+type ContactSectionProperties = LocalePageProperties
+
+export const ContactSection: AsyncPageFC<ContactSectionProperties> = async ({
+  locale,
+}: ContactSectionProperties): Promise<JSX.Element> => {
+  const translations: Translations<'contact'> = await getTranslations({
     locale,
     namespace: 'contact',
   })
 
-  const resumeDetails: ResumeDetails = getResumeDetails(
-    locale,
-    contactTranslations
-  )
-
   return (
-    <Section
-      background={SECTION_BACKGROUNDS.MUTED}
-      id="contact"
-      performance={performance ?? false}
-    >
-      <GridPattern size={24} />
+    <BlueprintContainer id="contact" isLazy={true}>
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center">
+        <BlueprintSectionTitle
+          sectionLabel="// COMMUNICATION_CHANNELS"
+          title={translations('title')}
+        />
 
-      <SectionContainer size="sm">
-        <SectionHeader title={contactTranslations('title')} underline={true} />
+        <ContactColumns locale={locale} translations={translations} />
 
-        <div className="mx-auto max-w-2xl space-y-6">
-          <InfoCard
-            country={translation('personalInfo.country')}
-            translations={contactTranslations}
-          />
-          <ResumeCard
-            details={resumeDetails}
-            translations={contactTranslations}
-          />
+        <div className="mt-16 text-center opacity-60 select-none">
+          <svg
+            aria-hidden="true"
+            className="inline-block h-10 w-64 overflow-visible"
+            role="img"
+          >
+            <rect
+              className="fill-blueprint-bg stroke-brand/30"
+              height="100%"
+              rx="2"
+              strokeWidth="1"
+              width="100%"
+              x="0"
+              y="0"
+            />
+            <text
+              className="fill-brand font-mono text-[10px] tracking-[0.2em] uppercase"
+              dominantBaseline="middle"
+              textAnchor="middle"
+              x="50%"
+              y="50%"
+            >
+              {TRANSMISSION_END}
+            </text>
+          </svg>
         </div>
-      </SectionContainer>
-    </Section>
+      </div>
+    </BlueprintContainer>
   )
 }
+
+export default ContactSection

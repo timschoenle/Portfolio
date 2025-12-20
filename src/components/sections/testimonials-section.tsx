@@ -116,10 +116,7 @@ const TestimonialCard: FCStrict<TestimonialCardProperties> = ({
 
 export const TestimonialsSection: AsyncPageFC<
   TestimonialsSectionProperties
-> = async ({
-  locale,
-  performance,
-}: TestimonialsSectionProperties): Promise<JSX.Element> => {
+> = async ({ locale }: TestimonialsSectionProperties): Promise<JSX.Element> => {
   const translations: Translations<'testimonials'> = await getTranslations({
     locale,
     namespace: 'testimonials',
@@ -128,10 +125,11 @@ export const TestimonialsSection: AsyncPageFC<
   // Safely parse raw items to avoid unsafe assignments
   const raw: unknown = translations.raw('items')
   const testimonials: readonly TestimonialItem[] = Array.isArray(raw)
-    ? (raw as unknown[]).filter(
-        (element: unknown): element is TestimonialItem =>
+    ? (raw as unknown[])
+        .filter((element: unknown): element is TestimonialItem =>
           isTestimonialItem(element)
-      )
+        )
+        .slice(0, 6)
     : []
 
   const titleText: string = translations('title')
@@ -143,7 +141,7 @@ export const TestimonialsSection: AsyncPageFC<
       className="min-h-screen"
       id="testimonials"
       isEmpty={testimonials.length === 0}
-      performance={performance ?? false}
+      performance={true}
     >
       <SectionContainer size="xl">
         <SectionHeader

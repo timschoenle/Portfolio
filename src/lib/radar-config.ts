@@ -12,36 +12,36 @@ export const RADAR_CONFIG: RadarConfigType = {
   /** Animation settings */
   animation: {
     sonarSweepAngle: 45,
-    sonarSweepRadius: 100,
+    sonarSweepRadius: 180,
   },
 
   /** Blip positioning constraints */
   blips: {
     hoverScale: 1.5,
-    maxRadius: 85,
-    minRadius: 10,
-    size: 3,
+    maxRadius: 170,
+    minRadius: 40,
+    size: 5,
     strokeWidth: 0.5,
   },
 
   /** Background circle radii */
   circles: {
-    inner: 40,
-    middle: 70,
-    outer: 97.5,
+    inner: 80,
+    middle: 130,
+    outer: 180,
   },
 
   /** Jitter amounts for position randomization */
   jitter: {
     angle: 0.1,
-    radius: 1,
+    radius: 2,
   },
 
   /** Quadrant label positioning */
   labels: {
-    bottomRadius: 114,
-    fontSize: 8,
-    topRadius: 105,
+    bottomRadius: 205,
+    fontSize: 14,
+    topRadius: 205,
   },
 
   /** Physics engine settings for blip distribution */
@@ -57,10 +57,10 @@ export const RADAR_CONFIG: RadarConfigType = {
 
   /** Size of the SVG viewBox */
   viewBox: {
-    height: 200,
-    max: 100,
-    min: -100,
-    width: 200,
+    height: 440,
+    max: 220,
+    min: -220,
+    width: 440,
   },
 } as const
 

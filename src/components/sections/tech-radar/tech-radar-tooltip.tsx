@@ -3,6 +3,7 @@
 import React, { type JSX } from 'react'
 
 import { getSkillIcon } from '@/components/sections/skill-icons'
+import { RADAR_CONFIG } from '@/lib/radar-config'
 import type { Blip } from '@/types/tech-radar'
 
 import { type HoverContextValue, useHover } from './hover-context'
@@ -31,8 +32,10 @@ export const TechRadarTooltip: React.FC<TechRadarTooltipProperties> = ({
   }
 
   const Icon: LucideIcon = getSkillIcon(hoveredBlipData.iconName)
-  const xPos: number = 50 + (hoveredBlipData.xCoordinate ?? 0) / 2
-  const yPos: number = 50 + (hoveredBlipData.yCoordinate ?? 0) / 2
+  const xPos: number =
+    50 + (hoveredBlipData.xCoordinate / RADAR_CONFIG.viewBox.width) * 100
+  const yPos: number =
+    50 + (hoveredBlipData.yCoordinate / RADAR_CONFIG.viewBox.height) * 100
 
   return (
     <div

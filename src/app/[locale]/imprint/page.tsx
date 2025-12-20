@@ -7,7 +7,7 @@ import { type Locale, type RichTagsFunction } from 'next-intl'
 
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
-import { LegalPageLayout } from '@/components/layout/legal-page-layout'
+import { BlueprintLegalLayout } from '@/components/blueprint/blueprint-legal-layout'
 import LastUpdateNotice from '@/components/ui/last-update-notice'
 import {
   ensureLocaleFromParameters,
@@ -101,7 +101,7 @@ const ImprintPage: RoutePageFC<ImprintPageProperties> = async ({
   }
 
   return (
-    <LegalPageLayout locale={locale} title={translations('title')}>
+    <BlueprintLegalLayout title={translations('title')}>
       <div className="space-y-6">
         <div>{translations.rich('tmg', variables)}</div>
         <div>{translations.rich('contact', variables)}</div>
@@ -114,7 +114,7 @@ const ImprintPage: RoutePageFC<ImprintPageProperties> = async ({
         <div>{translations.rich('copyright', variables)}</div>
         <LastUpdateNotice lastUpdate={lastUpdated} locale={locale} />
       </div>
-    </LegalPageLayout>
+    </BlueprintLegalLayout>
   )
 }
 

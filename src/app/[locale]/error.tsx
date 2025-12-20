@@ -4,53 +4,17 @@ import type { JSX } from 'react'
 
 import { useTranslations } from 'next-intl'
 
-import { AlertTriangle } from 'lucide-react'
+import { AlertTriangle, Home, RotateCcw } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import type { FCNullable, FCStrict } from '@/types/fc'
+import { BlueprintCard } from '@/components/blueprint/blueprint-card'
+import type { FCStrict } from '@/types/fc'
 import type { Translations } from '@/types/i18n'
+
+const ERROR_SEPARATOR: string = '::'
 
 // Hoisted utility to satisfy unicorn/consistent-function-scoping
 function goHome(): void {
   window.location.assign('/')
-}
-
-interface ErrorHeaderProperties {
-  readonly title: string
-}
-
-const ErrorHeader: FCStrict<ErrorHeaderProperties> = ({
-  title,
-}: ErrorHeaderProperties): JSX.Element => {
-  return (
-    <CardHeader>
-      <div className="flex items-center gap-2">
-        <AlertTriangle className="h-6 w-6 text-destructive" />
-        <CardTitle>{title}</CardTitle>
-      </div>
-    </CardHeader>
-  )
-}
-
-interface ErrorInfoProperties {
-  readonly digest?: string | undefined
-  readonly label: string
-}
-
-const ErrorInfo: FCNullable<ErrorInfoProperties> = ({
-  digest,
-  label,
-}: ErrorInfoProperties): JSX.Element | null => {
-  if (typeof digest !== 'string' || digest.length === 0) {
-    return null
-  }
-
-  return (
-    <p className="text-xs text-muted-foreground">
-      <span>{label}</span> {digest}
-    </p>
-  )
 }
 
 interface ErrorActionsLabels {
@@ -68,13 +32,22 @@ const ErrorActions: FCStrict<ErrorActionsProperties> = ({
   reset,
 }: Readonly<ErrorActionsProperties>): JSX.Element => {
   return (
-    <div className="flex gap-2">
-      <Button className="w-full" onClick={reset}>
+    <div className="mt-6 flex gap-4">
+      <button
+        className="flex items-center gap-2 border border-brand bg-brand/10 px-6 py-3 font-mono text-xs tracking-wider text-brand uppercase transition-all hover:bg-brand/20 hover:text-blueprint-text"
+        onClick={reset}
+      >
+        <RotateCcw className="h-4 w-4" />
         {labels.tryAgain}
-      </Button>
-      <Button className="w-full" variant="outline" onClick={goHome}>
+      </button>
+
+      <button
+        className="flex items-center gap-2 border border-brand/30 bg-transparent px-6 py-3 font-mono text-xs tracking-wider text-brand/70 uppercase transition-all hover:border-brand hover:bg-brand/5 hover:text-blueprint-text"
+        onClick={goHome}
+      >
+        <Home className="h-4 w-4" />
         {labels.goHome}
-      </Button>
+      </button>
     </div>
   )
 }
@@ -91,26 +64,56 @@ const ErrorPage: FCStrict<ErrorPageProperties> = ({
   const translations: Translations<'error'> = useTranslations('error')
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <ErrorHeader title={translations('title')} />
-        <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground">
-            {translations('description')}
-          </p>
-          <ErrorInfo
-            digest={error.digest}
-            label={translations('errorIdLabel')}
-          />
-          <ErrorActions
-            labels={{
-              goHome: translations('goHome'),
-              tryAgain: translations('tryAgain'),
-            }}
-            reset={reset}
-          />
-        </CardContent>
-      </Card>
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-blueprint-bg p-4 text-blueprint-text">
+      {/* Blueprint Grid Background */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(#60A5FA 1px, transparent 1px), linear-gradient(90deg, #60A5FA 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
+        }}
+      />
+
+      <div className="relative z-10 w-full max-w-lg">
+        <BlueprintCard
+          className="border-destructive/30 p-8 md:p-12"
+          label="SYSTEM FAILING"
+          noPadding={true}
+        >
+          <div className="flex flex-col items-center gap-6 text-center">
+            {/* Error Icon */}
+            <div className="relative flex h-20 w-20 items-center justify-center">
+              <div className="absolute inset-0 animate-pulse rounded-full border border-red-500/30" />
+              <div className="absolute inset-2 rounded-full border border-red-500/20" />
+              <AlertTriangle className="h-10 w-10 text-red-400" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <h1 className="font-mono text-2xl font-bold tracking-wider text-red-400 uppercase">
+                {translations('title')}
+              </h1>
+              <div className="w- full my-2 h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
+              <p className="font-mono text-sm text-blueprint-muted">
+                {translations('description')}
+              </p>
+            </div>
+
+            {Boolean(error.digest) && (
+              <div className="w-full rounded border border-red-500/20 bg-red-950/20 p-3 font-mono text-[10px] tracking-wider text-red-300/70 uppercase">
+                {translations('errorIdLabel')} {ERROR_SEPARATOR} {error.digest}
+              </div>
+            )}
+
+            <ErrorActions
+              labels={{
+                goHome: translations('goHome'),
+                tryAgain: translations('tryAgain'),
+              }}
+              reset={reset}
+            />
+          </div>
+        </BlueprintCard>
+      </div>
     </div>
   )
 }

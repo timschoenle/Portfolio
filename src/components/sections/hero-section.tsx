@@ -1,10 +1,14 @@
+/* eslint-disable @typescript-eslint/no-deprecated */
+/* eslint-disable sonarjs/deprecation */
 import { type JSX } from 'react'
 
-import { ArrowDown, GitBranch, Mail } from 'lucide-react'
+import { ArrowDown, Github, Mail } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 
-import { Button } from '@/components/ui/button'
-import { Heading } from '@/components/ui/heading'
+import { BlueprintContainer } from '@/components/blueprint/blueprint-container'
+import { BlueprintLabel } from '@/components/blueprint/blueprint-label'
+import { BlueprintSectionTitle } from '@/components/blueprint/blueprint-section-title'
+import { ScrollSnapPairController } from '@/components/features/scroll-snap/scroll-snap-pair-controller'
 import { siteConfig } from '@/lib/config'
 import type { AsyncPageFC, FCStrict } from '@/types/fc'
 import type { LocalePageProperties, Translations } from '@/types/i18n'
@@ -13,139 +17,141 @@ import type { LocalePageProperties, Translations } from '@/types/i18n'
 
 type HeroSectionProperties = LocalePageProperties
 
-interface HeroTitleProperties {
-  readonly greeting: string
-  readonly name: string
-}
+/* ── subcomponents ─────────────────────────────────────────────────────── */
 
-interface HeroSubtitleProperties {
-  readonly title: string
-}
+const LOCATION_LABEL: string = 'LOCATION_VECTOR'
+const MISSION_LABEL: string = 'CURRENT_MISSION'
 
-interface HeroLocationTaglineProperties {
+const BlueprintStatus: FCStrict<{
   readonly location: string
   readonly tagline: string
-}
-
-interface HeroButtonsProperties {
-  readonly contactLabel: string
-  readonly email: string
-  readonly githubLabel: string
-  readonly githubUrl: string
-}
-
-/* ── subcomponents (small & typed) ─────────────────────────────────────── */
-
-const HeroTitle: FCStrict<HeroTitleProperties> = ({
-  greeting,
-  name,
-}: HeroTitleProperties): JSX.Element => (
-  <Heading
-    as="h1"
-    className="mb-6 text-5xl font-bold tracking-tight text-balance text-foreground md:text-7xl"
-  >
-    {greeting}
-    &nbsp;
-    <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-      {name}
-    </span>
-  </Heading>
-)
-
-const HeroSubtitle: FCStrict<HeroSubtitleProperties> = ({
-  title,
-}: HeroSubtitleProperties): JSX.Element => (
-  <p className="mb-3 text-xl text-pretty text-muted-foreground md:text-2xl">
-    {title}
-  </p>
-)
-
-const HeroLocationTagline: FCStrict<HeroLocationTaglineProperties> = ({
+}> = ({
   location,
   tagline,
-}: HeroLocationTaglineProperties): JSX.Element => {
-  const separator: string = ' \u00B7 '
-  return (
-    <p className="mb-10 text-lg text-muted-foreground">
-      {location}
-      {separator}
-      {tagline}
-    </p>
-  )
-}
+}: {
+  readonly location: string
+  readonly tagline: string
+}): JSX.Element => (
+  <div className="mt-16 grid w-full max-w-5xl grid-cols-1 items-center gap-6 font-mono text-xs tracking-widest text-brand/80 uppercase sm:grid-cols-[1fr_auto_1fr] sm:gap-8">
+    {/* Detail Block A - Aligned to End (Right) of Left Column */}
+    <div className="shadow-[0_0_10px_color-mix(in srgb, var(--brand), transparent 90%)] flex w-full flex-col gap-2 justify-self-center border-l-2 border-brand bg-brand/5 py-2 pl-4 text-left sm:max-w-[280px] sm:justify-self-end">
+      <BlueprintLabel as="span" className="text-[10px] font-bold text-brand">
+        {LOCATION_LABEL}
+      </BlueprintLabel>
+      <span className="text-sm font-bold text-blueprint-text">{location}</span>
+    </div>
 
-const HeroButtons: FCStrict<HeroButtonsProperties> = ({
-  contactLabel,
-  email,
-  githubLabel,
-  githubUrl,
-}: HeroButtonsProperties): JSX.Element => (
-  <div className="flex flex-wrap items-center justify-center gap-4">
-    <Button
-      asChild={true}
-      className="group shadow-lg transition-all hover:shadow-xl"
-      size="lg"
-    >
-      <a href={githubUrl} rel="noopener noreferrer" target="_blank">
-        <GitBranch className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
-        {githubLabel}
-      </a>
-    </Button>
+    {/* Decorative Hex - Centered in Middle Column */}
+    <div className="mx-auto hidden h-8 w-8 shrink-0 rotate-45 items-center justify-center border border-brand bg-blueprint-bg sm:flex">
+      <div className="h-3 w-3 animate-pulse bg-brand shadow-[0_0_8px_#60A5FA]" />
+    </div>
 
-    <Button
-      asChild={true}
-      className="group bg-transparent shadow-md transition-all hover:shadow-lg"
-      size="lg"
-      variant="outline"
-    >
-      <a href={`mailto:${email}`}>
-        <Mail className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
-        {contactLabel}
-      </a>
-    </Button>
+    {/* Detail Block B - Aligned to Start (Left) of Right Column */}
+    <div className="shadow-[0_0_10px_color-mix(in srgb, var(--brand), transparent 90%)] flex w-full flex-col gap-2 justify-self-center border-r-2 border-brand bg-brand/5 py-2 pr-4 text-right sm:max-w-[280px] sm:justify-self-start">
+      <BlueprintLabel as="span" className="text-[10px] font-bold text-brand">
+        {MISSION_LABEL}
+      </BlueprintLabel>
+      <span className="flex items-center justify-end gap-3 text-sm font-bold text-blueprint-text">
+        {tagline}
+      </span>
+    </div>
   </div>
 )
 
-const HeroScrollHint: FCStrict = (): JSX.Element => (
-  <div className="mt-16">
-    <ArrowDown className="mx-auto h-6 w-6 animate-bounce text-muted-foreground" />
+const HeroActionButtons: FCStrict<{
+  readonly contactText: string
+  readonly githubLabel: string
+}> = ({
+  contactText,
+  githubLabel,
+}: {
+  readonly contactText: string
+  readonly githubLabel: string
+}): JSX.Element => (
+  <div className="mt-16 flex flex-wrap gap-8">
+    {/* Custom Technical Button */}
+    <a
+      className="group relative px-8 py-3 font-mono text-sm tracking-widest text-brand uppercase transition-colors hover:text-blueprint-text"
+      href={siteConfig.socials.github}
+      rel="noreferrer"
+      target="_blank"
+    >
+      <span className="relative z-10 flex items-center gap-2">
+        <Github className="h-4 w-4" />
+        {githubLabel}
+      </span>
+      {/* Button Frame */}
+      <div className="group-hover:shadow-[0_0_15px_color-mix(in srgb, var(--brand), transparent 70%)] absolute inset-0 skew-x-[-12deg] border border-brand bg-brand/5 transition-all group-hover:bg-brand/20" />
+      <div className="absolute right-0 bottom-0 h-1 w-1 bg-brand" />
+      <div className="absolute top-0 left-0 h-1 w-1 bg-brand" />
+    </a>
+
+    <a
+      className="group relative px-8 py-3 font-mono text-sm tracking-widest text-blueprint-bg uppercase transition-colors hover:text-blueprint-text"
+      href={`mailto:${siteConfig.email}`}
+    >
+      <span className="relative z-10 flex items-center gap-2 font-bold">
+        <Mail className="h-4 w-4" />
+        {contactText}
+      </span>
+      {/* Button Frame Filled */}
+      <div className="shadow-[0_0_15px_color-mix(in srgb, var(--brand), transparent 60%)] absolute inset-0 skew-x-[-12deg] border border-brand bg-brand transition-all group-hover:bg-transparent group-hover:text-brand" />
+    </a>
   </div>
 )
 
 /* ── main ──────────────────────────────────────────────────── */
+
+const GRID_REF: string = 'GRID_REF_X-99'
+
 export const HeroSection: AsyncPageFC<HeroSectionProperties> = async ({
   locale,
 }: HeroSectionProperties): Promise<JSX.Element> => {
-  const translation: Translations<''> = await getTranslations({ locale })
-  const heroTranslation: Translations<'hero'> = await getTranslations({
+  const translations: Translations<string> = await getTranslations({ locale })
+  const heroTranslations: Translations<'hero'> = await getTranslations({
     locale,
     namespace: 'hero',
   })
 
   return (
-    <section className="relative flex h-screen min-h-screen snap-start items-center justify-center px-4 py-20">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
+    <BlueprintContainer
+      id="hero"
+      overlay={
+        <div className="absolute bottom-[calc(var(--app-padding)+1rem)] left-1/2 z-20 -translate-x-1/2 animate-bounce cursor-pointer text-brand/50 transition-colors hover:text-brand">
+          <a aria-label="Scroll to About Section" href="#about">
+            <ArrowDown className="h-6 w-6" />
+          </a>
+        </div>
+      }
+    >
+      <div className="relative z-10 container flex min-h-[60vh] flex-col items-center justify-center">
+        {/* Floating tech markings */}
+        <BlueprintLabel className="writing-vertical-rl absolute top-20 left-20 font-mono text-[10px] text-brand/40 select-none">
+          {GRID_REF}
+        </BlueprintLabel>
 
-      <div className="max-w-4xl text-center">
-        <HeroTitle
-          greeting={heroTranslation('greeting')}
-          name={siteConfig.name}
+        <BlueprintSectionTitle
+          as="h1"
+          greeting={heroTranslations('greeting')}
+          sectionLabel="// MAIN_ENTRY_POINT"
+          subtitle={translations('personalInfo.jobTitle')}
+          title={siteConfig.fullName}
         />
-        <HeroSubtitle title={translation('personalInfo.jobTitle')} />
-        <HeroLocationTagline
-          location={heroTranslation('location', {
-            country: translation('personalInfo.country'),
+
+        <BlueprintStatus
+          location={heroTranslations('location', {
+            country: translations('personalInfo.country'),
           })}
-          tagline={heroTranslation('tagline')}
+          tagline={heroTranslations('tagline')}
         />
-        <HeroButtons
-          contactLabel={heroTranslation('contact')}
-          email={siteConfig.email}
-          githubLabel={translation('common.socials.github')}
-          githubUrl={siteConfig.socials.github}
+
+        <HeroActionButtons
+          contactText={heroTranslations('contact')}
+          githubLabel={translations('common.socials.github')}
         />
-        <HeroScrollHint />
       </div>
-    </section>
+
+      <ScrollSnapPairController bottomSectionId="about" topSectionId="hero" />
+    </BlueprintContainer>
   )
 }

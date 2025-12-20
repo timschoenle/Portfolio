@@ -1,385 +1,268 @@
-import type { JSX } from 'react'
+import { type ComponentType, type JSX } from 'react'
 
-import { type Locale } from 'next-intl'
-
-import {
-  Code2,
-  ExternalLink,
-  GitFork,
-  Globe,
-  Link as LinkIcon,
-  Star,
-} from 'lucide-react'
+import { Folder, GitFork, Star } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import { getTranslations } from 'next-intl/server'
 
-import { ContributionGraph } from '@/components/features/contribution-graph/contribution-graph'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CARD_DECORATIONS,
-  CARD_HOVERS,
-  CARD_VARIANTS,
-} from '@/components/ui/card'
-import { GridPattern } from '@/components/ui/grid-pattern'
-import { Heading } from '@/components/ui/heading'
-import { Section, SECTION_BACKGROUNDS } from '@/components/ui/section'
-import { SectionContainer } from '@/components/ui/section-container'
-import { SectionHeader } from '@/components/ui/section-header'
+import { BlueprintCard } from '@/components/blueprint/blueprint-card'
+import { BlueprintContainer } from '@/components/blueprint/blueprint-container'
+import { BlueprintSectionDivider } from '@/components/blueprint/blueprint-section-divider'
+import { BlueprintSectionTitle } from '@/components/blueprint/blueprint-section-title'
+import type * as ContributionGraphModule from '@/components/features/contribution-graph/contribution-graph-client'
+import { Card } from '@/components/ui/card'
 import { siteConfig } from '@/lib/config'
 import { getGithubUser, type GitHubData } from '@/lib/github/client'
 import type { GitHubProject } from '@/models/github'
-import type { FCAsync, FCStrict } from '@/types/fc'
-import type { Translations } from '@/types/i18n'
+import type { AsyncPageFC, FCStrict } from '@/types/fc'
+import type { LocalePageProperties, Translations } from '@/types/i18n'
 
-/* --------------------------------- Constants -------------------------------- */
+/* ── types ─────────────────────────────────────────────────────────────── */
 
-const VISIBLE_PROJECTS_LIMIT: number = 3
-const BG_GRID_SIZE: number = 32
-const BG_PATTERN_SIZE: number = 16
-const BG_PATTERN_OPACITY: number = 50
-
-/* --------------------------------- pieces --------------------------------- */
-
-interface StatsCardProperties {
-  readonly icon: JSX.Element
-  readonly label: string
-  readonly value: number
-}
-const StatsCard: FCStrict<StatsCardProperties> = ({
-  icon,
-  label,
-  value,
-}: StatsCardProperties): JSX.Element => {
-  return (
-    <Card
-      className="p-6"
-      decorative={CARD_DECORATIONS.OVERLAY}
-      hover={CARD_HOVERS.MODERATE}
-      variant={CARD_VARIANTS.INTERACTIVE}
-    >
-      <div className="relative flex items-center gap-4">
-        <div className="rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 p-3 shadow-lg ring-2 ring-primary/10 transition-all duration-300 group-hover:scale-110 group-hover:ring-primary/30">
-          {icon}
-        </div>
-        <p className="flex flex-col">
-          <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-3xl font-bold text-transparent">
-            {value}
-          </span>
-          <span className="text-sm text-muted-foreground">{label}</span>
-        </p>
-      </div>
-    </Card>
-  )
-}
+type ProjectsSectionProperties = LocalePageProperties
 
 interface ProjectCardProperties {
-  readonly project: GitHubProject
-  readonly translations: Translations<'projects'>
+  readonly description: string
+  readonly language: string
+  readonly name: string
+  readonly stats: {
+    readonly forks: number
+    readonly stars: number
+  }
+  readonly url: string
+  readonly viewProject: string
 }
-// eslint-disable-next-line max-lines-per-function
-const ProjectCard: FCStrict<ProjectCardProperties> = ({
-  project,
-  translations,
-}: ProjectCardProperties): JSX.Element => {
-  const hasHomepage: boolean =
-    typeof project.homepage === 'string' && project.homepage.length > 0
 
-  return (
-    <Card
-      className="flex h-full flex-col transition-all duration-500"
-      hover={CARD_HOVERS.MODERATE}
-      variant={CARD_VARIANTS.INTERACTIVE}
-    >
-      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/30 via-primary/20 to-primary/10">
-        {/* Animated background pattern */}
-        <div
-          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)]"
-          style={{
-            backgroundSize: `${BG_PATTERN_SIZE.toString()}px ${BG_PATTERN_SIZE.toString()}px`,
-            opacity: BG_PATTERN_OPACITY / 100,
-          }}
-        />
-
-        {/* Code icon with better animation */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative">
-            {/* Main icon */}
-            <Code2 className="relative h-20 w-20 text-primary/60 transition-all duration-500 group-hover:scale-125 group-hover:rotate-6 group-hover:text-primary" />
-          </div>
-        </div>
-
-        {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-      </div>
-
-      <div className="relative flex flex-1 flex-col p-6">
-        <Heading
-          as="h3"
-          className="mb-2 bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text text-xl font-bold text-transparent transition-all duration-300"
-        >
-          {project.name}
-        </Heading>
-        <p className="mb-4 flex-1 leading-relaxed text-muted-foreground">
-          {project.description}
-        </p>
-
-        <div className="mb-4 flex flex-wrap gap-2">
-          {project.topics.map(
-            (topic: string): JSX.Element => (
-              <Badge
-                className="border-primary/20 bg-primary/5 text-xs transition-all hover:border-primary/40 hover:bg-primary/10"
-                key={topic}
-                variant="secondary"
-              >
-                {topic}
-              </Badge>
-            )
-          )}
-        </div>
-
-        <div className="flex items-center justify-between border-t border-border/50 pt-4">
-          <div
-            aria-hidden="true"
-            className="flex items-center gap-4 text-sm text-muted-foreground print:hidden"
-          >
-            <span className="flex items-center gap-1 transition-colors group-hover:text-foreground">
-              <Star className="h-4 w-4" />
-              {project.stargazers_count}
-            </span>
-            <span className="flex items-center gap-1 transition-colors group-hover:text-foreground">
-              <GitFork className="h-4 w-4" />
-              {project.forks_count}
-            </span>
-          </div>
-
-          <div className="flex gap-2">
-            <Button
-              asChild={true}
-              className="transition-all hover:scale-110 hover:bg-primary/10"
-              size="sm"
-              variant="ghost"
-            >
-              <a
-                aria-label={translations('view')}
-                href={project.html_url}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <LinkIcon className="h-4 w-4" />
-              </a>
-            </Button>
-            {hasHomepage ? (
-              <Button
-                asChild={true}
-                className="transition-all hover:scale-110 hover:bg-primary/10"
-                size="sm"
-                variant="ghost"
-              >
-                <a
-                  aria-label={translations('view')}
-                  href={project.homepage}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <Globe className="h-4 w-4" />
-                </a>
-              </Button>
-            ) : null}
-          </div>
-        </div>
-      </div>
-    </Card>
+const ContributionGraph: ComponentType<ContributionGraphModule.ContributionGraphClientProperties> =
+  dynamic(
+    async (): Promise<
+      FCStrict<ContributionGraphModule.ContributionGraphClientProperties>
+    > =>
+      import('@/components/features/contribution-graph/contribution-graph-client').then(
+        (
+          module_: typeof ContributionGraphModule
+        ): FCStrict<ContributionGraphModule.ContributionGraphClientProperties> =>
+          module_.ContributionGraphClient
+      ),
+    {
+      loading: (): JSX.Element => (
+        <div className="h-[180px] w-full animate-pulse rounded-lg bg-blueprint-card-bg/50" />
+      ),
+    }
   )
+
+/* ── subcomponents ─────────────────────────────────────────────────────── */
+
+const BlueprintProjectCard: FCStrict<ProjectCardProperties> = ({
+  description,
+  language,
+  name,
+  stats,
+  url,
+  viewProject,
+}: ProjectCardProperties): JSX.Element => (
+  <BlueprintCard
+    className="flex h-full flex-col"
+    label="REPO_DATA"
+    noPadding={true}
+  >
+    <div className="flex h-full flex-col p-6">
+      {/* Header */}
+      <div className="mb-4 flex items-start justify-between">
+        <div className="flex items-center gap-3">
+          <Folder className="h-5 w-5 text-brand" />
+          <h3 className="font-mono text-lg font-bold tracking-tight text-blueprint-text">
+            {name}
+          </h3>
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="mb-6 line-clamp-3 flex-grow font-mono text-xs leading-relaxed text-blueprint-muted">
+        {description}
+      </p>
+
+      {/* Footer / Stats */}
+      <div className="mt-auto flex items-center justify-between border-t border-brand/30 pt-4 font-mono text-xs text-brand/80 uppercase">
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1">
+            <div className="h-2 w-2 rounded-full bg-brand opacity-70" />
+            {language}
+          </span>
+          <span className="flex items-center gap-1">
+            <Star className="h-3 w-3" />
+            {stats.stars}
+          </span>
+          <span className="flex items-center gap-1">
+            <GitFork className="h-3 w-3" />
+            {stats.forks}
+          </span>
+        </div>
+
+        <a
+          className="decoration-brand underline-offset-4 transition-colors hover:text-blueprint-text hover:underline"
+          href={url}
+          rel="noreferrer"
+          target="_blank"
+        >
+          {viewProject} {'->'}
+        </a>
+      </div>
+    </div>
+  </BlueprintCard>
+)
+
+interface ProjectStatsProperties {
+  readonly stats: {
+    readonly forks: number
+    readonly repositories: number
+    readonly stars: number
+  }
 }
 
-interface ProjectsGridProperties {
+const REPO_TEXT: string = 'Repositories'
+const STARS_TEXT: string = 'Total Stars'
+const FORKS_TEXT: string = 'Total Forks'
+
+const ProjectStats: FCStrict<ProjectStatsProperties> = ({
+  stats,
+}: ProjectStatsProperties): JSX.Element => (
+  <div className="mt-8 grid w-full grid-cols-3 gap-4 md:w-2/3 lg:w-1/2">
+    <Card className="flex flex-col items-center justify-center border-brand/30 bg-blueprint-bg/50 p-4">
+      <span className="text-3xl font-bold text-blueprint-text">
+        {stats.repositories}
+      </span>
+      <span className="font-mono text-xs text-blueprint-muted uppercase">
+        {REPO_TEXT}
+      </span>
+    </Card>
+    <Card className="flex flex-col items-center justify-center border-brand/30 bg-blueprint-bg/50 p-4">
+      <span className="text-3xl font-bold text-blueprint-text">
+        {stats.stars}
+      </span>
+      <span className="font-mono text-xs text-blueprint-muted uppercase">
+        {STARS_TEXT}
+      </span>
+    </Card>
+    <Card className="flex flex-col items-center justify-center border-brand/30 bg-blueprint-bg/50 p-4">
+      <span className="text-3xl font-bold text-blueprint-text">
+        {stats.forks}
+      </span>
+      <span className="font-mono text-xs text-blueprint-muted uppercase">
+        {FORKS_TEXT}
+      </span>
+    </Card>
+  </div>
+)
+
+interface ViewAllButtonProperties {
+  readonly label: string
+}
+
+const VIEW_ALL_ARROW: string = '->'
+
+const ViewAllButton: FCStrict<ViewAllButtonProperties> = ({
+  label,
+}: ViewAllButtonProperties): JSX.Element => (
+  <div className="mt-12 flex justify-center">
+    <a
+      className="group relative inline-flex items-center justify-center"
+      href={siteConfig.socials.github}
+      rel="noreferrer"
+      target="_blank"
+    >
+      {/* Glow Effect */}
+      <div className="absolute inset-0 rounded-sm bg-brand/20 blur-md transition-all duration-300 group-hover:bg-brand/40" />
+
+      {/* Button Content */}
+      <div className="group-hover:shadow-[0_0_15px_color-mix(in srgb, var(--brand), transparent 70%)] relative flex items-center gap-2 border border-brand bg-blueprint-bg/90 px-8 py-3 font-mono text-sm tracking-wider text-brand backdrop-blur-sm transition-all duration-300 group-hover:text-blueprint-text hover:bg-brand/10">
+        <span>{label}</span>
+        <span className="transition-transform duration-300 group-hover:translate-x-1">
+          {VIEW_ALL_ARROW}
+        </span>
+      </div>
+
+      {/* Corner Accents */}
+      <div className="absolute -top-[1px] -left-[1px] h-2 w-2 border-t border-l border-brand" />
+      <div className="absolute -right-[1px] -bottom-[1px] h-2 w-2 border-r border-b border-brand" />
+    </a>
+  </div>
+)
+
+interface FeaturedProjectsProperties {
   readonly projects: readonly GitHubProject[]
   readonly translations: Translations<'projects'>
 }
 
-// eslint-disable-next-line max-lines-per-function
-const ProjectsGrid: FCStrict<ProjectsGridProperties> = ({
+const FeaturedProjects: FCStrict<FeaturedProjectsProperties> = ({
   projects,
   translations,
-}: ProjectsGridProperties): JSX.Element => {
-  const hasManyProjects: boolean = projects.length > VISIBLE_PROJECTS_LIMIT
-  const mobileProjects: readonly GitHubProject[] = projects.slice(
-    0,
-    VISIBLE_PROJECTS_LIMIT
-  )
-
-  const renderProject: (
-    project: GitHubProject,
-    wrapperClassName?: string
-  ) => JSX.Element = (
-    project: GitHubProject,
-    wrapperClassName?: string
-  ): JSX.Element => (
-    <li className={wrapperClassName} key={project.html_url}>
-      <ProjectCard project={project} translations={translations} />
-    </li>
-  )
-
-  return (
-    <div className="space-y-6">
-      {/* Mobile: limit to the first 3 projects in a simple grid */}
-      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:hidden">
-        {mobileProjects.map(
-          (project: GitHubProject): JSX.Element => (
-            <li key={project.html_url}>
-              <ProjectCard project={project} translations={translations} />
-            </li>
-          )
-        )}
-      </ul>
-
-      {/* Tablet / Desktop */}
-      <div className="hidden md:block">
-        {hasManyProjects ? (
-          // Slider on md+ when we have more than 3 projects
-          <div className="relative">
-            <ul className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4">
-              {projects.map(
-                (project: GitHubProject): JSX.Element =>
-                  renderProject(
-                    project,
-                    'snap-start flex-none w-[18rem] md:w-[20rem] lg:w-[22rem]'
-                  )
-              )}
-            </ul>
-          </div>
-        ) : (
-          // No slider needed: regular grid
-          <ul className="grid grid-cols-2 gap-6 lg:grid-cols-3">
-            {projects.map(
-              (project: GitHubProject): JSX.Element => (
-                <li key={project.html_url}>
-                  <ProjectCard project={project} translations={translations} />
-                </li>
-              )
-            )}
-          </ul>
-        )}
-      </div>
-    </div>
-  )
-}
-
-interface SectionFooterProperties {
-  readonly cta: string
-  readonly githubUsername: string
-}
-const SectionFooter: FCStrict<SectionFooterProperties> = ({
-  cta,
-  githubUsername,
-}: SectionFooterProperties): JSX.Element => {
-  return (
-    <div className="mt-12 text-center">
-      <Button
-        asChild={true}
-        className="group shadow-lg transition-all hover:scale-105 hover:shadow-2xl"
-        size="lg"
-      >
-        <a
-          href={`https://github.com/${githubUsername}`}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {cta}
-          <ExternalLink className="ml-2 h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110" />
-        </a>
-      </Button>
-    </div>
-  )
-}
-
-interface StatsGridProperties {
-  readonly stats: GitHubData['stats']
-  readonly translations: Translations<'projects'>
-}
-
-const StatsGrid: FCStrict<StatsGridProperties> = ({
-  stats,
-  translations,
-}: StatsGridProperties): JSX.Element => (
-  <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-3">
-    <StatsCard
-      icon={<Code2 className="h-8 w-8 text-primary" />}
-      label={translations('stats.repositories')}
-      value={stats.repositories}
-    />
-    <StatsCard
-      icon={<Star className="h-8 w-8 text-primary" />}
-      label={translations('stats.stars')}
-      value={stats.stars}
-    />
-    <StatsCard
-      icon={<GitFork className="h-8 w-8 text-primary" />}
-      label={translations('stats.forks')}
-      value={stats.forks}
-    />
+}: FeaturedProjectsProperties): JSX.Element => (
+  <div className="mt-12 grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3">
+    {projects.map(
+      (project: GitHubProject): JSX.Element => (
+        <BlueprintProjectCard
+          description={project.description ?? ''}
+          key={project.name}
+          language={project.language ?? 'Unknown'}
+          name={project.name}
+          stats={{
+            forks: project.forks_count,
+            stars: project.stargazers_count,
+          }}
+          url={project.html_url}
+          viewProject={translations('view')}
+        />
+      )
+    )}
   </div>
 )
 
-/* ------------------------------- main export ------------------------------ */
+/* ── main ──────────────────────────────────────────────────── */
 
-interface ProjectsSectionProperties {
-  readonly locale: Locale
-  readonly performance?: boolean
-}
-
-export const ProjectsSection: FCAsync<ProjectsSectionProperties> = async ({
+export const ProjectsSection: AsyncPageFC<ProjectsSectionProperties> = async ({
   locale,
-  performance,
 }: ProjectsSectionProperties): Promise<JSX.Element> => {
-  const { contributionData, projects, stats }: GitHubData =
-    await getGithubUser()
-
   const translations: Translations<'projects'> = await getTranslations({
     locale,
     namespace: 'projects',
   })
 
-  // Contribution graph logic
-  const hasContributions: boolean = Object.keys(contributionData).length > 0
+  // Fetch all user data including featured projects, stats, and contributions
+  const { contributionData, projects, stats }: GitHubData =
+    await getGithubUser()
 
   return (
-    <Section
-      background={SECTION_BACKGROUNDS.GRADIENT}
-      className="min-h-screen"
-      id="projects"
-      isEmpty={projects.length === 0}
-      performance={performance ?? false}
-    >
-      {/* Background patterns */}
-      <GridPattern size={BG_GRID_SIZE} />
-
-      <SectionContainer className="relative" size="xl">
-        <SectionHeader
-          gradient={true}
-          subtitle={translations('subtitle')}
+    <BlueprintContainer id="projects" isLazy={true}>
+      <div className="mx-auto flex w-full max-w-6xl flex-col items-center">
+        <BlueprintSectionTitle
+          sectionLabel="// OPEN_SOURCE_MODULES"
           title={translations('title')}
         />
 
-        {/* GitHub Stats Cards */}
-        <StatsGrid stats={stats} translations={translations} />
+        <ProjectStats stats={stats} />
 
-        {/* Featured Projects */}
-        <ProjectsGrid projects={projects} translations={translations} />
-
-        {/* GitHub Contribution Graph - Hidden in reader mode/print, or if no data */}
-        <aside aria-hidden="true" className="mt-16 print:hidden">
-          {hasContributions ? (
-            <ContributionGraph data={contributionData} locale={locale} />
-          ) : null}
-        </aside>
-
-        <SectionFooter
-          cta={translations('viewAll')}
-          githubUsername={siteConfig.socials.githubUsername}
+        <FeaturedProjects
+          projects={projects.slice(0, 6)}
+          translations={translations}
         />
-      </SectionContainer>
-    </Section>
+
+        <ViewAllButton label={translations('viewAll')} />
+
+        {/* Contribution Graph - Scaled to fit container without scroll */}
+        <div className="mt-16 w-full rounded-lg border border-brand/30 bg-blueprint-card-bg/90 p-2 shadow-sm backdrop-blur-md md:p-6">
+          <div className="w-full">
+            <ContributionGraph
+              data={contributionData}
+              locale={locale}
+              variant="blueprint"
+            />
+          </div>
+        </div>
+
+        <BlueprintSectionDivider label="MODULES_LOADED" />
+      </div>
+    </BlueprintContainer>
   )
 }
+
+export default ProjectsSection

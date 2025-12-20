@@ -61,6 +61,7 @@ vi.mock(
 
 // Mock all section components with correct export names
 vi.mock('@/components/sections/about-section', () => ({
+  AboutSection: () => <div data-testid="about-section">About</div>,
   default: () => <div data-testid="about-section">About</div>,
 }))
 
@@ -107,7 +108,6 @@ describe('Page', () => {
     expect(screen.getByTestId('skills-section')).toBeDefined()
     expect(screen.getByTestId('projects-section')).toBeDefined()
     expect(screen.getByTestId('experience-section')).toBeDefined()
-    expect(screen.getByTestId('testimonials-section')).toBeDefined()
     expect(screen.getByTestId('contact-section')).toBeDefined()
   })
 })
