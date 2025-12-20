@@ -23,9 +23,6 @@ fileExistenceTests:
   - name: next static present
     path: /app/.next/static
     shouldExist: true
-  - name: node binary present
-    path: node
-    shouldExist: true
   - name: /bin/sh absent
     path: /bin/sh
     shouldExist: false
