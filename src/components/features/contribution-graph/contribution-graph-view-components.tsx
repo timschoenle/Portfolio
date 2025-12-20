@@ -78,7 +78,7 @@ export const HeaderSection: FCStrict<HeaderSectionProperties> = ({
 
       <div className="flex items-center gap-4">
         <select
-          aria-label="Select Year"
+          aria-label={`${translate('title')} ${String(selectedYear)}`}
           className={selectClassName}
           value={selectedYear}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
