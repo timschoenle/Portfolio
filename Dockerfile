@@ -23,12 +23,15 @@ ENV NODE_ENV=production \
 COPY --from=dev_deps /app/node_modules ./node_modules
 COPY . .
 
+# Build the Next.js app
+# Use secret mounts for sensitive data during the build
+# Remove source maps after build to reduce image size
+# Set public files and directories to read-only permissions
 RUN --mount=type=cache,target=/app/.next/cache \
     --mount=type=secret,id=resume_signing_cert_base64 \
     --mount=type=secret,id=resume_signing_cert_password \
     pnpm run build && \
     find .next/static -type f -name '*.map' -delete && \
-    # Chmod all files in public to be read-only
     find ./public -type d -exec chmod 555 {} \; && \
     find ./public -type f -exec chmod 444 {} \;
 
