@@ -28,7 +28,8 @@ RUN --mount=type=cache,target=/app/.next/cache \
     --mount=type=secret,id=resume_signing_cert_password \
     pnpm run build && \
     find .next/static -type f -name '*.map' -delete && \
-    chmod -R 555 ./public
+    find ./public -type d -exec chmod 555 {} \; && \
+    find ./public -type f -exec chmod 444 {} \;
 
 FROM dhi.io/node:25 AS runner
 WORKDIR /app
