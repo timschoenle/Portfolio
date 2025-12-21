@@ -131,7 +131,6 @@
       "contact": "Contact",
       "viewProject": "View Project"
     },
-    "summary": "Experienced software developer with 5+ years of expertise in building scalable web applications. Passionate about clean code, modern technologies, and solving complex problems.",
     "education": [],
     "experience": [
       {
@@ -182,8 +181,7 @@
         "startDate": "2023-08",
         "title": "Senior Software Developer"
       }
-    ],
-    "projects": []
+    ]
   },
   "imprint": {
     "title": "Imprint",

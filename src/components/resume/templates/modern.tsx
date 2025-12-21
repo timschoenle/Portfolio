@@ -4,6 +4,7 @@ import { Page, Text, View } from '@react-pdf/renderer'
 
 import { SkillsSection } from '@/components/resume/templates/modern/skills-section'
 import { siteConfig } from '@/lib/config'
+import { stripHtmlTags } from '@/lib/string-utilities'
 import type { ResumeTranslations } from '@/types/resume'
 
 import { ContactSection } from './modern/contact-section'
@@ -25,7 +26,9 @@ export const ModernTemplate: FC<ModernTemplateProperties> = ({
         <Text style={styles.title}>
           {translations('personalInfo.jobTitle')}
         </Text>
-        <Text style={styles.summary}>{translations('resume.summary')}</Text>
+        <Text style={styles.summary}>
+          {stripHtmlTags(translations('about.summary'))}
+        </Text>
       </View>
 
       <View style={styles.mainContainer}>

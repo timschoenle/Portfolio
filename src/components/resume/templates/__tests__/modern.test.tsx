@@ -28,7 +28,7 @@ describe('ModernTemplate', () => {
       const translations: Record<string, string> = {
         'personalInfo.jobTitle': 'Senior Software Developer',
         'personalInfo.country': 'Germany',
-        'resume.summary': 'Experienced developer with 5+ years',
+        'about.summary': 'Experienced developer with 5+ years',
         'resume.sectionTitles.experience': 'Experience',
         'resume.sectionTitles.projects': 'Projects',
         'resume.sectionTitles.education': 'Education',

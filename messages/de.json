@@ -131,7 +131,6 @@
       "contact": "Kontakt",
       "viewProject": "Projekt ansehen"
     },
-    "summary": "Erfahrener Software-Entwickler mit über 5 Jahren Expertise in der Entwicklung skalierbarer Webanwendungen. Leidenschaftlich für sauberen Code, moderne Technologien und das Lösen komplexer Probleme.",
     "education": [],
     "experience": [
       {
@@ -168,7 +167,7 @@
         "endDate": "2023-01",
         "location": "Remote",
         "startDate": "2021-10",
-        "title": "Software Developer"
+        "title": "Softwareentwickler"
       },
       {
         "achievements": [
@@ -180,10 +179,9 @@
         "endDate": "present",
         "location": "Remote",
         "startDate": "2023-08",
-        "title": "Senior Software Developer"
+        "title": "Senior Softwareentwickler"
       }
-    ],
-    "projects": []
+    ]
   },
   "imprint": {
     "title": "Impressum",
