@@ -8,9 +8,11 @@ import { type Locale, type Messages, NextIntlClientProvider } from 'next-intl'
 import { Inter } from 'next/font/google'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 
+import { SerwistProvider } from '@/$lib/client'
 import DeferredClientUi from '@/app/[locale]/deferred-client-ui'
 import { LanguageSwitcher } from '@/components/common/language-switcher'
 import { ThemeProvider } from '@/components/common/theme-provider'
+import { DevelopmentServiceWorkerGuard } from '@/components/features/development-service-worker-cleanup'
 import { LegalFooter } from '@/components/layout/legal-footer'
 import {
   ensureLocaleFromParameters,
@@ -108,6 +110,7 @@ export const generateMetadata: GenerateMetadataFC<
     creator: siteConfig.fullName,
     description: siteConfig.description,
     keywords: siteConfig.seo.keywords.join(', '),
+    manifest: '/manifest.webmanifest',
     metadataBase: new URL(siteConfig.url),
     openGraph: {
       alternateLocale: buildAlternateLocales(locale),
@@ -191,6 +194,12 @@ const RootLayout: RoutePageWithChildrenFC<RootLayoutProperties> = async ({
   return (
     <html className={`dark ${inter.variable}`} lang={locale}>
       <body className="font-sans antialiased">
+        {process.env.NODE_ENV === 'development' ? (
+          <DevelopmentServiceWorkerGuard />
+        ) : (
+          <SerwistProvider swUrl="/serwist/sw.js" />
+        )}
+
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider defaultTheme="dark">
             <LanguageSwitcher />
