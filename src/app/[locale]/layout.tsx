@@ -11,7 +11,6 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import DeferredClientUi from '@/app/[locale]/deferred-client-ui'
 import { LanguageSwitcher } from '@/components/common/language-switcher'
 import { ThemeProvider } from '@/components/common/theme-provider'
-import { DevelopmentServiceWorkerGuard } from '@/components/features/development-service-worker-cleanup'
 import { LegalFooter } from '@/components/layout/legal-footer'
 import {
   ensureLocaleFromParameters,
@@ -192,8 +191,6 @@ const RootLayout: RoutePageWithChildrenFC<RootLayoutProperties> = async ({
   return (
     <html className={`dark ${inter.variable}`} lang={locale}>
       <body className="font-sans antialiased">
-        <DevelopmentServiceWorkerGuard />
-
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider defaultTheme="dark">
             <LanguageSwitcher />
