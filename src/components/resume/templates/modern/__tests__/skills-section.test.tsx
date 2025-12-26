@@ -26,6 +26,9 @@ vi.mock('@/lib/config', () => ({
       resumeMinimumConfidence: 0,
     },
   },
+}))
+
+vi.mock('@/types/skill', () => ({
   SKILL_RENDER_AREAS: {
     RESUME: 'resume',
   },

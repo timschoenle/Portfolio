@@ -9,7 +9,7 @@ import path from 'node:path'
 
 import forge from 'node-forge'
 
-import { siteConfig } from '@/lib/config'
+import { siteConfig } from '@/data/config'
 
 const CERT_FILENAME: string = 'resume-signing-cert.p12'
 

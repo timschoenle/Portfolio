@@ -2,7 +2,7 @@ import { type FC, type ReactElement } from 'react'
 
 import { Link, Text, View } from '@react-pdf/renderer'
 
-import { siteConfig } from '@/lib/config'
+import { siteConfig } from '@/data/config'
 import type { ResumeTranslations } from '@/types/resume'
 
 import { styles } from './modern.styles'

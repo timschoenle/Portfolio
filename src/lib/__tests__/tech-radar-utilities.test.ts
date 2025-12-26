@@ -2,7 +2,8 @@ import {
   calculateBlipPosition,
   resolveBlipCollisions,
 } from '@/lib/tech-radar-utilities'
-import { RADAR_CONFIG } from '@/lib/radar-config'
+import { RADAR_CONFIG } from '@/components/sections/tech-radar/config'
+
 import type { CalculateBlipPositionResult } from '@/types/tech-radar'
 import { describe, it, expect } from 'vitest'
 

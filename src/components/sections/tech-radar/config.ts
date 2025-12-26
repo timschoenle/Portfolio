@@ -115,6 +115,7 @@ const numberToString: (number: number) => string = String
 
 export const LABEL_PATHS: LabelPathsType = {
   buildTools: `M -${numberToString(RADAR_CONFIG.labels.bottomRadius)},0 A ${numberToString(RADAR_CONFIG.labels.bottomRadius)},${numberToString(RADAR_CONFIG.labels.bottomRadius)} 0 0,0 0,${numberToString(RADAR_CONFIG.labels.bottomRadius)}`,
+
   frameworks: `M 0,-${numberToString(RADAR_CONFIG.labels.topRadius)} A ${numberToString(RADAR_CONFIG.labels.topRadius)},${numberToString(RADAR_CONFIG.labels.topRadius)} 0 0,1 ${numberToString(RADAR_CONFIG.labels.topRadius)},0`,
   infrastructure: `M 0,${numberToString(RADAR_CONFIG.labels.bottomRadius)} A ${numberToString(RADAR_CONFIG.labels.bottomRadius)},${numberToString(RADAR_CONFIG.labels.bottomRadius)} 0 0,0 ${numberToString(RADAR_CONFIG.labels.bottomRadius)},0`,
   languages: `M -${numberToString(RADAR_CONFIG.labels.topRadius)},0 A ${numberToString(RADAR_CONFIG.labels.topRadius)},${numberToString(RADAR_CONFIG.labels.topRadius)} 0 0,1 0,-${numberToString(RADAR_CONFIG.labels.topRadius)}`,

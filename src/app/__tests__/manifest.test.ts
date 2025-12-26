@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import manifest from '@/app/manifest'
-import { siteConfig } from '@/lib/config'
+import { siteConfig } from '@/data/config'
 
 describe('manifest', () => {
   it('should return valid manifest object', () => {

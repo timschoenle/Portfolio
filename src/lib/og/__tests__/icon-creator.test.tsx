@@ -11,7 +11,7 @@ import {
   getImageDimension,
   IconIds,
   loadIconSvg,
-} from '@/lib/icon-creator'
+} from '@/lib/og/icon-creator'
 
 const { mockedReadFile } = vi.hoisted(() => {
   return { mockedReadFile: vi.fn() }

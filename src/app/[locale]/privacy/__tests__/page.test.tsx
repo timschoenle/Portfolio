@@ -18,7 +18,7 @@ vi.mock('@/i18n/routing', () => ({
 }))
 
 // Mock i18n-legal-components
-vi.mock('@/lib/i18n-legal-components', () => ({
+vi.mock('@/components/features/legal/legal-rich-text', () => ({
   legalPageComponentMappings: {
     addressBlock: (chunks: any) => (
       <div className="address-block">{chunks}</div>

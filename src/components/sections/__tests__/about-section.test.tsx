@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import AboutSection from '../about-section'
+import AboutSection from '../about/about-section'
 
 import { getTranslations } from 'next-intl/server'
 

@@ -5,7 +5,7 @@ import {
   QUADRANT_ANGLES,
   QUADRANT_STYLES,
   RADAR_CONFIG,
-} from '../radar-config'
+} from '@/components/sections/tech-radar/config'
 
 describe('Radar Config', () => {
   it('should define RADAR_CONFIG', () => {

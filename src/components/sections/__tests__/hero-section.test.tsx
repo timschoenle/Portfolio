@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { render, screen } from '@testing-library/react'
 
-import { HeroSection } from '../hero-section'
+import { HeroSection } from '../hero/hero-section'
 
 // Mock overrides if necessary
 vi.mock('@/lib/config', () => ({

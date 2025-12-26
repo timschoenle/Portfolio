@@ -2,7 +2,8 @@ import {
   calculateBlipPosition,
   resolveBlipCollisions,
 } from '@/lib/tech-radar-utilities'
-import { RADAR_CONFIG } from '@/lib/radar-config'
+import { RADAR_CONFIG } from '@/components/sections/tech-radar/config'
+
 import { describe, it, expect } from 'vitest'
 
 describe('Tech Radar Physics Regressions', () => {

@@ -2,10 +2,11 @@ import { type ReactElement } from 'react'
 
 import { Text, View } from '@react-pdf/renderer'
 
-import { siteConfig, type Skill, SKILL_RENDER_AREAS } from '@/lib/config'
+import { siteConfig } from '@/data/config'
 import { shouldShowSkill } from '@/lib/tech-radar-utilities'
 import type { FCNullable, FCStrict } from '@/types/fc'
 import type { ResumeTranslations } from '@/types/resume'
+import { type Skill, SKILL_RENDER_AREAS } from '@/types/skill'
 
 import { styles } from './modern.styles'
 

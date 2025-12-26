@@ -5,7 +5,7 @@ import { type createFormatter } from 'next-intl'
 import { Page, Text, View } from '@react-pdf/renderer'
 
 import { SkillsSection } from '@/components/resume/templates/modern/skills-section'
-import { siteConfig } from '@/lib/config'
+import { siteConfig } from '@/data/config'
 import type { ResumeTranslations } from '@/types/resume'
 
 import { ContactSection } from './modern/contact-section'

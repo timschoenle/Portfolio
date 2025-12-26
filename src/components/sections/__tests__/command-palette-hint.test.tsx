@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { type JSX } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { CommandPaletteHint } from '../command-palette-hint'
+import { CommandPaletteHint } from '@/components/features/command-palette/command-palette-hint'
 
 describe('CommandPaletteHint', () => {
   beforeEach(() => {

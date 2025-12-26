@@ -13,12 +13,12 @@ import { LanguageSwitcher } from '@/components/common/language-switcher'
 import { ThemeProvider } from '@/components/common/theme-provider'
 import { DevelopmentServiceWorkerGuard } from '@/components/features/development-service-worker-cleanup'
 import { LegalFooter } from '@/components/layout/legal-footer'
+import { siteConfig } from '@/data/config'
 import {
   ensureLocaleFromParameters,
   maybeLocaleFromParameters,
 } from '@/i18n/locale'
 import { getPathname, routing } from '@/i18n/routing'
-import { siteConfig } from '@/lib/config'
 import type { UnparsedLocalePageProperties } from '@/types/i18n'
 import type {
   GenerateMetadataFC,

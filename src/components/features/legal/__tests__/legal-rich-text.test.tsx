@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { render } from '@testing-library/react'
-import { legalPageComponentMappings } from '../i18n-legal-components'
+import { legalPageComponentMappings } from '../legal-rich-text'
 
 describe('legalPageComponentMappings', () => {
   describe('addressBlock', () => {

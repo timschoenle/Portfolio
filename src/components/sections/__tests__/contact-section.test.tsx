@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import { ContactSection } from '../contact-section'
+import { ContactSection } from '../contact/contact-section'
 
 // Mock node:fs/promises
 // Mock node:fs/promises

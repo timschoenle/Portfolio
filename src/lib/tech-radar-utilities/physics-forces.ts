@@ -1,4 +1,4 @@
-import { RADAR_CONFIG } from '@/lib/radar-config'
+import { RADAR_CONFIG } from '@/components/sections/tech-radar/config'
 import type {
   CalculateBlipRepulsionParameters,
   CalculateTangentForceParameters,
