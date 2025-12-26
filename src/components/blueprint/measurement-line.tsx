@@ -126,9 +126,6 @@ const MeasurementLine: FCStrict<MeasurementLineProperties> = ({
     width: isVertical ? '10px' : width,
   }
 
-  // Remove opacity from container to improve contrast of lines if needed,
-  // but keeping it for now as the goal is to fix text detection.
-  // Actually, adding aria-hidden to the text node explicitly is key.
   return (
     <div
       aria-hidden="true"
