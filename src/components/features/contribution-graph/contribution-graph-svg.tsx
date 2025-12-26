@@ -340,7 +340,7 @@ export const ContributionGraphSvg: FCStrict<ContributionGraphSvgProperties> = ({
           }}
         >
           {/* Month Labels */}
-          {monthLabels}
+          {...monthLabels}
 
           {/* Weekday Labels (Mon, Wed, Fri) */}
           <text

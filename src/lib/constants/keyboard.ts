@@ -21,8 +21,6 @@ export const COMMAND_PALETTE_SHORTCUT: {
   },
 } as const
 
-export type CommandPaletteShortcut = typeof COMMAND_PALETTE_SHORTCUT
-
 type ModifierEventKey = 'altKey' | 'ctrlKey' | 'metaKey' | 'shiftKey'
 
 /**
@@ -67,27 +65,6 @@ export const isModifierPressed: (
     return event.shiftKey
   }
   return event.altKey
-}
-
-/**
- * Get the keyboard layout map keys for a modifier
- */
-export const getModifierLayoutKeys: (modifier: string) => readonly string[] = (
-  modifier: string
-): readonly string[] => {
-  if (modifier === 'Ctrl') {
-    return ['ControlLeft', 'ControlRight']
-  }
-  if (modifier === 'Cmd') {
-    return ['MetaLeft', 'MetaRight']
-  }
-  if (modifier === 'Shift') {
-    return ['ShiftLeft', 'ShiftRight']
-  }
-  if (modifier === 'Alt') {
-    return ['AltLeft', 'AltRight']
-  }
-  throw new Error(`Unknown modifier: ${modifier}`)
 }
 
 /**

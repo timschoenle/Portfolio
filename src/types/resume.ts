@@ -1,7 +1,5 @@
 import type { Translations } from '@/types/i18n'
 
-import type en from '../../messages/en.json'
-
 export interface ResumeEducation {
   readonly degree: string
   readonly end: ResumeDate | null
@@ -29,7 +27,5 @@ export interface ResumeProject {
   readonly technologies: readonly string[]
   readonly url?: string
 }
-
-export type ResumeData = typeof en.resume
 
 export type ResumeTranslations = Translations<''>

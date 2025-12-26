@@ -13,7 +13,6 @@ import type { FCWithChildren } from '@/types/fc'
 type DialogRootProperties = ComponentProps<typeof DialogPrimitive.Root>
 type DialogTriggerProperties = ComponentProps<typeof DialogPrimitive.Trigger>
 type DialogPortalProperties = ComponentProps<typeof DialogPrimitive.Portal>
-type DialogCloseProperties = ComponentProps<typeof DialogPrimitive.Close>
 type DialogOverlayProperties = ComponentProps<typeof DialogPrimitive.Overlay>
 interface DialogContentBaseProperties extends ComponentProps<
   typeof DialogPrimitive.Content
@@ -48,12 +47,6 @@ const DialogPortal: FCWithChildren<DialogPortalProperties> = (
   properties: DialogPortalProperties
 ): JSX.Element => (
   <DialogPrimitive.Portal data-slot="dialog-portal" {...properties} />
-)
-
-const DialogClose: FCWithChildren<DialogCloseProperties> = (
-  properties: DialogCloseProperties
-): JSX.Element => (
-  <DialogPrimitive.Close data-slot="dialog-close" {...properties} />
 )
 
 const DialogOverlay: FCWithChildren<DialogOverlayProperties> = ({
@@ -194,7 +187,6 @@ const DialogDescription: FCWithChildren<DialogDescriptionProperties> = ({
 
 export {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,

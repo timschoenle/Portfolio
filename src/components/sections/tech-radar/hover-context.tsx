@@ -5,10 +5,11 @@ import React, {
   createContext,
   type JSX,
   useContext,
+  useMemo,
   useState,
 } from 'react'
 
-import type { Blip } from '@/types/tech-radar'
+import type { FCWithRequiredChildren, WithRequiredChildren } from '@/types/fc'
 
 export interface HoverContextValue {
   hoveredBlip: string | null
@@ -26,25 +27,21 @@ export const useHover: () => HoverContextValue = (): HoverContextValue => {
   return context
 }
 
-interface HoverProviderProperties {
-  readonly blips: readonly Blip[]
-  readonly children: React.ReactNode
-}
-
 /**
  * Provider for managing shared hover state between blips and tooltip.
  */
-export const HoverProvider: React.FC<HoverProviderProperties> = ({
+export const HoverProvider: FCWithRequiredChildren<WithRequiredChildren> = ({
   children,
-}: HoverProviderProperties): JSX.Element => {
+}: WithRequiredChildren): JSX.Element => {
   const [hoveredBlip, setHoveredBlip]: [
     string | null,
     React.Dispatch<React.SetStateAction<string | null>>,
   ] = useState<string | null>(null)
 
-  return (
-    <HoverContext.Provider value={{ hoveredBlip, setHoveredBlip }}>
-      {children}
-    </HoverContext.Provider>
+  const value: HoverContextValue = useMemo(
+    (): HoverContextValue => ({ hoveredBlip, setHoveredBlip }),
+    [hoveredBlip]
   )
+
+  return <HoverContext.Provider value={value}>{children}</HoverContext.Provider>
 }

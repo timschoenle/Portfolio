@@ -31,9 +31,9 @@ module.exports = {
           '^src/app', // Next.js Pages/App Router are entries
           '^src/middleware.ts',
           '^src/proxy.ts',
-          '\\.d\\.ts$',
-          '\\.config\\.ts$',
-          '\\.test\\.ts$',
+          String.raw`\.d\.ts$`,
+          String.raw`\.config\.ts$`,
+          String.raw`\.test\.ts$`,
         ],
       },
       to: {},

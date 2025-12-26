@@ -7,15 +7,7 @@
  *   *only* for this file, to avoid false positives without weakening app code.
  */
 
-import type {
-  ComponentPropsWithRef,
-  ElementType,
-  ForwardedRef,
-  ForwardRefExoticComponent,
-  JSX,
-  ReactNode,
-  RefAttributes,
-} from 'react'
+import type { JSX, ReactNode } from 'react'
 
 /** ------------------------------------------------------------------------
  *  Helpers
@@ -63,72 +55,6 @@ export type FCAsync<P = NoProperties> = (
 export type FCAsyncWithChildren<P = NoProperties> = (
   properties: Readonly<P & WithChildren>
 ) => Promise<JSX.Element>
-
-export type FCAsyncWithRequiredChildren<P = NoProperties> = (
-  properties: Readonly<P & WithRequiredChildren>
-) => Promise<JSX.Element>
-
-/** ------------------------------------------------------------------------
- *  forwardRef variants
- *  --------------------------------------------------------------------- */
-
-/** Preferred: component *result* type (no callback params → no param linting at all). */
-export type ForwardReferenceComponent<P, R> = ForwardRefExoticComponent<
-  Readonly<NoChildren & P> & RefAttributes<R>
->
-
-export type ForwardReferenceComponentWithChildren<P, R> =
-  ForwardRefExoticComponent<Readonly<P & WithChildren> & RefAttributes<R>>
-
-/**
- * Optional: callback *renderer* type (when you want to annotate the render fn).
- * React's ForwardedRef<R> is a union that can include a function; the readonly rule
- * becomes noisy here. We keep props readonly and suppress the rule for `ref` only.
- */
-
-export type ForwardReferenceRender<P, R> = (
-  properties: Readonly<NoChildren & P>,
-  reference: ForwardedRef<R>
-) => JSX.Element
-
-export type ForwardReferenceRenderWithChildren<P, R> = (
-  properties: Readonly<P & WithChildren>,
-  reference: ForwardedRef<R>
-) => JSX.Element
-
-/** ------------------------------------------------------------------------
- *  Polymorphic "as" pattern
- *  --------------------------------------------------------------------- */
-
-export interface AsProperty<E extends ElementType> {
-  readonly as?: E
-}
-
-export type PolymorphicComponentProperties<E extends ElementType, P> = Omit<
-  ComponentPropsWithRef<E>,
-  keyof P | 'as'
-> &
-  Readonly<AsProperty<E> & P>
-
-export type PolymorphicFCStrict<E extends ElementType, P = NoProperties> = <
-  EE extends ElementType = E,
->(
-  properties: PolymorphicComponentProperties<EE, NoChildren & P>
-) => JSX.Element
-
-export type PolymorphicFCWithChildren<
-  E extends ElementType,
-  P = NoProperties,
-> = <EE extends ElementType = E>(
-  properties: PolymorphicComponentProperties<EE, P & WithChildren>
-) => JSX.Element
-
-export type PolymorphicFCWithRequiredChildren<
-  E extends ElementType,
-  P = NoProperties,
-> = <EE extends ElementType = E>(
-  properties: PolymorphicComponentProperties<EE, P & WithRequiredChildren>
-) => JSX.Element
 
 /** ------------------------------------------------------------------------
  *  Next.js convenience aliases

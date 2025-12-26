@@ -1,9 +1,5 @@
 import { z } from 'zod'
 
-export const CONTRIBUTION_LEVELS: readonly [0, 1, 2, 3, 4] = [
-  0, 1, 2, 3, 4,
-] as const
-
 /* ---------------------------------- types --------------------------------- */
 
 export type ContributionLevel = 0 | 1 | 2 | 3 | 4

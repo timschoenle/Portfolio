@@ -50,8 +50,7 @@ export const calculateWallRepulsion: (
     RADAR_CONFIG.physics.wallRepulsionStrength
 
   // Force from Start Wall
-  const angleToStart: number = currentAngle - startAngle
-  let diffStart: number = angleToStart
+  let diffStart: number = currentAngle - startAngle
   while (diffStart <= -Math.PI) {
     diffStart += Math.PI * 2
   }

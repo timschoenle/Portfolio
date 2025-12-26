@@ -1,6 +1,6 @@
 'use client'
 
-import { type JSX, useMemo, useState } from 'react'
+import React, { type JSX, useMemo, useState } from 'react'
 
 import { type Locale } from 'next-intl'
 

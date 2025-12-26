@@ -102,10 +102,7 @@ type CardProperties = CardOwnProperties & ComponentProps<'div'>
 
 type CardHeaderProperties = ComponentProps<'div'>
 type CardTitleProperties = ComponentProps<'div'>
-type CardDescriptionProperties = ComponentProps<'div'>
-type CardActionProperties = ComponentProps<'div'>
 type CardContentProperties = ComponentProps<'div'>
-type CardFooterProperties = ComponentProps<'div'>
 
 const Card: FCWithChildren<CardProperties> = ({
   children,
@@ -155,35 +152,6 @@ const CardTitle: FCWithChildren<CardTitleProperties> = ({
   )
 }
 
-const CardDescription: FCWithChildren<CardDescriptionProperties> = ({
-  className,
-  ...properties
-}: CardDescriptionProperties): JSX.Element => {
-  return (
-    <div
-      className={cn('text-sm text-muted-foreground', className)}
-      data-slot="card-description"
-      {...properties}
-    />
-  )
-}
-
-const CardAction: FCWithChildren<CardActionProperties> = ({
-  className,
-  ...properties
-}: CardActionProperties): JSX.Element => {
-  return (
-    <div
-      className={cn(
-        'col-start-2 row-span-2 row-start-1 self-start justify-self-end',
-        className
-      )}
-      data-slot="card-action"
-      {...properties}
-    />
-  )
-}
-
 const CardContent: FCWithChildren<CardContentProperties> = ({
   className,
   ...properties
@@ -197,25 +165,4 @@ const CardContent: FCWithChildren<CardContentProperties> = ({
   )
 }
 
-const CardFooter: FCWithChildren<CardFooterProperties> = ({
-  className,
-  ...properties
-}: CardFooterProperties): JSX.Element => {
-  return (
-    <div
-      className={cn('flex items-center px-6 [.border-t]:pt-6', className)}
-      data-slot="card-footer"
-      {...properties}
-    />
-  )
-}
-
-export {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-}
+export { Card, CardContent, CardHeader, CardTitle }
