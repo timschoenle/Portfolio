@@ -8,11 +8,11 @@ import { type Locale, type RichTagsFunction } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { BlueprintLegalLayout } from '@/components/blueprint/blueprint-legal-layout'
+import LastUpdateNotice from '@/components/features/common/last-update-notice'
 import {
   legalPageComponentMappings,
   type LegalRichTagsFunctionMappers,
 } from '@/components/features/legal/legal-rich-text'
-import LastUpdateNotice from '@/components/ui/last-update-notice'
 import { siteConfig } from '@/data/config'
 import {
   ensureLocaleFromParameters,

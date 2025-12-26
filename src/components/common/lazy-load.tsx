@@ -3,16 +3,18 @@
 import React, {
   type Dispatch,
   type JSX,
-  type ReactNode,
   type SetStateAction,
   useEffect,
   useRef,
   useState,
 } from 'react'
 
-import { type FCWithRequiredChildren } from '@/types/fc'
+import {
+  type FCWithRequiredChildren,
+  type WithRequiredChildren,
+} from '@/types/fc'
 
-interface LazyLoadProperties {
+interface LazyLoadProperties extends WithRequiredChildren {
   readonly className?: string
   /**
    * Distance in pixels before the element is visible to trigger loading.
@@ -25,9 +27,7 @@ export const LazyLoad: FCWithRequiredChildren<LazyLoadProperties> = ({
   children,
   className,
   rootMargin = '200px',
-}: LazyLoadProperties & {
-  readonly children: ReactNode
-}): JSX.Element => {
+}: LazyLoadProperties): JSX.Element => {
   const [isVisible, setIsVisible]: [
     boolean,
     Dispatch<SetStateAction<boolean>>,

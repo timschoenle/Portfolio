@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import sitemap from '../sitemap'
 
 // Mock config
-vi.mock('@/lib/config', () => ({
+vi.mock('@/data/config', () => ({
   siteConfig: {
     url: 'https://example.com/',
   },

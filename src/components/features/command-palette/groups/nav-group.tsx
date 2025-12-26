@@ -21,6 +21,10 @@ interface NavGroupProperties {
   readonly tPalette: Translations<'commandPalette'>
 }
 
+const SHORTCUT_H: string = 'H'
+const SHORTCUT_I: string = 'I'
+const SHORTCUT_D: string = 'D'
+
 export const NavGroup: React.FC<NavGroupProperties> = ({
   locale,
   router,
@@ -36,7 +40,7 @@ export const NavGroup: React.FC<NavGroupProperties> = ({
     >
       <Home className="mr-2 h-4 w-4" />
       <span>{tPalette('navigation.home')}</span>
-      <CommandShortcut>H</CommandShortcut>
+      <CommandShortcut>{SHORTCUT_H}</CommandShortcut>
     </CommandItem>
     <CommandItem
       keywords={['imprint', 'legal', 'address']}
@@ -45,7 +49,7 @@ export const NavGroup: React.FC<NavGroupProperties> = ({
     >
       <FileText className="mr-2 h-4 w-4" />
       <span>{tAll('imprint.title')}</span>
-      <CommandShortcut>I</CommandShortcut>
+      <CommandShortcut>{SHORTCUT_I}</CommandShortcut>
     </CommandItem>
     <CommandItem
       keywords={['privacy', 'data', 'protection']}
@@ -54,7 +58,7 @@ export const NavGroup: React.FC<NavGroupProperties> = ({
     >
       <Scale className="mr-2 h-4 w-4" />
       <span>{tAll('privacy.title')}</span>
-      <CommandShortcut>D</CommandShortcut>
+      <CommandShortcut>{SHORTCUT_D}</CommandShortcut>
     </CommandItem>
   </CommandGroup>
 )

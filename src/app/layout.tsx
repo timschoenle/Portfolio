@@ -1,7 +1,9 @@
 /* ---------- generateMetadata ---------- */
-import type { JSX, ReactNode } from 'react'
+import type { JSX } from 'react'
 
 import type { Metadata } from 'next'
+
+import type { FCWithRequiredChildren, WithRequiredChildren } from '@/types/fc'
 
 export const generateMetadata: () => Metadata = (): Metadata => {
   return {
@@ -11,11 +13,9 @@ export const generateMetadata: () => Metadata = (): Metadata => {
 
 /* ---------- layout ---------- */
 
-interface RootLayoutProperties {
-  readonly children: ReactNode
-}
+type RootLayoutProperties = WithRequiredChildren
 
-const RootLayout: (properties: RootLayoutProperties) => JSX.Element = ({
+const RootLayout: FCWithRequiredChildren<RootLayoutProperties> = ({
   children,
 }: RootLayoutProperties): JSX.Element => {
   return children as JSX.Element

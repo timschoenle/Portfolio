@@ -4,9 +4,9 @@ import { type Locale } from 'next-intl'
 
 import { getTranslations } from 'next-intl/server'
 
-import { Section, SECTION_BACKGROUNDS } from '@/components/ui/section'
-import { SectionContainer } from '@/components/ui/section-container'
-import { SectionHeader } from '@/components/ui/section-header'
+import { Section, SECTION_BACKGROUNDS } from '@/components/ui/section/section'
+import { SectionContainer } from '@/components/ui/section/section-container'
+import { SectionHeader } from '@/components/ui/section/section-header'
 import type { AsyncPageFC } from '@/types/fc'
 import type { Translations } from '@/types/i18n'
 

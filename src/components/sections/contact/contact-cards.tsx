@@ -5,8 +5,8 @@ import { type JSX } from 'react'
 import { Eye, Github, Linkedin, Mail, ShieldCheck } from 'lucide-react'
 
 import { BlueprintCard } from '@/components/blueprint/blueprint-card'
+import { BlueprintItem } from '@/components/blueprint/blueprint-item'
 import { ResumeVerificationDialog } from '@/components/resume/resume-verification-dialog'
-import { ContactItem } from '@/components/sections/contact/contact-item'
 import { siteConfig } from '@/data/config'
 import type { FCStrict } from '@/types/fc'
 import type { Translations } from '@/types/i18n'
@@ -26,14 +26,14 @@ const DirectUplinkCard: FCStrict<CardProperties> = ({
 }: CardProperties): JSX.Element => (
   <BlueprintCard label="DIRECT_UPLINK" noPadding={true}>
     <div className="flex flex-col gap-4 p-6">
-      <ContactItem
+      <BlueprintItem
         href={`mailto:${siteConfig.email}`}
         icon={<Mail className="h-5 w-5" />}
         label={translations('email')}
         subLabel={siteConfig.email}
       />
       <div className="relative">
-        <ContactItem
+        <BlueprintItem
           href={`/resume/${locale}.pdf`}
           icon={<Eye className="h-5 w-5" />}
           label={translations('downloadResume')}
@@ -65,7 +65,7 @@ const NetworkNodesCard: FCStrict<CardProperties> = ({
 }: CardProperties): JSX.Element => (
   <BlueprintCard label="NETWORK_NODES" noPadding={true}>
     <div className="flex flex-col gap-4 p-6">
-      <ContactItem
+      <BlueprintItem
         href={siteConfig.socials.github}
         icon={<Github className="h-5 w-5" />}
         label={translations('github')}
@@ -73,7 +73,7 @@ const NetworkNodesCard: FCStrict<CardProperties> = ({
       />
 
       {Boolean(siteConfig.socials.linkedin) && (
-        <ContactItem
+        <BlueprintItem
           href={siteConfig.socials.linkedin ?? ''}
           icon={<Linkedin className="h-5 w-5" />}
           label={translations('linkedin')}

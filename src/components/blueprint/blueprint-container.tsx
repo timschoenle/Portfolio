@@ -1,12 +1,15 @@
 import { type JSX, type ReactNode } from 'react'
 
-import type { FCStrict, FCWithRequiredChildren } from '@/types/fc'
+import type {
+  FCStrict,
+  FCWithRequiredChildren,
+  WithRequiredChildren,
+} from '@/types/fc'
 
 import { BlueprintGrid } from './blueprint-grid'
 import { BlueprintSectionWrapper } from './blueprint-primitives'
 
-interface BlueprintContainerProperties {
-  readonly children: ReactNode
+interface BlueprintContainerProperties extends WithRequiredChildren {
   readonly className?: string
   readonly id?: string
   readonly overlay?: ReactNode

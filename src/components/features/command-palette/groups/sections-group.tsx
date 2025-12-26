@@ -23,11 +23,11 @@ interface SectionConfig {
   readonly keywords: readonly string[]
   readonly shortcut: string
   readonly titleKey:
-  | 'about.title'
-  | 'resume.sectionTitles.contact'
-  | 'resume.sectionTitles.experience'
-  | 'resume.sectionTitles.projects'
-  | 'resume.sectionTitles.skills'
+    | 'about.title'
+    | 'resume.sectionTitles.contact'
+    | 'resume.sectionTitles.experience'
+    | 'resume.sectionTitles.projects'
+    | 'resume.sectionTitles.skills'
 }
 
 const SECTIONS_CONFIG: readonly SectionConfig[] = [

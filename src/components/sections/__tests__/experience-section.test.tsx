@@ -112,9 +112,8 @@ describe('Experience_section', () => {
   // Removed icon tests as they might not be directly rendered the same way or use lucide mocks differently
   it('returns empty section when experiences are empty', async () => {
     // Override siteConfig
-    vi.mocked(await import('@/data/config')).siteConfig = {
-      experience: [],
-    } as any
+    // Clear experience array
+    ;((siteConfig as any).experience as any[]).length = 0
 
     // Override getTranslations for this test to return empty raw experience
     vi.mocked(getTranslations).mockImplementationOnce(async () => {

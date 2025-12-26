@@ -31,7 +31,7 @@ vi.mock('@/i18n/routing', () => ({
   getPathname: vi.fn(() => '/'),
 }))
 
-vi.mock('@/lib/config', () => ({
+vi.mock('@/data/config', () => ({
   siteConfig: {
     title: 'Test Site',
     description: 'Test Description',

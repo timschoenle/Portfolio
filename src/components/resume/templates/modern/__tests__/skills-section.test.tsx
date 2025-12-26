@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { SkillsSection } from '@/components/resume/templates/modern/skills-section'
 import type { ResumeTranslations } from '@/types/resume'
 
-vi.mock('@/lib/config', () => ({
+vi.mock('@/data/config', () => ({
   siteConfig: {
     skills: {
       languages: [

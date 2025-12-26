@@ -4,7 +4,7 @@ import { type JSX } from 'react'
 
 import { getTranslations } from 'next-intl/server'
 
-import { PerformanceMonitor } from '@/components/features/performance-monitor'
+import { PerformanceMonitor } from '@/components/features/dev-tools/performance-monitor'
 import { siteConfig } from '@/data/config'
 import { environment } from '@/environment'
 import { Link } from '@/i18n/routing'

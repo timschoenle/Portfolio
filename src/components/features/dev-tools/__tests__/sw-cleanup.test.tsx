@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { DevelopmentServiceWorkerGuard } from '../development-service-worker-cleanup'
+import { DevelopmentServiceWorkerGuard } from '../sw-cleanup'
 
 // Mock environment
 vi.mock('@/environment', () => ({

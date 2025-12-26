@@ -5,7 +5,7 @@ import { ModernTemplate } from '@/components/resume/templates/modern'
 import type { ResumeTranslations } from '@/types/resume'
 
 // Mock siteConfig
-vi.mock('@/lib/config', () => ({
+vi.mock('@/data/config', () => ({
   siteConfig: {
     email: 'test@example.com',
     fullName: 'John Doe',

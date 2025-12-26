@@ -16,6 +16,16 @@ vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }))
 
+// Mock siteConfig
+vi.mock('@/data/config', () => ({
+  siteConfig: {
+    featuredRepos: [],
+    socials: {
+      github: 'https://github.com/test',
+    },
+  },
+}))
+
 import { siteConfig } from '@/data/config'
 
 describe('ProjectsSection', () => {

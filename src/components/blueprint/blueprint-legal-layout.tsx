@@ -1,4 +1,4 @@
-import { type JSX, type ReactNode } from 'react'
+import { type JSX } from 'react'
 
 import { ArrowLeft } from 'lucide-react'
 
@@ -6,11 +6,11 @@ import { BlueprintContainer } from '@/components/blueprint/blueprint-container'
 import { BlueprintSectionTitle } from '@/components/blueprint/blueprint-section-title'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/i18n/routing'
-import type { FCWithRequiredChildren } from '@/types/fc'
+import type { FCWithRequiredChildren, WithRequiredChildren } from '@/types/fc'
 
 const END_MARKER: string = '// END_OF_FILE'
 
-interface BlueprintLegalLayoutProperties {
+interface BlueprintLegalLayoutProperties extends WithRequiredChildren {
   readonly title: string
 }
 
@@ -18,12 +18,7 @@ const RETURN_TEXT: string = 'RETURN_TO_BASE'
 
 export const BlueprintLegalLayout: FCWithRequiredChildren<
   BlueprintLegalLayoutProperties
-> = ({
-  children,
-  title,
-}: BlueprintLegalLayoutProperties & {
-  readonly children: ReactNode
-}): JSX.Element => {
+> = ({ children, title }: BlueprintLegalLayoutProperties): JSX.Element => {
   return (
     <BlueprintContainer
       className="min-h-screen"

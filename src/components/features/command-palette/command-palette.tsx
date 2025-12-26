@@ -60,7 +60,6 @@ export const CommandPalette: FCStrict = (): JSX.Element => {
       onOpenChange={setOpen}
     >
       <CommandList>
-
         <NavGroup
           locale={locale}
           router={router}

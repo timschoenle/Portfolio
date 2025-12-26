@@ -74,16 +74,15 @@ describe('Skills_section', () => {
   })
   it('returns empty section when skills are empty', async () => {
     // Override siteConfig mock for this test
-    vi.mocked(await import('@/data/config')).siteConfig = {
-      skills: {
-        languages: [],
-        frameworks: [],
-        infrastructure: [],
-        buildTools: [],
-        sectionSideMinimumConfidence: 0,
-        resumeMinimumConfidence: 0,
-      },
-    } as any
+    // Override siteConfig skills for this test
+    Object.assign(siteConfig.skills, {
+      languages: [],
+      frameworks: [],
+      infrastructure: [],
+      buildTools: [],
+      sectionSideMinimumConfidence: 0,
+      resumeMinimumConfidence: 0,
+    })
 
     const Component = await SkillsSection({ locale: 'en' })
     const { container } = render(Component)

@@ -80,7 +80,8 @@ vi.mock('next-intl/server', () => ({
 }))
 
 // Mock LastUpdateNotice
-vi.mock('@/components/ui/last-update-notice', () => ({
+// Mock LastUpdateNotice
+vi.mock('@/components/features/common/last-update-notice', () => ({
   default: ({ lastUpdate }: any) => (
     <div data-testid="last-update-notice">
       Last updated: {lastUpdate.toISOString()}
@@ -88,9 +89,9 @@ vi.mock('@/components/ui/last-update-notice', () => ({
   ),
 }))
 
-// Mock LegalPageLayout
-vi.mock('@/components/layout/legal-page-layout', () => ({
-  LegalPageLayout: ({ children, title }: any) => (
+// Mock BlueprintLegalLayout
+vi.mock('@/components/blueprint/blueprint-legal-layout', () => ({
+  BlueprintLegalLayout: ({ children, title }: any) => (
     <div data-testid="legal-layout">
       <h1>{title}</h1>
       {children}
@@ -105,7 +106,7 @@ vi.mock('@/i18n/locale', () => ({
 }))
 
 // Mock config
-vi.mock('@/lib/config', () => ({
+vi.mock('@/data/config', () => ({
   siteConfig: {
     fullName: 'Test User',
     email: 'test@example.com',

@@ -74,7 +74,7 @@ const CommandDialog: FCWithChildren<CommandDialogProperties> = ({
       </DialogHeader>
       <DialogContent
         className={cn(
-          'overflow-hidden border-0 outline-none ring-0 shadow-none bg-blueprint-card-bg/90 p-0 text-blueprint-text backdrop-blur-md',
+          'overflow-hidden border-0 bg-blueprint-card-bg/90 p-0 text-blueprint-text shadow-none ring-0 backdrop-blur-md outline-none',
           className
         )}
         showCloseButton={showCloseButton}

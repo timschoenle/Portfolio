@@ -2,24 +2,26 @@ import { type JSX } from 'react'
 
 import type { FCStrict } from '@/types/fc'
 
-interface ContactItemProperties {
+interface BlueprintItemProperties {
   readonly href: string
   readonly icon: JSX.Element
   readonly label: string
   readonly subLabel?: string
+  readonly target?: string
 }
 
-export const ContactItem: FCStrict<ContactItemProperties> = ({
+export const BlueprintItem: FCStrict<BlueprintItemProperties> = ({
   href,
   icon,
   label,
   subLabel,
-}: ContactItemProperties): JSX.Element => (
+  target = '_blank',
+}: BlueprintItemProperties): JSX.Element => (
   <a
     className="group hover:shadow-[0_0_10px_color-mix(in srgb, var(--brand), transparent 90%)] relative flex items-center gap-4 border border-brand/30 bg-brand/5 p-4 transition-all hover:bg-brand/10"
     href={href}
-    rel="noreferrer"
-    target="_blank"
+    rel={target === '_blank' ? 'noreferrer' : undefined}
+    target={target}
   >
     <div className="flex h-10 w-10 items-center justify-center rounded-none border border-brand bg-blueprint-bg text-brand shadow-[0_0_5px_#60A5FA]">
       {icon}

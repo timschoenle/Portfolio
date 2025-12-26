@@ -1,13 +1,12 @@
-import { type JSX, type ReactNode } from 'react'
+import { type JSX } from 'react'
 
-import type { FCWithRequiredChildren } from '@/types/fc'
+import type { FCWithRequiredChildren, WithRequiredChildren } from '@/types/fc'
 
 import { BlueprintLabel } from './blueprint-label'
 import { BlueprintCardBackground } from './blueprint-primitives'
 import { MeasurementLine } from './measurement-line'
 
-interface BlueprintCardProperties {
-  readonly children: ReactNode
+interface BlueprintCardProperties extends WithRequiredChildren {
   readonly className?: string
   readonly label?: string
   readonly noPadding?: boolean

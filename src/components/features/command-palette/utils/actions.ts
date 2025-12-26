@@ -1,8 +1,6 @@
 import { type Locale } from 'next-intl'
 
-import { type AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-
-/* ──────────────────────────── types \u0026 aliases ─────────────────────────── */
+// import { type AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
 export type SectionId =
   | 'about'
@@ -12,7 +10,14 @@ export type SectionId =
   | 'projects'
   | 'skills'
 
-export type LocalizedRouter = AppRouterInstance
+export interface LocalizedRouter {
+  back: () => void
+  forward: () => void
+  prefetch: (href: string) => void
+  push: (href: string) => void
+  refresh: () => void
+  replace: (href: string) => void
+}
 
 export interface GoToSectionParameters {
   readonly locale: Locale
