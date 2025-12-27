@@ -14,7 +14,7 @@ import type { AsyncPageFC } from '@/types/fc'
 import type { LocalePageProperties, Translations } from '@/types/i18n'
 import type { ResumeExperience } from '@/types/resume'
 
-export type ExperienceSectionProperties = LocalePageProperties
+type ExperienceSectionProperties = LocalePageProperties
 
 export const ExperienceSection: AsyncPageFC<
   ExperienceSectionProperties

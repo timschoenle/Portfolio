@@ -12,7 +12,7 @@ import { TransmissionEnd } from '@/components/sections/contact/contact-decoratio
 import type { AsyncPageFC } from '@/types/fc'
 import type { LocalePageProperties, Translations } from '@/types/i18n'
 
-export type ContactSectionProperties = LocalePageProperties
+type ContactSectionProperties = LocalePageProperties
 
 export const ContactSection: AsyncPageFC<ContactSectionProperties> = async ({
   locale,
