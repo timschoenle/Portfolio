@@ -9,10 +9,10 @@ import React, {
   useState,
 } from 'react'
 
-import { getSkillIcon } from '@/components/sections/skill-icons'
-import { RADAR_CONFIG } from '@/lib/radar-config'
+import { getSkillIcon } from '@/components/sections/skills/skill-icons'
 import type { Blip } from '@/types/tech-radar'
 
+import { RADAR_CONFIG } from './config'
 import { type HoverContextValue, useHover } from './hover-context'
 
 import type { LucideIcon } from 'lucide-react'

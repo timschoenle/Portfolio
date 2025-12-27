@@ -15,8 +15,8 @@ import signpdf from '@signpdf/signpdf'
 import forge from 'node-forge'
 
 import { ResumePDFDocument } from '@/components/resume/resume-pdf-document'
+import { siteConfig } from '@/data/config'
 import { routing } from '@/i18n/routing'
-import { siteConfig } from '@/lib/config'
 import type { Translations } from '@/types/i18n'
 
 async function getSecret(name: string): Promise<string | undefined> {

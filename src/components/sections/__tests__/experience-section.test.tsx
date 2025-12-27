@@ -2,9 +2,9 @@ import { describe, expect, it, vi, beforeEach } from 'vitest'
 
 import { render, screen } from '@testing-library/react'
 
-import { ExperienceSection } from '../experience-section'
+import { ExperienceSection } from '../experience/experience-section'
 
-import { siteConfig } from '@/lib/config'
+import { siteConfig } from '@/data/config'
 import { getFormatter, getTranslations } from 'next-intl/server'
 
 // Mock Lucide icons
@@ -112,9 +112,8 @@ describe('Experience_section', () => {
   // Removed icon tests as they might not be directly rendered the same way or use lucide mocks differently
   it('returns empty section when experiences are empty', async () => {
     // Override siteConfig
-    vi.mocked(await import('@/lib/config')).siteConfig = {
-      experience: [],
-    } as any
+    // Clear experience array
+    ;((siteConfig as any).experience as any[]).length = 0
 
     // Override getTranslations for this test to return empty raw experience
     vi.mocked(getTranslations).mockImplementationOnce(async () => {

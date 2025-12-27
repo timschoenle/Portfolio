@@ -19,6 +19,9 @@ vi.mock('lucide-react', () => ({
   GitBranch: () => <div data-testid="git-icon">Git</div>,
   Linkedin: () => <div data-testid="linkedin-icon">LinkedIn</div>,
   Mail: () => <div data-testid="mail-icon">Mail</div>,
+  Scale: () => <div data-testid="scale-icon">Scale</div>,
+  Zap: () => <div data-testid="zap-icon">Zap</div>,
+  Github: () => <div data-testid="github-icon">Github</div>,
 }))
 
 // Mock i18n routing
@@ -53,6 +56,10 @@ vi.mock('@/components/ui/command', () => ({
   ),
   CommandItem: ({ children, onSelect }: any) => (
     <button onClick={() => onSelect?.('')}>{children}</button>
+  ),
+  CommandSeparator: () => <hr data-testid="command-separator" />,
+  CommandShortcut: ({ children }: any) => (
+    <span data-testid="command-shortcut">{children}</span>
   ),
 }))
 

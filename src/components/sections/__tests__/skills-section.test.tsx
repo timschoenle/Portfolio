@@ -1,13 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { SkillsSection } from '../skills-section'
+import { SkillsSection } from '../skills/skills-section'
 
 // Mock TechRadar component to avoid async rendering issues in tests
 vi.mock('@/components/sections/tech-radar/tech-radar', () => ({
   TechRadar: vi.fn(() => <div data-testid="tech-radar-mock">TechRadar</div>),
 }))
 
-import { siteConfig } from '@/lib/config'
+import { siteConfig } from '@/data/config'
 
 describe('Skills_section', () => {
   beforeEach(() => {
@@ -74,16 +74,15 @@ describe('Skills_section', () => {
   })
   it('returns empty section when skills are empty', async () => {
     // Override siteConfig mock for this test
-    vi.mocked(await import('@/lib/config')).siteConfig = {
-      skills: {
-        languages: [],
-        frameworks: [],
-        infrastructure: [],
-        buildTools: [],
-        sectionSideMinimumConfidence: 0,
-        resumeMinimumConfidence: 0,
-      },
-    } as any
+    // Override siteConfig skills for this test
+    Object.assign(siteConfig.skills, {
+      languages: [],
+      frameworks: [],
+      infrastructure: [],
+      buildTools: [],
+      sectionSideMinimumConfidence: 0,
+      resumeMinimumConfidence: 0,
+    })
 
     const Component = await SkillsSection({ locale: 'en' })
     const { container } = render(Component)

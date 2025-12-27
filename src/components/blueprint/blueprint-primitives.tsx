@@ -1,9 +1,12 @@
-import { type ElementType, type JSX, type ReactNode } from 'react'
+import { type ElementType, type JSX } from 'react'
 
-import type { FCStrict, FCWithRequiredChildren } from '@/types/fc'
+import type {
+  FCStrict,
+  FCWithRequiredChildren,
+  WithRequiredChildren,
+} from '@/types/fc'
 
-interface BlueprintSectionWrapperProperties {
-  readonly children: ReactNode
+interface BlueprintSectionWrapperProperties extends WithRequiredChildren {
   readonly className?: string | undefined
   readonly componentId?: string | undefined
   readonly isLazy?: boolean
@@ -39,9 +42,8 @@ export const BlueprintCardBackground: FCStrict<
   />
 )
 
-interface BlueprintHeadingProperties {
+interface BlueprintHeadingProperties extends WithRequiredChildren {
   readonly as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | undefined
-  readonly children: ReactNode
   readonly className?: string
 }
 
@@ -63,8 +65,7 @@ export const BlueprintHeading: FCWithRequiredChildren<
   )
 }
 
-interface BlueprintSubheadingProperties {
-  readonly children: ReactNode
+interface BlueprintSubheadingProperties extends WithRequiredChildren {
   readonly className?: string
 }
 
@@ -78,8 +79,7 @@ export const BlueprintSubheading: FCWithRequiredChildren<
   </span>
 )
 
-interface BlueprintLabelTextProperties {
-  readonly children: ReactNode
+interface BlueprintLabelTextProperties extends WithRequiredChildren {
   readonly className?: string
 }
 
@@ -93,8 +93,7 @@ export const BlueprintLabelText: FCWithRequiredChildren<
   </span>
 )
 
-interface BlueprintTinyLabelProperties {
-  readonly children: ReactNode
+interface BlueprintTinyLabelProperties extends WithRequiredChildren {
   readonly className?: string
 }
 

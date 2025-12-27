@@ -83,17 +83,26 @@
     "items": []
   },
   "commandPalette": {
-    "title": "Kommandozeile",
-    "description": "Befehl suchen...",
+    "dialog": {
+      "title": "Kommandozeile",
+      "description": "Befehl suchen..."
+    },
     "placeholder": "Befehl eingeben oder suchen...",
-    "noResults": "Keine Ergebnisse gefunden.",
-    "navigation": "Navigation",
-    "sections": "Bereiche",
-    "actions": "Aktionen",
-    "home": "Startseite",
-    "github": "GitHub-Profil öffnen",
-    "linkedin": "LinkedIn-Profil öffnen",
-    "email": "E-Mail senden"
+    "empty": "Keine Ergebnisse gefunden.",
+    "navigation": {
+      "heading": "Navigation",
+      "home": "Startseite",
+      "settings": "Cookie-Einstellungen"
+    },
+    "sections": {
+      "heading": "Bereiche"
+    },
+    "actions": {
+      "heading": "Aktionen",
+      "email": "E-Mail senden",
+      "github": "GitHub-Profil öffnen",
+      "linkedin": "LinkedIn-Profil öffnen"
+    }
   },
   "contact": {
     "title": "Kontakt aufnehmen",

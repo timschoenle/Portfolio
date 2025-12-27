@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { ProjectsSection } from '../projects-section'
+import { ProjectsSection } from '../projects/projects-section'
+
 import type { GitHubProject } from '@/models/github'
 
 // Mock GitHub client
@@ -15,7 +16,17 @@ vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }))
 
-import { siteConfig } from '@/lib/config'
+// Mock siteConfig
+vi.mock('@/data/config', () => ({
+  siteConfig: {
+    featuredRepos: [],
+    socials: {
+      github: 'https://github.com/test',
+    },
+  },
+}))
+
+import { siteConfig } from '@/data/config'
 
 describe('ProjectsSection', () => {
   it('renders section, projects, stats, and contribution graph', async () => {

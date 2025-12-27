@@ -1,0 +1,78 @@
+import { type JSX } from 'react'
+
+import { ArrowDown } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
+
+import { BlueprintContainer } from '@/components/blueprint/blueprint-container'
+import { BlueprintLabel } from '@/components/blueprint/blueprint-label'
+import { BlueprintSectionTitle } from '@/components/blueprint/blueprint-section-title'
+import { CommandPaletteHint } from '@/components/features/command-palette/command-palette-hint'
+import { ScrollSnapPairController } from '@/components/features/scroll-snap/scroll-snap-pair-controller'
+import { HeroActions } from '@/components/sections/hero/hero-actions'
+import { HeroStatus } from '@/components/sections/hero/hero-status'
+import { siteConfig } from '@/data/config'
+import type { AsyncPageFC } from '@/types/fc'
+import type { LocalePageProperties, Translations } from '@/types/i18n'
+
+/* ── props ─────────────────────────────────────────────────────────────── */
+
+type HeroSectionProperties = LocalePageProperties
+
+/* ── main ──────────────────────────────────────────────────── */
+
+const GRID_REF: string = 'GRID_REF_X-99'
+
+export const HeroSection: AsyncPageFC<HeroSectionProperties> = async ({
+  locale,
+}: HeroSectionProperties): Promise<JSX.Element> => {
+  const translations: Translations<string> = await getTranslations({ locale })
+  const heroTranslations: Translations<'hero'> = await getTranslations({
+    locale,
+    namespace: 'hero',
+  })
+
+  return (
+    <BlueprintContainer
+      id="hero"
+      overlay={
+        <div className="absolute bottom-[calc(var(--app-padding)+1rem)] left-1/2 z-20 -translate-x-1/2 animate-bounce cursor-pointer text-brand/50 transition-colors hover:text-brand">
+          <a aria-label="Scroll to About Section" href="#about">
+            <ArrowDown className="h-6 w-6" />
+          </a>
+        </div>
+      }
+    >
+      <div className="relative z-10 container flex min-h-[60vh] flex-col items-center justify-center">
+        {/* Floating tech markings */}
+        <BlueprintLabel className="writing-vertical-rl absolute top-20 left-20 font-mono text-[10px] text-brand/40 select-none">
+          {GRID_REF}
+        </BlueprintLabel>
+        <CommandPaletteHint />
+
+        <BlueprintSectionTitle
+          as="h1"
+          greeting={heroTranslations('greeting')}
+          sectionLabel="// MAIN_ENTRY_POINT"
+          subtitle={translations('personalInfo.jobTitle')}
+          title={siteConfig.fullName}
+        />
+
+        <HeroStatus
+          location={heroTranslations('location', {
+            country: translations('personalInfo.country'),
+          })}
+          tagline={heroTranslations('tagline')}
+        />
+
+        <HeroActions
+          contactText={heroTranslations('contact')}
+          githubLabel={translations('common.socials.github')}
+        />
+      </div>
+
+      <ScrollSnapPairController bottomSectionId="about" topSectionId="hero" />
+    </BlueprintContainer>
+  )
+}
+
+export default HeroSection

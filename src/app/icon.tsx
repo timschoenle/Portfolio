@@ -6,7 +6,7 @@ import {
   IconIds,
   type IconProperties,
   type IconType,
-} from '@/lib/icon-creator'
+} from '@/lib/og/icon-creator'
 
 export const runtime: string = 'nodejs'
 

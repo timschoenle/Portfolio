@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { siteConfig } from '@/lib/config'
+import { siteConfig } from '@/data/config'
 
 const icons: MetadataRoute.Manifest['icons'] = [
   {

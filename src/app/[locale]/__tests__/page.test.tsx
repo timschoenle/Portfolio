@@ -48,7 +48,7 @@ vi.mock('@/lib/config', () => ({
 }))
 
 // Mock components to avoid deep rendering complexity in integration test
-vi.mock('@/components/sections/hero-section', () => ({
+vi.mock('@/components/sections/hero/hero-section', () => ({
   HeroSection: () => <div data-testid="hero-section">Hero</div>,
 }))
 
@@ -60,32 +60,26 @@ vi.mock(
 )
 
 // Mock all section components with correct export names
-vi.mock('@/components/sections/about-section', () => ({
+vi.mock('@/components/sections/about/about-section', () => ({
   AboutSection: () => <div data-testid="about-section">About</div>,
   default: () => <div data-testid="about-section">About</div>,
 }))
 
-vi.mock('@/components/sections/skills-section', () => ({
+vi.mock('@/components/sections/skills/skills-section', () => ({
   SkillsSection: () => <div data-testid="skills-section">Skills</div>,
 }))
 
-vi.mock('@/components/sections/projects-section', () => ({
+vi.mock('@/components/sections/projects/projects-section', () => ({
   ProjectsSection: () => <div data-testid="projects-section">Projects</div>,
 }))
 
-vi.mock('@/components/sections/experience-section', () => ({
+vi.mock('@/components/sections/experience/experience-section', () => ({
   ExperienceSection: () => (
     <div data-testid="experience-section">Experience</div>
   ),
 }))
 
-vi.mock('@/components/sections/testimonials-section', () => ({
-  TestimonialsSection: () => (
-    <div data-testid="testimonials-section">Testimonials</div>
-  ),
-}))
-
-vi.mock('@/components/sections/contact-section', () => ({
+vi.mock('@/components/sections/contact/contact-section', () => ({
   ContactSection: () => <div data-testid="contact-section">Contact</div>,
 }))
 

@@ -1,13 +1,8 @@
-import {
-  type CSSProperties,
-  type ElementType,
-  type JSX,
-  type ReactNode,
-} from 'react'
+import { type CSSProperties, type ElementType, type JSX } from 'react'
 
-import type { FCWithRequiredChildren } from '@/types/fc'
+import type { FCWithRequiredChildren, WithRequiredChildren } from '@/types/fc'
 
-interface BlueprintLabelProperties {
+interface BlueprintLabelProperties extends WithRequiredChildren {
   /** The element type to render (default: 'div'). */
   readonly as?: 'div' | 'p' | 'span'
   /** Additional CSS classes. */
@@ -32,9 +27,7 @@ export const BlueprintLabel: FCWithRequiredChildren<
   children,
   className,
   style,
-}: BlueprintLabelProperties & {
-  readonly children: ReactNode
-}): JSX.Element => {
+}: BlueprintLabelProperties): JSX.Element => {
   const Component: ElementType = as
 
   return (

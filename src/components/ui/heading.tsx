@@ -8,23 +8,15 @@ type NativeHeadingProperties = HTMLAttributes<HTMLHeadingElement>
 
 type HeadingProperties = Omit<NativeHeadingProperties, 'tw'> & {
   readonly as?: HeadingTag
-  readonly tw?: string
 }
 
 export const Heading: FCWithChildren<HeadingProperties> = ({
   as: asTag,
-  tw: twProperty,
   ...rest
 }: HeadingProperties): JSX.Element => {
   const Element: HeadingTag = asTag ?? 'h2'
   const dataHeadingTag: Uppercase<HeadingTag> =
     Element.toUpperCase() as Uppercase<HeadingTag>
 
-  return (
-    <Element
-      {...rest}
-      {...(twProperty === undefined ? {} : { tw: twProperty })}
-      data-heading-tag={dataHeadingTag}
-    />
-  )
+  return <Element {...rest} data-heading-tag={dataHeadingTag} />
 }

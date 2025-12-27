@@ -62,7 +62,7 @@ const CommandDialog: FCWithChildren<CommandDialogProperties> = ({
   children,
   className,
   description,
-  showCloseButton = true,
+  showCloseButton = false,
   title,
   ...properties
 }: CommandDialogProperties): JSX.Element => {
@@ -74,7 +74,7 @@ const CommandDialog: FCWithChildren<CommandDialogProperties> = ({
       </DialogHeader>
       <DialogContent
         className={cn(
-          'overflow-hidden border-brand/20 bg-blueprint-card-bg/90 p-0 text-blueprint-text backdrop-blur-md',
+          'overflow-hidden border-0 bg-blueprint-card-bg/90 p-0 text-blueprint-text shadow-none ring-0 backdrop-blur-md outline-none',
           className
         )}
         showCloseButton={showCloseButton}
@@ -122,7 +122,7 @@ const CommandList: FCWithChildren<CommandListProperties> = ({
   return (
     <CommandPrimitive.List
       className={cn(
-        'max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto',
+        'max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-muted-foreground/20 [&::-webkit-scrollbar-track]:bg-transparent',
         className
       )}
       data-slot="command-list"

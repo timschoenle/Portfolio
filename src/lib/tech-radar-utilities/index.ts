@@ -1,9 +1,6 @@
-import {
-  siteConfig,
-  SKILL_RENDER_AREAS,
-  type SkillRenderArea,
-} from '@/lib/config'
-import { RADAR_CONFIG } from '@/lib/radar-config'
+import { RADAR_CONFIG } from '@/components/sections/tech-radar/config'
+import { siteConfig } from '@/data/config'
+import { SKILL_RENDER_AREAS, type SkillRenderArea } from '@/types/skill'
 import type {
   CalculateBlipPositionParameters,
   CalculateBlipPositionResult,

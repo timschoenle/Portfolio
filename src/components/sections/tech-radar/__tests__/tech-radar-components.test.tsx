@@ -11,7 +11,7 @@ vi.mock('lucide-react', () => ({
 }))
 
 // Mock skill-icons
-vi.mock('@/components/sections/skill-icons', () => ({
+vi.mock('@/components/sections/skills/skill-icons', () => ({
   getSkillIcon: () => () => <div data-testid="mock-icon">Icon</div>,
 }))
 

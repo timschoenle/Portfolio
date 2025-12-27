@@ -8,16 +8,16 @@ import { type Locale, type RichTagsFunction } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { BlueprintLegalLayout } from '@/components/blueprint/blueprint-legal-layout'
-import LastUpdateNotice from '@/components/ui/last-update-notice'
+import LastUpdateNotice from '@/components/features/common/last-update-notice'
+import {
+  legalPageComponentMappings,
+  type LegalRichTagsFunctionMappers,
+} from '@/components/features/legal/legal-rich-text'
+import { siteConfig } from '@/data/config'
 import {
   ensureLocaleFromParameters,
   maybeLocaleFromParameters,
 } from '@/i18n/locale'
-import { siteConfig } from '@/lib/config'
-import {
-  legalPageComponentMappings,
-  type LegalRichTagsFunctionMappers,
-} from '@/lib/i18n-legal-components'
 import type { Translations, UnparsedLocalePageProperties } from '@/types/i18n'
 import type {
   GenerateMetadataFC,

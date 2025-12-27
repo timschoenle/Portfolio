@@ -1,12 +1,12 @@
-import { type JSX, type ReactNode } from 'react'
+import { type JSX } from 'react'
 
-import type { FCWithRequiredChildren } from '@/types/fc'
+import type { FCWithRequiredChildren, WithRequiredChildren } from '@/types/fc'
 
 import { BlueprintContainer } from './blueprint-container'
 import { BlueprintSectionDivider } from './blueprint-section-divider'
 import { BlueprintSectionTitle } from './blueprint-section-title'
 
-interface BlueprintSectionProperties {
+interface BlueprintSectionProperties extends WithRequiredChildren {
   readonly className?: string
   readonly dividerLabel?: string
   readonly id: string
@@ -27,9 +27,7 @@ export const BlueprintSection: FCWithRequiredChildren<
   sectionLabel,
   subtitle,
   title,
-}: BlueprintSectionProperties & {
-  readonly children: ReactNode
-}): JSX.Element => (
+}: BlueprintSectionProperties): JSX.Element => (
   <BlueprintContainer id={sectionId} isLazy={isLazy ?? false}>
     <div
       className={`mx-auto flex w-full max-w-6xl flex-col items-center ${className ?? ''}`}

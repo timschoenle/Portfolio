@@ -2,8 +2,8 @@ import 'server-only'
 import { Octokit } from '@octokit/rest'
 import { unstable_cache } from 'next/cache'
 
+import { siteConfig } from '@/data/config'
 import { environment } from '@/environment'
-import { siteConfig } from '@/lib/config'
 import { logger } from '@/lib/logger'
 import {
   type ContributionCollection,

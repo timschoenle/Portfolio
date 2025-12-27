@@ -2,10 +2,10 @@
 
 import React, { type JSX } from 'react'
 
-import { QUADRANT_STYLES, RADAR_CONFIG } from '@/lib/radar-config'
 import { cn } from '@/lib/utilities'
 import type { Blip, QuadrantStyleType } from '@/types/tech-radar'
 
+import { QUADRANT_STYLES, RADAR_CONFIG } from './config'
 import { type HoverContextValue, useHover } from './hover-context'
 
 interface TechRadarBlipsProperties {

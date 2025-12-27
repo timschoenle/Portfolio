@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { SkillsSection } from '@/components/resume/templates/modern/skills-section'
 import type { ResumeTranslations } from '@/types/resume'
 
-vi.mock('@/lib/config', () => ({
+vi.mock('@/data/config', () => ({
   siteConfig: {
     skills: {
       languages: [
@@ -26,6 +26,9 @@ vi.mock('@/lib/config', () => ({
       resumeMinimumConfidence: 0,
     },
   },
+}))
+
+vi.mock('@/types/skill', () => ({
   SKILL_RENDER_AREAS: {
     RESUME: 'resume',
   },

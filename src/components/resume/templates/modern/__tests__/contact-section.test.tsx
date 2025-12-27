@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import { ContactSection } from '@/components/resume/templates/modern/contact-section'
-import { siteConfig } from '@/lib/config'
+import { siteConfig } from '@/data/config'
 import type { ResumeTranslations } from '@/types/resume'
 
 // Mock site config

@@ -18,7 +18,7 @@ vi.mock('@/i18n/routing', () => ({
 }))
 
 // Mock i18n-legal-components
-vi.mock('@/lib/i18n-legal-components', () => ({
+vi.mock('@/components/features/legal/legal-rich-text', () => ({
   legalPageComponentMappings: {
     addressBlock: (chunks: any) => (
       <div className="address-block">{chunks}</div>
@@ -74,7 +74,8 @@ vi.mock('next-intl/server', () => ({
 }))
 
 // Mock LastUpdateNotice
-vi.mock('@/components/ui/last-update-notice', () => ({
+// Mock LastUpdateNotice
+vi.mock('@/components/features/common/last-update-notice', () => ({
   default: ({ lastUpdate }: any) => (
     <div data-testid="last-update-notice">
       Last updated: {lastUpdate.toISOString()}
@@ -82,9 +83,9 @@ vi.mock('@/components/ui/last-update-notice', () => ({
   ),
 }))
 
-// Mock LegalPageLayout
-vi.mock('@/components/layout/legal-page-layout', () => ({
-  LegalPageLayout: ({ children, title }: any) => (
+// Mock BlueprintLegalLayout
+vi.mock('@/components/blueprint/blueprint-legal-layout', () => ({
+  BlueprintLegalLayout: ({ children, title }: any) => (
     <div data-testid="legal-layout">
       <h1>{title}</h1>
       {children}
@@ -93,7 +94,7 @@ vi.mock('@/components/layout/legal-page-layout', () => ({
 }))
 
 // Mock site config
-vi.mock('@/lib/config', () => ({
+vi.mock('@/data/config', () => ({
   siteConfig: {
     legals: {
       privacyPolicyLastChange: '2025-11-29',

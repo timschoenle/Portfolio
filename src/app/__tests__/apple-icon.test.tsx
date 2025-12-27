@@ -1,11 +1,12 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import AppleIcon, { generateImageMetadata } from '@/app/apple-icon'
-import * as iconCreator from '@/lib/icon-creator'
+import * as iconCreator from '@/lib/og/icon-creator'
 
 // Mock the icon-creator dependency
-vi.mock('@/lib/icon-creator', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/lib/icon-creator')>()
+vi.mock('@/lib/og/icon-creator', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/og/icon-creator')>()
+
   return {
     ...actual,
     generateDefaultIconResponse: vi

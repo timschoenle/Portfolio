@@ -1,4 +1,4 @@
-import type { Skill, SkillRenderArea } from '@/lib/config'
+import type { Skill, SkillRenderArea } from '@/types/skill'
 
 export type TechRadarQuadrant =
   | 'buildTools'
