@@ -31,7 +31,10 @@ describe('CloudflareWebAnalytics', () => {
     const script = container.querySelector('script')
     expect(script).toBeInTheDocument()
     expect(script).toHaveAttribute('src', '/cf/rum/script.js')
-    expect(script).toHaveAttribute('data-cf-beacon', '{"token":"test-token"}')
+    expect(script).toHaveAttribute(
+      'data-cf-beacon',
+      '{"send":"/cf/rum/beacon","token":"test-token"}'
+    )
   })
 
   it('does not render if not in production', () => {
