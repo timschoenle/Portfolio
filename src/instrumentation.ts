@@ -6,7 +6,8 @@ export function register(): void {
   if (
     (process.env['NEXT_RUNTIME'] === 'nodejs' ||
       process.env['NEXT_RUNTIME'] === 'edge') &&
-    environment.NEXT_PUBLIC_SENTRY_DSN !== undefined
+    environment.NEXT_PUBLIC_SENTRY_DSN !== undefined &&
+    environment.NEXT_PUBLIC_SENTRY_DSN !== ''
   ) {
     Sentry.init({
       dsn: environment.NEXT_PUBLIC_SENTRY_DSN,

@@ -292,7 +292,10 @@ async function applySentry(config: NextConfig): Promise<NextConfig> {
     widenClientFileUpload: true,
   }
 
-  if (process.env['NEXT_PUBLIC_SENTRY_DSN'] === undefined) {
+  if (
+    process.env['NEXT_PUBLIC_SENTRY_DSN'] === undefined ||
+    process.env['NEXT_PUBLIC_SENTRY_DSN'] === ''
+  ) {
     return config
   }
 
