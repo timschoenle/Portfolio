@@ -6,7 +6,7 @@ import type { Blip } from '@/types/tech-radar'
 
 import { TechRadarBlips } from './tech-radar-blips'
 
-interface TechRadarInteractiveProperties {
+export interface TechRadarInteractiveProperties {
   readonly blips: readonly Blip[]
 }
 
