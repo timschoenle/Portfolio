@@ -5,7 +5,7 @@ metadataTest:
   cmd: ['server.js']
   workdir: '/app'
   exposedPorts: ['3000']
-  user: 'bun'
+  user: 'nonroot'
   envVars:
     - key: NODE_ENV
       value: production
@@ -42,6 +42,7 @@ fileExistenceTests:
     path: /sbin/apk
     shouldExist: false
   - name: npm absent
+    path: /usr/local/bin/npm
     shouldExist: false
   - name: bun present
     path: /usr/local/bin/bun
