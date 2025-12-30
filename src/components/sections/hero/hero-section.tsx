@@ -6,10 +6,12 @@ import { getTranslations } from 'next-intl/server'
 import { BlueprintContainer } from '@/components/blueprint/blueprint-container'
 import { BlueprintLabel } from '@/components/blueprint/blueprint-label'
 import { BlueprintSectionTitle } from '@/components/blueprint/blueprint-section-title'
-import { CommandPaletteHint } from '@/components/features/command-palette/command-palette-hint'
-import { ScrollSnapPairController } from '@/components/features/scroll-snap/scroll-snap-pair-controller'
 import { HeroActions } from '@/components/sections/hero/hero-actions'
 import { HeroStatus } from '@/components/sections/hero/hero-status'
+import {
+  DynamicCommandPaletteHint,
+  DynamicScrollSnapPairController,
+} from '@/components/sections/hero/loading-wrappers'
 import { siteConfig } from '@/data/config'
 import type { AsyncPageFC } from '@/types/fc'
 import type { LocalePageProperties, Translations } from '@/types/i18n'
@@ -47,7 +49,7 @@ export const HeroSection: AsyncPageFC<HeroSectionProperties> = async ({
         <BlueprintLabel className="writing-vertical-rl absolute top-20 left-20 font-mono text-[10px] text-brand/40 select-none">
           {GRID_REF}
         </BlueprintLabel>
-        <CommandPaletteHint />
+        <DynamicCommandPaletteHint />
 
         <BlueprintSectionTitle
           as="h1"
@@ -70,7 +72,10 @@ export const HeroSection: AsyncPageFC<HeroSectionProperties> = async ({
         />
       </div>
 
-      <ScrollSnapPairController bottomSectionId="about" topSectionId="hero" />
+      <DynamicScrollSnapPairController
+        bottomSectionId="about"
+        topSectionId="hero"
+      />
     </BlueprintContainer>
   )
 }

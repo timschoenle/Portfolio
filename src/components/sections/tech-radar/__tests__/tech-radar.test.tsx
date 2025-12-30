@@ -7,6 +7,11 @@ vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn(async () => (key: string) => key),
 }))
 
+vi.mock('../loading-wrappers', () => ({
+  DynamicTechRadarInteractive: () => <div data-testid="dynamic-interactive" />,
+  DynamicTechRadarTooltip: () => <div data-testid="dynamic-tooltip" />,
+}))
+
 const mockSkills = {
   languages: [
     { name: 'TypeScript', confidence: 0.9 },
@@ -58,6 +63,14 @@ describe('TechRadar', () => {
 
     const svg = container.querySelector('svg')
     expect(svg?.getAttribute('viewBox')).toBe('-220 -220 440 440')
+  })
+
+  it('renders dynamic interactive components', async () => {
+    const Component = await TechRadar({ locale: 'en', ...mockSkills })
+    render(Component)
+
+    expect(screen.getByTestId('dynamic-interactive')).toBeDefined()
+    expect(screen.getByTestId('dynamic-tooltip')).toBeDefined()
   })
 
   it('renders background circles', async () => {

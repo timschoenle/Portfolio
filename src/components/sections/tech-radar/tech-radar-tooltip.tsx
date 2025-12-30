@@ -131,7 +131,7 @@ const useTooltipPosition: (
   return position
 }
 
-interface TechRadarTooltipProperties {
+export interface TechRadarTooltipProperties {
   readonly blips: readonly Blip[]
 }
 
