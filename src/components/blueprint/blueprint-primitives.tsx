@@ -58,7 +58,7 @@ export const BlueprintHeading: FCWithRequiredChildren<
 
   return (
     <Component
-      className={`[text-shadow:0_0_8px_color-mix(in srgb, var(--brand), transparent 70%)] font-mono text-4xl font-bold tracking-tighter text-blueprint-text sm:text-6xl ${className ?? ''}`}
+      className={`[text-shadow:0_0_15px_color-mix(in srgb, var(--brand), transparent 70%)] font-mono text-4xl font-bold tracking-tighter text-blueprint-text sm:text-6xl ${className ?? ''}`}
     >
       {children}
     </Component>
