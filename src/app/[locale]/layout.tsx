@@ -29,7 +29,6 @@ import type {
 } from '@/types/page'
 
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font'
-import type { DeepPartial } from 'react-hook-form'
 
 /* ---------- fonts (auto-fetched via next/font/google) ---------- */
 const inter: NextFontWithVariable = Inter({
@@ -188,7 +187,7 @@ const RootLayout: RoutePageWithChildrenFC<RootLayoutProperties> = async ({
   const locale: Locale = await ensureLocaleFromParameters(params)
   setRequestLocale(locale)
 
-  const messages: DeepPartial<Messages> = await getMessages()
+  const messages: Partial<Messages> = await getMessages()
 
   return (
     <html className={`dark ${inter.variable}`} lang={locale}>
