@@ -28,9 +28,7 @@ function createStandaloneOutputExclusions(dependencies: string[]): string[] {
 }
 
 function createStandaloneOutputExclusion(dependency: string): string {
-  // Support both flat (bun/npm) and nested (pnpm) node_modules structures
-  // eslint-disable-next-line sonarjs/no-nested-template-literals
-  return String.raw`node_modules/(\.pnpm/)?${dependency.replaceAll('+', String.raw`\+`)}`
+  return `node_modules/${dependency}/**/*`
 }
 
 function getCspHeader(): string {
@@ -145,60 +143,86 @@ const nextConfig: NextConfig = {
     '*': [
       ...createStandaloneOutputExclusions([
         // Babel + AST / source-map tooling
-        '@babel+*',
-        '@jridgewell+*',
-        '@webassemblyjs+*',
-        '@xtuc+*',
+        '@babel*',
+        '@jridgewell*',
+        '@webassemblyjs*',
+        '@xtuc*',
 
         // SWC (compiler) – only needed at build time
-        '@swc+core@*',
-        '@swc+core-*@*',
-        // Required during docker image runtime
-        // '@swc+helpers@*',
-
-        // Parser / validator / misc build tooling
-        'acorn@*',
-        'acorn-import-phases@*',
-        'ajv@*',
-        'ajv-formats@*',
-        'ajv-keywords@*',
-        'babel-plugin-react-compiler@*',
-        'chrome-trace-event@*',
-        'es-module-lexer@*',
-        'eslint-scope@*',
-        'esrecurse@*',
-        'estraverse@*',
-        'jest-worker@*',
-        'schema-utils@*',
-        'serialize-javascript@*',
+        '@swc*',
 
         // esbuild (bundler/minifier)
-        'esbuild@*',
+        '@esbuild*',
+        'esbuild*',
+
+        // Sharp / Image tooling (architecture specific leaks)
+        '@img/sharp-libvips-*',
+        '@img/sharp-linux-*',
+        '@img/colour*',
+
+        // Parser / validator / misc build tooling
+        'acorn*',
+        'ajv*',
+        'babel-plugin-react-compiler*',
+        'chrome-trace-event*',
+        'es-module-lexer*',
+        'eslint-scope*',
+        'esrecurse*',
+        'estraverse*',
+        'jest-worker*',
+        'schema-utils*',
+        'serialize-javascript*',
+        'source-map-js*',
+        'source-map-support*',
 
         // webpack & friends
-        'webpack@*',
-        'webpack-sources@*',
-        'loader-runner@*',
-        'tapable@*',
-        'watchpack@*',
-        'terser@*',
-        'terser-webpack-plugin@*',
+        'webpack*',
+        'loader-runner*',
+        'tapable*',
+        'watchpack*',
+        'terser*',
 
         // Browserslist / caniuse / node-releases (build-time env targeting)
-        'baseline-browser-mapping@*',
-        'browserslist@*',
-        'caniuse-lite@*',
-        'electron-to-chromium@*',
-        'node-releases@*',
+        'baseline-browser-mapping*',
+        'browserslist*',
+        'caniuse-lite*',
+        'electron-to-chromium*',
+        'node-releases*',
 
         // PostCSS + tiny helpers – build-time only (Tailwind / CSS pipeline)
-        'postcss@*',
-        'nanoid@*',
-        'picocolors@*',
-        'source-map-js@*',
+        'postcss*',
+        'nanoid*',
+        'picocolors*',
 
         // TypeScript – compile-time only
-        'typescript@*',
+        'typescript*',
+
+        // Misc build-time helpers
+        'enhanced-resolve*',
+        'graceful-fs*',
+        'neo-async*',
+        'atomic-sleep*',
+        'on-exit-leak-free*',
+        'quick-format-unescaped*',
+        'real-require*',
+        'require-in-the-middle*',
+        'import-in-the-middle*',
+        'module-details-from-path*',
+        'pino-abstract-transport*',
+        'pino-std-serializers*',
+        'thread-stream*',
+        'safe-stable-stringify*',
+        'split2*',
+        'sonic-boom*',
+        'fast-deep-equal*',
+        'fast-uri*',
+        'json-schema-traverse*',
+        'buffer-from*',
+        'ms*',
+        'debug*',
+        'detect-libc*',
+        'semver*',
+        'has-flag*',
       ]),
     ],
   },
