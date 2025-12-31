@@ -83,15 +83,23 @@ const useIdleFlag: () => boolean = (): boolean => {
 const DeferredClientUi: FCNullable = (): JSX.Element | null => {
   const show: boolean = useIdleFlag()
 
-  useEffect((): void => {
+  useEffect((): (() => void) | undefined => {
     if (show) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      import('@/lib/sentry-client').then(
-        (module_: { init: () => void }): void => {
-          module_.init()
-        }
-      )
+      // Delay Sentry initialization to avoid TBT impact
+      const timer: number = window.setTimeout((): void => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        import('@/lib/sentry-client').then(
+          (module_: { init: () => void }): void => {
+            module_.init()
+          }
+        )
+      }, 5000)
+
+      return (): void => {
+        clearTimeout(timer)
+      }
     }
+    return undefined
   }, [show])
 
   if (!show) {
