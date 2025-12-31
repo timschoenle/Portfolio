@@ -36,7 +36,7 @@ export const NavGroup: React.FC<NavGroupProperties> = ({
     <CommandItem
       keywords={['home', 'start', 'index']}
       value="home"
-      onSelect={createPushHandler({ href: '/', locale, router, run })}
+      onSelect={createPushHandler({ href: '/', locale: locale, router, run })}
     >
       <Home className="mr-2 h-4 w-4" />
       <span>{tPalette('navigation.home')}</span>
@@ -45,7 +45,12 @@ export const NavGroup: React.FC<NavGroupProperties> = ({
     <CommandItem
       keywords={['imprint', 'legal', 'address']}
       value="imprint"
-      onSelect={createPushHandler({ href: '/imprint', locale, router, run })}
+      onSelect={createPushHandler({
+        href: '/imprint',
+        locale: locale,
+        router,
+        run,
+      })}
     >
       <FileText className="mr-2 h-4 w-4" />
       <span>{tAll('imprint.title')}</span>
@@ -54,7 +59,12 @@ export const NavGroup: React.FC<NavGroupProperties> = ({
     <CommandItem
       keywords={['privacy', 'data', 'protection']}
       value="privacy"
-      onSelect={createPushHandler({ href: '/privacy', locale, router, run })}
+      onSelect={createPushHandler({
+        href: '/privacy',
+        locale: locale,
+        router,
+        run,
+      })}
     >
       <Scale className="mr-2 h-4 w-4" />
       <span>{tAll('privacy.title')}</span>

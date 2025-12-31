@@ -1,4 +1,4 @@
-import { type JSX } from 'react'
+import React, { type JSX } from 'react'
 
 import { type Locale } from 'next-intl'
 
@@ -93,7 +93,7 @@ export const SectionsGroup: React.FC<SectionsGroupProperties> = ({
           keywords={[...section.keywords]}
           value={section.id}
           onSelect={createOnSelectSection({
-            locale,
+            locale: locale,
             pathname,
             router,
             run,

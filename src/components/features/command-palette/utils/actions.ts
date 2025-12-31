@@ -1,6 +1,4 @@
-import { type Locale } from 'next-intl'
-
-// import { type AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import type { Locale } from 'next-intl'
 
 export type SectionId =
   | 'about'
