@@ -206,7 +206,6 @@ const nextConfig: NextConfig = {
         'quick-format-unescaped*',
         'real-require*',
         'pino-abstract-transport*',
-        'pino-std-serializers*',
         'thread-stream*',
         'safe-stable-stringify*',
         'split2*',
