@@ -29,13 +29,24 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Parse Repo
+      id: parse_repo
+      shell: bash
+      run: |
+        FULL_REPO="${{ inputs.helm-repo }}"
+        OWNER="${FULL_REPO%%/*}"
+        REPO="${FULL_REPO#*/}"
+        echo "owner=$OWNER" >> "$GITHUB_OUTPUT"
+        echo "repo=$REPO" >> "$GITHUB_OUTPUT"
+
     - name: Generate Bot Token
       id: generate_token
       uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
-        repositories: ${{ inputs.helm-repo }}
+        owner: ${{ steps.parse_repo.outputs.owner }}
+        repositories: ${{ steps.parse_repo.outputs.repo }}
 
     - name: Checkout Helm Charts
       uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
