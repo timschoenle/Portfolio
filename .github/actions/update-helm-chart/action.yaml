@@ -121,20 +121,24 @@ runs:
       run: |
         BRANCH_NAME="chore/update-portfolio-${NEW_TAG}"
 
-        # Create branch
-        git checkout -b "$BRANCH_NAME"
+        # Create branch (force if exists)
+        git checkout -B "$BRANCH_NAME"
 
         # Commit changes
         git add ${{ env.CHART_PATH }}/Chart.yaml ${{ env.CHART_PATH }}/values.yaml
         git commit -m "chore(portfolio): update chart for release ${NEW_TAG}"
 
-        # Push branch
-        git push origin "$BRANCH_NAME"
+        # Push branch (force)
+        git push -f origin "$BRANCH_NAME"
 
-        # Create PR
+        # Create PR (or update if exists)
         gh pr create \
           --title "chore(portfolio): update chart for release ${NEW_TAG}" \
           --body "Automated update for Portfolio release [${NEW_TAG}](https://github.com/${{ github.repository }}/releases/tag/${NEW_TAG})." \
           --base main \
           --head "$BRANCH_NAME" \
+          --repo ${{ env.HELM_REPO }} || \
+        gh pr edit "$BRANCH_NAME" \
+          --title "chore(portfolio): update chart for release ${NEW_TAG}" \
+          --body "Automated update for Portfolio release [${NEW_TAG}](https://github.com/${{ github.repository }}/releases/tag/${NEW_TAG})." \
           --repo ${{ env.HELM_REPO }}
