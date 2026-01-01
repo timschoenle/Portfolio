@@ -201,7 +201,6 @@ const nextConfig: NextConfig = {
         'enhanced-resolve*',
         'graceful-fs*',
         'neo-async*',
-        'atomic-sleep*',
         'on-exit-leak-free*',
         'real-require*',
         'pino-abstract-transport*',
