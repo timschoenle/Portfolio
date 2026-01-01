@@ -17,15 +17,40 @@ export const GridPattern: FCStrict<GridPatternProperties> = ({
   size = 32,
 }: GridPatternProperties): JSX.Element => {
   return (
-    <div
+    <svg
+      aria-hidden="true"
       className={cn(
-        'absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--pattern-grid)_1px,transparent_1px),linear-gradient(to_bottom,var(--pattern-grid)_1px,transparent_1px)]',
+        'absolute inset-0 -z-10 h-full w-full [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)] stroke-[var(--pattern-grid)]/10',
         className
       )}
-      style={{
-        backgroundPosition: `${String(offsetX)}px ${String(offsetY)}px`,
-        backgroundSize: `${String(size)}px ${String(size)}px`,
+      style={{ contain: 'strict' }}
+      {...{
+        height: '100%',
+        width: '100%',
       }}
-    />
+    >
+      <defs>
+        <pattern
+          height={size}
+          id="grid-pattern"
+          patternUnits="userSpaceOnUse"
+          width={size}
+          x={offsetX}
+          y={offsetY}
+        >
+          <path
+            d={`M.5 ${String(size)}V.5H${String(size)}`}
+            fill="none"
+            strokeDasharray="0"
+          />
+        </pattern>
+      </defs>
+      <rect
+        fill="url(#grid-pattern)"
+        height="100%"
+        strokeWidth="0"
+        width="100%"
+      />
+    </svg>
   )
 }
