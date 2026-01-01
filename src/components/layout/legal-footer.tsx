@@ -30,7 +30,7 @@ const SystemStatus: FCStrict<SystemStatusProperties> = ({
 }: SystemStatusProperties): JSX.Element => (
   <div className="inline-flex items-center gap-2">
     <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_5px_rgba(52,211,153,0.5)]" />
-    <span className="font-mono text-[10px] text-brand/60">
+    <span className="font-mono text-[10px] text-brand-readable">
       {SYSTEM_PREFIX}
       {revision}
     </span>
@@ -75,7 +75,7 @@ const FooterNavigation: FCStrict<FooterNavigationProperties> = ({
       href="/imprint"
       prefetch={false}
     >
-      <span className="font-mono text-xs tracking-wider text-brand/70 transition-colors group-hover:text-brand">
+      <span className="font-mono text-xs tracking-wider text-brand-readable transition-colors group-hover:text-brand">
         {translations('imprint.title').toUpperCase()}
       </span>
       {/* Corner Accent */}
@@ -89,7 +89,7 @@ const FooterNavigation: FCStrict<FooterNavigationProperties> = ({
       href="/privacy"
       prefetch={false}
     >
-      <span className="font-mono text-xs tracking-wider text-brand/70 transition-colors group-hover:text-brand">
+      <span className="font-mono text-xs tracking-wider text-brand-readable transition-colors group-hover:text-brand">
         {translations('privacy.title').toUpperCase()}
       </span>
       {/* Corner Accent */}

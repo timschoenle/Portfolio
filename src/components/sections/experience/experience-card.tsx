@@ -72,7 +72,7 @@ export const ExperienceCard: FCStrict<ExperienceItemProperties> = ({
             </h3>
             <div className="font-mono text-sm text-brand">{company}</div>
           </div>
-          <div className="flex flex-col gap-1 font-mono text-xs tracking-widest text-brand/70 uppercase md:items-end">
+          <div className="flex flex-col gap-1 font-mono text-xs tracking-widest text-brand-readable uppercase md:items-end">
             <div className="flex items-center gap-2">
               <Calendar className="h-3 w-3" /> {duration}
             </div>
