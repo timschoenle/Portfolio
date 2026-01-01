@@ -192,4 +192,10 @@
     content-visibility: auto;
     contain-intrinsic-size: auto 900px;
   }
+
+  /* Performance: Hint browser to composite animated elements */
+  .animate-pulse,
+  .animate-bounce {
+    will-change: transform, opacity;
+  }
 }

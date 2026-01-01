@@ -11,7 +11,7 @@ import type { FCWithChildren } from '@/types/fc'
 // eslint-disable-next-line @typescript-eslint/typedef
 const cardVariants = cva(
   // Base styles applied to all cards
-  'flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm',
+  'flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm [contain:layout_style]',
   {
     defaultVariants: {
       decorative: 'none',
