@@ -36,7 +36,7 @@
         "@next/eslint-plugin-next": "16.1.1",
         "@playwright/test": "1.57.0",
         "@react-pdf/renderer": "4.3.2",
-        "@signpdf/placeholder-plain": "3.2.5",
+        "@signpdf/placeholder-plain": "3.3.0",
         "@signpdf/signer-p12": "3.2.4",
         "@signpdf/signpdf": "3.2.5",
         "@tailwindcss/postcss": "4.1.18",
@@ -824,7 +824,7 @@
 
     "@signpdf/placeholder-pdfkit010": ["@signpdf/placeholder-pdfkit010@3.3.0", "", { "dependencies": { "@signpdf/utils": "^3.3.0" }, "peerDependencies": { "pdfkit": "~0.10.0" } }, "sha512-tfXvynZDT68VoQg80cSdN5TET3ZzLMQCNHQpc3RJCi67YnhRromVhyCwMyi2tCdApGo2rkI46x6e9kCPvNsaBA=="],
 
-    "@signpdf/placeholder-plain": ["@signpdf/placeholder-plain@3.2.5", "", { "dependencies": { "@signpdf/placeholder-pdfkit010": "^3.2.5", "@signpdf/utils": "^3.2.4" } }, "sha512-G6yq5zGNw86nck0OcoGP+mFawAKcHKA6L8Hamfsl9V2jMQjYmJFhZZdkZOw3CR2ApruXb7GN83tPxhiCKrWjfg=="],
+    "@signpdf/placeholder-plain": ["@signpdf/placeholder-plain@3.3.0", "", { "dependencies": { "@signpdf/placeholder-pdfkit010": "^3.3.0", "@signpdf/utils": "^3.3.0" } }, "sha512-n7jt1Dzo3wocI64Pb8YhB+gvHAeaxweR7oHj5Xn3CyUVsP8LmXEWwJOUdWmtTrDfAupEiQtcro/EeskLiNy1vA=="],
 
     "@signpdf/signer-p12": ["@signpdf/signer-p12@3.2.4", "", { "dependencies": { "@signpdf/utils": "^3.2.4" }, "peerDependencies": { "node-forge": "^1.2.1" } }, "sha512-DTeYMj1DI30VYmaZXp2zZEg9YwVm3NmqjLF3q6ZxUwlOUSLLOUFkVafIs4YibTAGBmgjWKEMfmNCndK2ACLlzQ=="],
 
