@@ -114,5 +114,4 @@ runs:
         commit-message: 'chore(portfolio): update chart for release ${{ inputs.new-tag }}'
         committer: '${{ steps.generate_token.outputs.app-slug }}[bot] <${{ steps.get-user-id.outputs.user-id }}+${{ steps.generate_token.outputs.app-slug }}[bot]@users.noreply.github.com>'
         author: '${{ steps.generate_token.outputs.app-slug }}[bot] <${{ steps.get-user-id.outputs.user-id }}+${{ steps.generate_token.outputs.app-slug }}[bot]@users.noreply.github.com>'
-        signoff: false
         delete-branch: true
