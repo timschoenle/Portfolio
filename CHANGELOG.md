@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/TimSchoenle/Portfolio/compare/v1.12.0...v1.12.1) (2026-01-01)
+
+
+### Bug Fixes
+
+* include pino-std-serializers in standalone output [#328](https://github.com/TimSchoenle/Portfolio/issues/328) ([#329](https://github.com/TimSchoenle/Portfolio/issues/329)) ([ab99ba5](https://github.com/TimSchoenle/Portfolio/commit/ab99ba5fcf74465e98d42cfad7dbee93bf2df7b7))
+
 ## [1.12.0](https://github.com/TimSchoenle/Portfolio/compare/v1.11.0...v1.12.0) (2025-12-31)
 
 
