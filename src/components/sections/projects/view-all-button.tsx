@@ -1,5 +1,6 @@
 import { type JSX } from 'react'
 
+import { BlueprintCorners } from '@/components/blueprint/blueprint-decoration'
 import { siteConfig } from '@/data/config'
 import type { FCStrict } from '@/types/fc'
 
@@ -31,8 +32,10 @@ export const ViewAllButton: FCStrict<ViewAllButtonProperties> = ({
       </div>
 
       {/* Corner Accents */}
-      <div className="absolute -top-[1px] -left-[1px] h-2 w-2 border-t border-l border-brand" />
-      <div className="absolute -right-[1px] -bottom-[1px] h-2 w-2 border-r border-b border-brand" />
+      <BlueprintCorners
+        className="-top-[1px] -right-[1px] -bottom-[1px] -left-[1px] h-[calc(100%+2px)] w-[calc(100%+2px)]"
+        variant="bracket"
+      />
     </a>
   </div>
 )

@@ -3,6 +3,7 @@ import { type JSX } from 'react'
 import { ArrowLeft } from 'lucide-react'
 
 import { BlueprintContainer } from '@/components/blueprint/blueprint-container'
+import { BlueprintCorners } from '@/components/blueprint/blueprint-decoration'
 import { BlueprintSectionTitle } from '@/components/blueprint/blueprint-section-title'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/i18n/routing'
@@ -32,8 +33,7 @@ export const BlueprintLegalLayout: FCWithRequiredChildren<
         >
           <Link className="flex items-center gap-2" href="/">
             {/* Technical Corner Accents */}
-            <span className="absolute top-0 left-0 h-1 w-1 border-t border-l border-brand" />
-            <span className="absolute right-0 bottom-0 h-1 w-1 border-r border-b border-brand" />
+            <BlueprintCorners variant="bracket" />
             <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-1" />
             {RETURN_TEXT}
           </Link>
@@ -45,10 +45,7 @@ export const BlueprintLegalLayout: FCWithRequiredChildren<
 
         <div className="shadow-[0_0_50px_color-mix(in srgb, var(--brand), transparent 95%)] relative mt-12 w-full border border-brand/30 bg-blueprint-bg/90 p-8 backdrop-blur-sm md:p-12">
           {/* Decorative Corner Markers */}
-          <div className="absolute top-0 left-0 h-2 w-2 border-t border-l border-brand" />
-          <div className="absolute top-0 right-0 h-2 w-2 border-t border-r border-brand" />
-          <div className="absolute bottom-0 left-0 h-2 w-2 border-b border-l border-brand" />
-          <div className="absolute right-0 bottom-0 h-2 w-2 border-r border-b border-brand" />
+          <BlueprintCorners />
 
           {/* Content Area - Enforcing Sans-Serif for Readability */}
           <div className="prose prose-invert prose-sm md:prose-base max-w-none space-y-4 font-sans text-blueprint-text/90 marker:text-brand">
