@@ -167,7 +167,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.5;
-    text-rendering: optimizeLegibility;
   }
 
   /* Custom scrollbar for webkit browsers */
