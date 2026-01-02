@@ -1,4 +1,4 @@
-import { type JSX } from 'react'
+import { type JSX, memo, type MemoExoticComponent } from 'react'
 
 import { cn } from '@/lib/utilities'
 import type { FCStrict } from '@/types/fc'
@@ -10,7 +10,7 @@ interface GridPatternProperties {
   readonly size?: number
 }
 
-export const GridPattern: FCStrict<GridPatternProperties> = ({
+const GridPatternComponent: FCStrict<GridPatternProperties> = ({
   className,
   offsetX = 0,
   offsetY = 0,
@@ -23,7 +23,7 @@ export const GridPattern: FCStrict<GridPatternProperties> = ({
         'absolute inset-0 -z-10 h-full w-full [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)] stroke-[var(--pattern-grid)]/10',
         className
       )}
-      style={{ contain: 'strict' }}
+      style={{ contain: 'strict', willChange: 'transform' }}
       {...{
         height: '100%',
         width: '100%',
@@ -54,3 +54,6 @@ export const GridPattern: FCStrict<GridPatternProperties> = ({
     </svg>
   )
 }
+
+export const GridPattern: MemoExoticComponent<FCStrict<GridPatternProperties>> =
+  memo(GridPatternComponent)

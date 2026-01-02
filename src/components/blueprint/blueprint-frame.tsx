@@ -1,4 +1,4 @@
-import { type JSX, type ReactNode } from 'react'
+import { type JSX, memo, type MemoExoticComponent, type ReactNode } from 'react'
 
 import type {
   FCStrict,
@@ -20,12 +20,14 @@ interface BlueprintRulerProperties {
 const RULER_PATH: string =
   'M0 0v8 M4 0v4 M8 0v4 M12 0v4 M16 0v4 M20 0v8 M24 0v4 M28 0v4 M32 0v4 M36 0v4 M40 0v8 M44 0v4 M48 0v4 M52 0v4 M56 0v4 M60 0v8 M64 0v4 M68 0v4 M72 0v4 M76 0v4 M80 0v8'
 
-const BlueprintRuler: FCStrict<BlueprintRulerProperties> = ({
+const BlueprintRulerComponent: FCStrict<BlueprintRulerProperties> = ({
   className,
 }: BlueprintRulerProperties): JSX.Element => (
   <svg
     aria-hidden="true"
     className={`absolute h-2 w-24 overflow-visible ${className ?? ''}`}
+    style={{ contain: 'strict' }}
+    {...{ height: 8, width: 96 }}
   >
     <path
       className="stroke-brand/40"
@@ -35,6 +37,9 @@ const BlueprintRuler: FCStrict<BlueprintRulerProperties> = ({
     />
   </svg>
 )
+
+const BlueprintRuler: MemoExoticComponent<FCStrict<BlueprintRulerProperties>> =
+  memo(BlueprintRulerComponent)
 
 export const BlueprintFrame: FCWithRequiredChildren<
   BlueprintFrameProperties

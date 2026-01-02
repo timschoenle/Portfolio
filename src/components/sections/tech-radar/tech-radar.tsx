@@ -87,6 +87,7 @@ export const TechRadar: AsyncPageFC<TechRadarProperties> = async ({
         <svg
           className="h-full w-full overflow-visible"
           preserveAspectRatio="xMidYMid meet"
+          style={{ contain: 'content' }}
           viewBox={`${String(viewBox.min)} ${String(viewBox.min)} ${String(viewBox.width)} ${String(viewBox.height)}`}
         >
           <RadarDefs circles={circles} />
