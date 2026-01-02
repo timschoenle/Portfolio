@@ -50,7 +50,7 @@ export const BlueprintFrame: FCWithRequiredChildren<
     <BlueprintGrid />
     <div
       className="pointer-events-none absolute inset-[var(--app-padding)] border-[0.5px] border-brand/30 select-none"
-      style={{ contain: 'layout style' }}
+      style={{ contain: 'layout style', willChange: 'transform' }}
     >
       {/* Optimized: Single SVG for all 4 corners */}
       <svg

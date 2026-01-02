@@ -1,4 +1,4 @@
-import { type JSX } from 'react'
+import { type JSX, memo, type MemoExoticComponent } from 'react'
 
 import type { FCStrict } from '@/types/fc'
 
@@ -7,13 +7,15 @@ interface BlueprintDecorationProperties {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const BlueprintGrid: FCStrict<BlueprintDecorationProperties> = ({
+const BlueprintGridComponent: FCStrict<BlueprintDecorationProperties> = ({
   className,
 }: BlueprintDecorationProperties): JSX.Element => (
   <div
     aria-hidden="true"
     className={`pointer-events-none absolute inset-0 overflow-hidden select-none ${className ?? ''}`}
-    style={{ contain: 'strict' }}
+    // strict containment isolates layout/style/paint.
+    // will-change: transform -> Promotes to compositor layer to minimize repaint on external reflows.
+    style={{ contain: 'strict', willChange: 'transform' }}
   >
     {/* Deep Background Base */}
     <div className="absolute inset-0 bg-blueprint-bg" />
@@ -73,3 +75,7 @@ export const BlueprintGrid: FCStrict<BlueprintDecorationProperties> = ({
     </svg>
   </div>
 )
+
+export const BlueprintGrid: MemoExoticComponent<
+  FCStrict<BlueprintDecorationProperties>
+> = memo(BlueprintGridComponent)
