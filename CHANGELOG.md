@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.12.6](https://github.com/TimSchoenle/Portfolio/compare/v1.12.5...v1.12.6) (2026-01-03)
+
+
+### Bug Fixes
+
+* **deps:** lock file maintenance ([#353](https://github.com/TimSchoenle/Portfolio/issues/353)) ([c060a12](https://github.com/TimSchoenle/Portfolio/commit/c060a12f8c7878408c688cf9f3bb110e57ba4591))
+* **deps:** lock file maintenance ([#360](https://github.com/TimSchoenle/Portfolio/issues/360)) ([fd93329](https://github.com/TimSchoenle/Portfolio/commit/fd9332904b03ad70ad0906a894ca3d0f418f883f))
+
 ## [1.12.5](https://github.com/TimSchoenle/Portfolio/compare/v1.12.4...v1.12.5) (2026-01-01)
 
 
