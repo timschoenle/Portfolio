@@ -563,7 +563,7 @@ jobs:
         run: bun run analyze
 
       - name: Analyze bundle sizes
-        uses: transferwise/actions-next-bundle-analyzer@v2
+        uses: transferwise/actions-next-bundle-analyzer@17e96a5dbd1c7a8684964325f160fdee38693929 # v2
         with:
           comment-strategy: 'skip-insignificant'
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -657,7 +657,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Run Trivy vulnerability scanner (filesystem)
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -667,7 +667,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Run Trivy config scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
         with:
           scan-type: 'config'
           scan-ref: '.'
