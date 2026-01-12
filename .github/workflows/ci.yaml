@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 concurrency:
-  group: ci-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -15,10 +15,7 @@ env:
   BUN_VERSION: 'latest'
 
 permissions:
-  contents: read
-  checks: write
-  pull-requests: write
-  actions: read
+  contents: read # to fetch code
 
 jobs:
   # Detect which files changed to conditionally run jobs
@@ -26,7 +23,7 @@ jobs:
     name: Detect Changes
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: read
+      pull-requests: read # to detect changed files in PR
     outputs:
       source: ${{ steps.filter.outputs.source }}
       tests: ${{ steps.filter.outputs.tests }}
@@ -36,8 +33,15 @@ jobs:
       lighthouse: ${{ steps.filter.outputs.lighthouse }}
       bundle: ${{ steps.filter.outputs.bundle }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Check for file changes
         uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3
@@ -104,8 +108,15 @@ jobs:
     outputs:
       cache-hit: ${{ steps.cache-check.outputs.cache-hit }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@b7a1c7ccf290d58743029c4f6903da283811b979 # v2
@@ -137,8 +148,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-deps
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -155,8 +173,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-deps
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -173,8 +198,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-deps
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -191,8 +223,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-deps
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -209,8 +248,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-deps
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -227,8 +273,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-deps
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -246,9 +299,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-deps
     if: needs.changes.outputs.tests == 'true'
+    permissions:
+      contents: read # to fetch code
+      checks: write # to report test results
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -289,8 +352,15 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: 1
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -334,9 +404,19 @@ jobs:
       PLAYWRIGHT_BROWSERS_PATH: ~/.cache/ms-playwright
       TEST_LOCALE: en
       BASE_URL: http://localhost:3000
+    permissions:
+      contents: read # to fetch code
+      actions: read # to download artifacts
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -391,9 +471,19 @@ jobs:
       TARGET_PATHS: |
         /en
         /de
+    permissions:
+      contents: read # to fetch code
+      actions: read # to download artifacts
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Setup with cache
         uses: ./.github/actions/setup-bun
@@ -441,35 +531,6 @@ jobs:
         env:
           LHCI_FORM_FACTOR: ${{ matrix.formFactor }}
 
-  # Bundle analysis using shared build
-  bundle-analysis:
-    name: Bundle Analysis
-    runs-on: ubuntu-latest
-    needs: [changes, install-deps, build]
-    if: needs.changes.outputs.bundle == 'true' && needs.changes.outputs.source == 'true'
-    permissions:
-      pull-requests: write
-      issues: write
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-
-      - name: Setup with cache
-        uses: ./.github/actions/setup-bun
-        with:
-          bun-version: ${{ env.BUN_VERSION }}
-          mode: 'cache'
-          cache-key: *cache_key
-
-      - name: Build for analysis (Webpack)
-        run: bun run analyze
-
-      - name: Analyze bundle sizes
-        uses: transferwise/actions-next-bundle-analyzer@v2
-        with:
-          comment-strategy: 'skip-insignificant'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
   # Dockerfile linting
   dockerfile-lint:
     name: Dockerfile Lint
@@ -477,8 +538,15 @@ jobs:
     needs: changes
     if: needs.changes.outputs.dockerfile-lint == 'true'
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Hadolint
         uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
@@ -494,8 +562,15 @@ jobs:
     needs: changes
     if: needs.changes.outputs.docker == 'true'
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Login to DHI Registry
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
@@ -545,7 +620,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Run Trivy vulnerability scanner (filesystem)
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -555,7 +630,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Run Trivy config scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
         with:
           scan-type: 'config'
           scan-ref: '.'
@@ -567,13 +642,20 @@ jobs:
   cleanup-artifacts:
     name: Cleanup Build Artifacts
     runs-on: ubuntu-latest
-    needs: [e2e, lighthouse, bundle-analysis]
+    needs: [e2e, lighthouse]
     if: always()
     permissions:
-      actions: write
+      actions: write # to delete artifacts
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
 
       - name: Delete build artifact
         uses: ./.github/actions/delete-artifact

@@ -14,11 +14,12 @@ runs:
   steps:
     - name: Delete artifact
       uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+      env:
+        ARTIFACT_NAME: ${{ inputs.artifact-name }}
       with:
         github-token: ${{ inputs.github-token }}
         script: |
-          const artifactName = '${{ inputs.artifact-name }}';
-
+          const artifactName = process.env.ARTIFACT_NAME;
           console.log(`Searching for artifact: ${artifactName}`);
 
           const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
