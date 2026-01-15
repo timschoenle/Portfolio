@@ -22,13 +22,60 @@ export interface CalendarModel {
 
 /* ============================ Pure Helpers =========================== */
 
-export const isoDate: (date: Date) => string = (date: Date): string =>
-  date.toISOString().split('T')[0] ?? date.toISOString()
+const clampDate: (date: Date, year: number) => Date = (
+  date: Date,
+  year: number
+): Date => {
+  const clampedDate: Date = new Date(date)
+  if (year > 9999) {
+    clampedDate.setUTCFullYear(9999)
+  }
+  if (year < 0) {
+    clampedDate.setUTCFullYear(0)
+  }
+  return clampedDate
+}
+
+export const isoDate: (date: Date) => string = (date: Date): string => {
+  try {
+    const isoString: string = date.toISOString()
+    const currentYear: number = date.getUTCFullYear()
+
+    // Clamp year to 0000-9999 to ensure strictly YYYY-MM-DD
+    if (currentYear < 0 || currentYear > 9999) {
+      const clampedDate: Date = clampDate(date, currentYear)
+
+      // Recalculate based on clamped date
+      const clampedYear: number = clampedDate.getUTCFullYear()
+      const clampedMonth: number = clampedDate.getUTCMonth() + 1
+      const clampedDay: number = clampedDate.getUTCDate()
+      return `${clampedYear.toString().padStart(4, '0')}-${clampedMonth
+        .toString()
+        .padStart(2, '0')}-${clampedDay.toString().padStart(2, '0')}`
+    }
+
+    if (isoString.startsWith('+') || isoString.startsWith('-')) {
+      const month: number = date.getUTCMonth() + 1
+      const day: number = date.getUTCDate()
+      return `${currentYear.toString().padStart(4, '0')}-${month
+        .toString()
+        .padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+    }
+    return isoString.split('T')[0] ?? isoString
+  } catch {
+    // If strict handling fails, fallback to a safe date
+    return '1970-01-01'
+  }
+}
 
 export const sundayOfWeekUTC: (date: Date) => Date = (date: Date): Date => {
   const utcDate: Date = new Date(
     Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
   )
+  // Fix for years 0-99 which Date.UTC interprets as 1900-1999
+  if (date.getUTCFullYear() < 100) {
+    utcDate.setUTCFullYear(date.getUTCFullYear())
+  }
   const day: number = utcDate.getUTCDay() // 0..6 (Sun..Sat)
   utcDate.setUTCDate(utcDate.getUTCDate() - day)
   return utcDate
@@ -79,10 +126,18 @@ export const computeMonthLabel: (
     return { label: null, next: currentMonth }
   }
 
-  const monthName: string = new Date(first.date).toLocaleDateString(locale, {
-    month: 'short',
-    timeZone: 'UTC',
-  })
+  let monthName: string
+  try {
+    monthName = new Date(first.date).toLocaleDateString(locale, {
+      month: 'short',
+      timeZone: 'UTC',
+    })
+  } catch {
+    monthName = new Date(first.date).toLocaleDateString('en-US', {
+      month: 'short',
+      timeZone: 'UTC',
+    })
+  }
   if (monthName === currentMonth) {
     return { label: null, next: currentMonth }
   }

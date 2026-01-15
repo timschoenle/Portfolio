@@ -7,7 +7,7 @@ import type {
   MutableBlip,
 } from '@/types/tech-radar'
 
-import { seededRandom } from './utilities'
+import { normalizeAngle, seededRandom } from './utilities'
 
 /**
  * Calculate spring force pulling blip towards target radius
@@ -50,13 +50,7 @@ export const calculateWallRepulsion: (
     RADAR_CONFIG.physics.wallRepulsionStrength
 
   // Force from Start Wall
-  let diffStart: number = currentAngle - startAngle
-  while (diffStart <= -Math.PI) {
-    diffStart += Math.PI * 2
-  }
-  while (diffStart > Math.PI) {
-    diffStart -= Math.PI * 2
-  }
+  const diffStart: number = normalizeAngle(currentAngle - startAngle)
 
   if (Math.abs(diffStart) < 0.5) {
     const distance: number = Math.abs(currentRadius * Math.sin(diffStart))
@@ -66,13 +60,7 @@ export const calculateWallRepulsion: (
   }
 
   // Force from End Wall
-  let diffEnd: number = currentAngle - endAngle
-  while (diffEnd <= -Math.PI) {
-    diffEnd += Math.PI * 2
-  }
-  while (diffEnd > Math.PI) {
-    diffEnd -= Math.PI * 2
-  }
+  const diffEnd: number = normalizeAngle(currentAngle - endAngle)
 
   if (Math.abs(diffEnd) < 0.5) {
     const distance: number = Math.abs(currentRadius * Math.sin(diffEnd))
@@ -131,11 +119,24 @@ export const calculateBlipRepulsion: (
     const distance: number = Math.sqrt(distanceSquared)
 
     if (distance < minSeparation * 1.5) {
-      const forceMagnitude: number = repulsionStrength / (distanceSquared + 0.1)
+      // Avoid divide by zero
+      const safeDistanceSquared: number = Math.max(distanceSquared, 0.0001)
+      const forceMagnitude: number =
+        repulsionStrength / (safeDistanceSquared + 0.1)
       const cappedForce: number = Math.min(forceMagnitude, 5)
 
-      const normalizedX: number = deltaX / distance
-      const normalizedY: number = deltaY / distance
+      let normalizedX: number
+      let normalizedY: number
+
+      if (distance < 0.0001) {
+        // If blips are effectively on top of each other, push in a random deterministic direction
+        // or just use arbitrary direction (e.g. X-axis) to separate them
+        normalizedX = 1
+        normalizedY = 0
+      } else {
+        normalizedX = deltaX / distance
+        normalizedY = deltaY / distance
+      }
 
       forceX += normalizedX * cappedForce
       forceY += normalizedY * cappedForce
