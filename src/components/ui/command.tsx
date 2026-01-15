@@ -78,6 +78,7 @@ const CommandDialog: FCWithChildren<CommandDialogProperties> = ({
           'overflow-hidden border-0 bg-blueprint-card-bg/90 p-0 text-blueprint-text shadow-none ring-0 backdrop-blur-md outline-none',
           className
         )}
+        disableDefaultTitle={true}
         showCloseButton={showCloseButton}
       >
         {/* Decorative Corner Markers */}

@@ -1,6 +1,6 @@
 'use client'
 
-import type { ComponentProps, JSX, ReactNode } from 'react'
+import React, { type ComponentProps, type JSX, type ReactNode } from 'react'
 
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { XIcon } from 'lucide-react'
@@ -22,6 +22,7 @@ interface DialogContentBaseProperties extends ComponentProps<
 
 interface DialogContentProperties extends DialogContentBaseProperties {
   readonly description?: ReactNode
+  readonly disableDefaultTitle?: boolean
   readonly title?: string
 }
 
@@ -65,11 +66,71 @@ const DialogOverlay: FCWithChildren<DialogOverlayProperties> = ({
   )
 }
 
-// eslint-disable-next-line max-lines-per-function
+interface DialogContentHeaderProperties {
+  readonly description?: ReactNode | undefined
+  readonly disableDefaultTitle?: boolean | undefined
+  readonly title?: string | undefined
+}
+
+// Helper to render the dialog header content
+const DialogContentHeader: React.FC<DialogContentHeaderProperties> = ({
+  description,
+  disableDefaultTitle,
+  title,
+}: DialogContentHeaderProperties): JSX.Element | null => {
+  if (title === undefined && description === undefined) {
+    if (disableDefaultTitle === true) {
+      return null
+    }
+    return (
+      <DialogPrimitive.Title className="sr-only">
+        {/* eslint-disable-next-line react/jsx-curly-brace-presence */}
+        {'Dialog'}
+      </DialogPrimitive.Title>
+    )
+  }
+
+  return (
+    <div
+      className="flex flex-col gap-2 text-center sm:text-left"
+      data-slot="dialog-header"
+    >
+      {title === undefined && disableDefaultTitle !== true && (
+        <DialogPrimitive.Title className="sr-only">
+          {/* eslint-disable-next-line react/jsx-curly-brace-presence */}
+          {'Dialog'}
+        </DialogPrimitive.Title>
+      )}
+
+      {title !== undefined && (
+        <DialogPrimitive.Title
+          /** Force a single, semantic heading; avoid asChild & nested headings */
+          asChild={false}
+          className="text-lg leading-none font-semibold"
+          data-slot="dialog-title"
+          suppressHydrationWarning={true}
+        >
+          {title}
+        </DialogPrimitive.Title>
+      )}
+
+      {description === undefined ? null : (
+        <DialogPrimitive.Description
+          className="text-sm text-muted-foreground"
+          data-slot="dialog-description"
+        >
+          {description}
+        </DialogPrimitive.Description>
+      )}
+    </div>
+  )
+}
+
 const DialogContent: FCWithChildren<DialogContentProperties> = ({
   children,
   className,
   description,
+  disableDefaultTitle,
   showCloseButton = true,
   title,
   ...properties
@@ -85,32 +146,11 @@ const DialogContent: FCWithChildren<DialogContentProperties> = ({
         data-slot="dialog-content"
         {...properties}
       >
-        {title !== undefined || description !== undefined ? (
-          <div
-            className="flex flex-col gap-2 text-center sm:text-left"
-            data-slot="dialog-header"
-          >
-            {title === undefined ? null : (
-              <DialogPrimitive.Title
-                /** Force a single, semantic heading; avoid asChild & nested headings */
-                asChild={false}
-                className="text-lg leading-none font-semibold"
-                data-slot="dialog-title"
-                suppressHydrationWarning={true}
-              >
-                {title}
-              </DialogPrimitive.Title>
-            )}
-            {description === undefined ? null : (
-              <DialogPrimitive.Description
-                className="text-sm text-muted-foreground"
-                data-slot="dialog-description"
-              >
-                {description}
-              </DialogPrimitive.Description>
-            )}
-          </div>
-        ) : null}
+        <DialogContentHeader
+          description={description}
+          disableDefaultTitle={disableDefaultTitle}
+          title={title}
+        />
 
         {children}
 
