@@ -25,10 +25,12 @@ describe('Contribution Calendar Fuzzy Tests', () => {
 
   describe('sundayOfWeekUTC', () => {
     test.prop([
-      fc.date({
-        min: new Date('0000-01-01T00:00:00.000Z'),
-        max: new Date('9999-12-31T23:59:59.999Z'),
-      }),
+      fc
+        .date({
+          min: new Date(Date.UTC(0, 0, 1)),
+          max: new Date(Date.UTC(9999, 11, 31)),
+        })
+        .filter((d) => !Number.isNaN(d.getTime())),
     ])('should return a date that is a Sunday and <= input date', (date) => {
       const sunday = sundayOfWeekUTC(date)
 
