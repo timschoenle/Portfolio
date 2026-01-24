@@ -33,7 +33,7 @@ const formatDuration: (properties: FormatDurationProperties) => string = ({
   presentLabel,
   start,
 }: FormatDurationProperties): string => {
-  if (end === null || !isValidDate(start)) {
+  if (!isValidDate(start)) {
     return ''
   }
 
@@ -43,7 +43,7 @@ const formatDuration: (properties: FormatDurationProperties) => string = ({
     year: 'numeric',
   })
 
-  if (!isValidDate(end)) {
+  if (end === null || !isValidDate(end)) {
     return `${formattedStart} - ${presentLabel}`
   }
 
