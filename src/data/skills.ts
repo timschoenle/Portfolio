@@ -108,6 +108,11 @@ export const skills: {
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
     },
     {
+      confidence: 0.65,
+      name: 'Codecov',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
+    {
       confidence: 0.7,
       name: 'Testcontainers',
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
@@ -144,6 +149,11 @@ export const skills: {
     {
       confidence: 0.4,
       name: 'tRPC',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
+    {
+      confidence: 0.6,
+      name: 'Webhooks',
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
     },
     {
@@ -270,11 +280,6 @@ export const skills: {
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
     },
     {
-      confidence: 0.65,
-      name: 'Codecov',
-      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
-    },
-    {
       confidence: 0.5,
       name: 'Grafana',
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
@@ -332,11 +337,6 @@ export const skills: {
     {
       confidence: 0.55,
       name: 'AWS S3',
-      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
-    },
-    {
-      confidence: 0.6,
-      name: 'Webhooks',
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
     },
     {
