@@ -7,7 +7,7 @@ import {
   type ProfileApiWithSchemaResponse,
   type SkillWithConfidenceResponse,
 } from '@/models/api'
-import { type Skill } from '@/types/skill'
+import { type Skill, SKILL_RENDER_AREAS } from '@/types/skill'
 
 export const dynamic: string = 'force-static'
 
@@ -15,6 +15,7 @@ function convertSkillToResponse(skill: Skill): SkillWithConfidenceResponse {
   return {
     confidence: skill.confidence,
     name: skill.name,
+    renderArea: skill.renderAreas ?? Object.values(SKILL_RENDER_AREAS),
   }
 }
 

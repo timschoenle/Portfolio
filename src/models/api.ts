@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { SKILL_RENDER_AREAS } from '@/types/skill'
+
 /* ---------------------------------- types --------------------------------- */
 
 export type WithSchema<T> = T & {
@@ -18,6 +20,7 @@ export type SkillWithConfidenceResponse = z.infer<typeof SkillWithConfidence>
 export const SkillWithConfidence = z.object({
   confidence: z.number(),
   name: z.string(),
+  renderArea: z.array(z.enum(SKILL_RENDER_AREAS)),
 })
 
 // eslint-disable-next-line @typescript-eslint/typedef
