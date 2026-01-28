@@ -20,6 +20,11 @@ export const skills: {
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
     },
     {
+      confidence: 0.75,
+      name: 'Bun',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
+    {
       confidence: 0.8,
       name: 'ESLint',
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
@@ -115,6 +120,21 @@ export const skills: {
     {
       confidence: 0.7,
       name: 'Testcontainers',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
+    {
+      confidence: 0.7,
+      name: 'Trivy',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
+    {
+      confidence: 0.65,
+      name: 'Hadolint',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
+    {
+      confidence: 0.6,
+      name: 'Zizmor',
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
     },
     {
@@ -246,11 +266,34 @@ export const skills: {
       name: 'wasm-bindgen',
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
     },
+    {
+      confidence: 0.65,
+      name: 'Pino',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
+    {
+      confidence: 0.6,
+      name: 'Octokit',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
+    {
+      confidence: 0.55,
+      name: 'React-PDF',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
   ],
   infrastructure: [
     { confidence: 0.85, name: 'Docker' },
     { confidence: 0.8, name: 'Kubernetes' },
     { confidence: 0.8, name: 'ArgoCD' },
+    { confidence: 0.6, name: 'Harbor' },
+    { confidence: 0.65, name: 'MinIO' },
+    { confidence: 0.8, name: 'Cert-Manager' },
+    { confidence: 0.75, name: 'ExternalDNS' },
+    { confidence: 0.75, name: 'MetalLB' },
+    { confidence: 0.7, name: 'OpenEBS' },
+    { confidence: 0.75, name: 'Sealed Secrets' },
+    { confidence: 0.65, name: 'CrowdSec' },
     { confidence: 0.75, name: 'Linux' },
     { confidence: 0.8, name: 'PostgreSQL' },
     { confidence: 0.75, name: 'TimescaleDB' },
@@ -285,8 +328,13 @@ export const skills: {
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
     },
     {
-      confidence: 0.4,
+      confidence: 0.75,
       name: 'Loki',
+      renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
+    },
+    {
+      confidence: 0.75,
+      name: 'Tempo',
       renderAreas: [SKILL_RENDER_AREAS.TECH_RADAR],
     },
     {
